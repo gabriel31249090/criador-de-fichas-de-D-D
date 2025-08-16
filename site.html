@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ficha D&D 5e + Ferramentas do Mestre (Tema D&D • sem valores iniciais)</title>
+
+  <!-- Fonte temática D&D -->
+  <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Tema D&D (aplicado sem remover funcionalidades) ===== */
+    :root{
+      --bordo:#7b3e19;
+      --dourado:#c9a35e;
+      --vinho:#6d0000;
+      --texto:#2c1a0f;
+      --papel: rgba(255,245,230,.95);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body {
+      font-family: 'Georgia', serif;
+      background: url('https://www.transparenttextures.com/patterns/parchment.png') repeat;
+      color: var(--texto);
+      margin:0;
+      padding:24px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: var(--papel);
+      border: 4px solid var(--bordo);
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      font-family: 'Uncial Antiqua', cursive !important;
+      color: var(--vinho) !important;
+      text-shadow: 1px 1px #00000055;
+      border-bottom: 3px solid var(--dourado);
+      padding-bottom: 6px;
+      margin-top: 0;
+    }
+    h1{ text-align:center; font-size:2.4rem; margin-bottom:20px; }
+    .grid { display:grid; gap:16px; }
+    .cols-2{ grid-template-columns: repeat(2,1fr); }
+    .cols-3{ grid-template-columns: repeat(3,1fr); }
+    .cols-4{ grid-template-columns: repeat(4,1fr); }
+    .section, .card {
+      padding: 14px;
+      border: 2px solid var(--dourado);
+      border-radius: 10px;
+      background: rgba(255,255,255,.85);
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+    }
+    label{ font-weight:600; display:block; margin:8px 0 6px; font-family:'Uncial Antiqua', cursive;}
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid var(--bordo);
+      border-radius: 8px;
+      background: #fff8f0;
+      font: inherit;
+    }
+    textarea{ min-height: 80px; resize: vertical; }
+    .row{ display:flex; gap:10px; align-items:center; }
+    .row > *{ flex:1; }
+    .mini{ width:90px; }
+    .small{ width:120px; }
+    .tight{ width:70px; }
+    .center{ text-align:center; }
+    .muted{ opacity:.8; font-style:italic; font-size:.95rem; }
+    .out {
+      display:inline-block; min-width: 48px; padding: 8px 10px;
+      border:2px dashed var(--dourado); border-radius:8px; background:#fffaf2; text-align:center;
+      font-weight:700;
+    }
+    .pill{ padding:6px 10px; border:1px solid var(--bordo); border-radius:999px; background:#fff8f0; display:inline-block; }
+    .k{ font-family: 'Uncial Antiqua', cursive; }
+    button {
+      font-family: 'Uncial Antiqua', cursive;
+      background: var(--bordo);
+      color: #fff;
+      border: 2px solid var(--dourado);
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 6px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.35);
+      transition: transform .12s ease, filter .12s ease;
+    }
+    button:hover { transform: translateY(-1px) scale(1.02); filter: brightness(1.06); }
+    .button-bar{ display:flex; flex-wrap:wrap; gap:10px; }
+    hr { border: 0; height: 2px; background: linear-gradient(90deg, var(--vinho), var(--dourado), var(--vinho)); margin:14px 0; }
+
+    .dm-toggle { width: 100%; border-radius: 10px 10px 0 0; margin-top:16px;}
+    .dm-area {
+      display: none;
+      background: linear-gradient(135deg, #2b1d0f, #1a0f07);
+      border: 3px solid var(--dourado);
+      color: #fff;
+      border-radius: 0 0 12px 12px;
+      padding: 20px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+    }
+    .dm-area.visible{ display:block; }
+    .dm-area h2, .dm-area h3{ color:#ffd9a1; border-color:#e5c27b; text-shadow:1px 1px #000; }
+
+    .skill-row, .save-row { display:grid; grid-template-columns: 1.2fr .6fr .6fr .6fr; gap:8px; align-items:center; }
+    .skill-row label, .save-row label{ margin:0; }
+    .right{ text-align:right; }
+    .nowrap{ white-space:nowrap; }
+
+    .table { width:100%; border-collapse: collapse; }
+    .table th, .table td{ border:1px solid var(--dourado); padding:6px 8px; background:#fffaf2; }
+    .table th{ background:#f6ead3; }
+
+    .notice{ padding:10px; border:2px dashed var(--dourado); border-radius:8px; background:#fff8e0;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ficha de Personagem D&D 5e</h1>
+
+    <!-- TOPO -->
+    <div class="grid cols-3 section">
+      <div>
+        <label>Nome do Personagem</label>
+        <input id="charName" placeholder="Nome do personagem">
+      </div>
+      <div>
+        <label>Jogador</label>
+        <input id="playerName" placeholder="Seu nome">
+      </div>
+      <div>
+        <label>Alinhamento</label>
+        <select id="alignment">
+          <option value="">Selecione...</option>
+          <option>Leal e Bom</option><option>Neutro e Bom</option><option>Caótico e Bom</option>
+          <option>Leal e Neutro</option><option>Neutro</option><option>Caótico e Neutro</option>
+          <option>Leal e Mau</option><option>Neutro e Mau</option><option>Caótico e Mau</option>
+        </select>
+      </div>
+      <div>
+        <label>Raça</label>
+        <select id="race"></select>
+      </div>
+      <div>
+        <label>Classe</label>
+        <select id="classe"></select>
+      </div>
+      <div>
+        <label>Nível</label>
+        <input id="level" type="number" min="1" placeholder="Nível" />
+      </div>
+      <div>
+        <label>Antecedente</label>
+        <input id="background" placeholder="Antecedente">
+      </div>
+      <div>
+        <label>Experiência (XP)</label>
+        <input id="xp" type="number" min="0" placeholder="XP atual">
+      </div>
+      <div class="center">
+        <label>Bônus de Proficiência</label>
+        <div id="profBonus" class="out"> </div>
+        <div class="muted">Calculado pelo nível</div>
+      </div>
+    </div>
+
+    <!-- ATRIBUTOS -->
+    <div class="grid cols-3 section">
+      <div class="card">
+        <h3>Atributos</h3>
+        <div class="grid cols-2">
+          <div>
+            <label>Força</label>
+            <input id="str" type="number" placeholder="Força">
+          </div>
+          <div class="center">
+            <label>Mod FOR</label>
+            <div id="mod-str" class="out"> </div>
+          </div>
+          <div>
+            <label>Destreza</label>
+            <input id="dex" type="number" placeholder="Destreza">
+          </div>
+          <div class="center">
+            <label>Mod DES</label>
+            <div id="mod-dex" class="out"> </div>
+          </div>
+          <div>
+            <label>Constituição</label>
+            <input id="con" type="number" placeholder="Constituição">
+          </div>
+          <div class="center">
+            <label>Mod CON</label>
+            <div id="mod-con" class="out"> </div>
+          </div>
+          <div>
+            <label>Inteligência</label>
+            <input id="int" type="number" placeholder="Inteligência">
+          </div>
+          <div class="center">
+            <label>Mod INT</label>
+            <div id="mod-int" class="out"> </div>
+          </div>
+          <div>
+            <label>Sabedoria</label>
+            <input id="wis" type="number" placeholder="Sabedoria">
+          </div>
+          <div class="center">
+            <label>Mod SAB</label>
+            <div id="mod-wis" class="out"> </div>
+          </div>
+          <div>
+            <label>Carisma</label>
+            <input id="cha" type="number" placeholder="Carisma">
+          </div>
+          <div class="center">
+            <label>Mod CAR</label>
+            <div id="mod-cha" class="out"> </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Combate</h3>
+        <div class="grid">
+          <div class="row">
+            <div>
+              <label>CA</label>
+              <input id="ac" type="number" placeholder="Classe de Armadura">
+            </div>
+            <div>
+              <label>Iniciativa</label>
+              <div id="initiative" class="out"> </div>
+              <div class="muted">= Mod DES + outros</div>
+              <input id="initMisc" class="mini" type="number" placeholder="Outros">
+            </div>
+            <div>
+              <label>Deslocamento (m)</label>
+              <input id="speed" type="number" placeholder="Ex.: 9 (30 ft)">
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>PV Máx.</label>
+              <input id="hpMax" type="number" placeholder="Pontos de Vida máximos">
+            </div>
+            <div>
+              <label>PV Atual</label>
+              <input id="hpCur" type="number" placeholder="Pontos de Vida atuais">
+            </div>
+            <div>
+              <label>Dado de Vida</label>
+              <input id="hitDie" placeholder="Ex.: d8, d10">
+            </div>
+          </div>
+          <div>
+            <label>Percepção Passiva</label>
+            <div id="passivePerception" class="out"> </div>
+            <div class="muted">= 10 + bônus de Percepção</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Proeficiências de Salvaguarda</h3>
+        <div class="grid">
+          <div class="save-row">
+            <label>Força</label>
+            <input type="checkbox" id="profSave-str"><span class="nowrap">Proef.</span>
+            <div id="save-str" class="out"> </div>
+          </div>
+          <div class="save-row">
+            <label>Destreza</label>
+            <input type="checkbox" id="profSave-dex"><span class="nowrap">Proef.</span>
+            <div id="save-dex" class="out"> </div>
+          </div>
+          <div class="save-row">
+            <label>Constituição</label>
+            <input type="checkbox" id="profSave-con"><span class="nowrap">Proef.</span>
+            <div id="save-con" class="out"> </div>
+          </div>
+          <div class="save-row">
+            <label>Inteligência</label>
+            <input type="checkbox" id="profSave-int"><span class="nowrap">Proef.</span>
+            <div id="save-int" class="out"> </div>
+          </div>
+          <div class="save-row">
+            <label>Sabedoria</label>
+            <input type="checkbox" id="profSave-wis"><span class="nowrap">Proef.</span>
+            <div id="save-wis" class="out"> </div>
+          </div>
+          <div class="save-row">
+            <label>Carisma</label>
+            <input type="checkbox" id="profSave-cha"><span class="nowrap">Proef.</span>
+            <div id="save-cha" class="out"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERÍCIAS -->
+    <div class="section">
+      <h3>Perícias</h3>
+      <div class="notice">Marque <span class="pill k">Proef.</span> se possuir proficiência; marque <span class="pill k">Esp.</span> se possuir expertise (proeficiência dobrada). Campos ficam vazios até você preencher atributos/nível.</div>
+      <div id="skills" class="grid cols-3" style="margin-top:12px"></div>
+    </div>
+
+    <!-- ATAQUES & MAGIAS -->
+    <div class="grid cols-2 section">
+      <div class="card">
+        <h3>Ataques</h3>
+        <table class="table" id="attacksTable">
+          <thead>
+            <tr><th>Nome</th><th>Bônus</th><th>Dano/Tipo</th><th>Atributo</th><th>Proef.</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input placeholder="Ataque"/></td>
+              <td class="center"><div class="out atk-bonus"> </div></td>
+              <td><input placeholder="Ex.: 1d8 cortante"/></td>
+              <td>
+                <select class="atk-abil">
+                  <option value="">—</option>
+                  <option value="str">FOR</option>
+                  <option value="dex">DES</option>
+                  <option value="con">CON</option>
+                  <option value="int">INT</option>
+                  <option value="wis">SAB</option>
+                  <option value="cha">CAR</option>
+                </select>
+              </td>
+              <td class="center"><input type="checkbox" class="atk-prof"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="button-bar">
+          <button id="addAttack">+ Adicionar Ataque</button>
+          <button id="rmAttack">– Remover Último</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Magias</h3>
+        <div class="grid cols-2">
+          <div>
+            <label>CD de Magia</label>
+            <div id="spellDC" class="out"> </div>
+            <div class="muted">= 8 + bônus de proef. + mod do atributo de conjuração</div>
+          </div>
+          <div>
+            <label>Bônus de Ataque Mágico</label>
+            <div id="spellAtk" class="out"> </div>
+            <div class="muted">= bônus de proef. + mod do atributo de conjuração</div>
+          </div>
+        </div>
+        <label>Atributo de Conjuração</label>
+        <select id="castingStat">
+          <option value="">Selecione...</option>
+          <option value="int">INT</option>
+          <option value="wis">SAB</option>
+          <option value="cha">CAR</option>
+        </select>
+        <div class="grid cols-2" style="margin-top:10px">
+          <div>
+            <label>Truques (nível 0)</label>
+            <textarea id="spells0" placeholder="Lista de truques"></textarea>
+          </div>
+          <div>
+            <label>Magias Nível 1</label>
+            <textarea id="spells1" placeholder="Magias de 1º nível"></textarea>
+          </div>
+          <div>
+            <label>Magias Nível 2</label>
+            <textarea id="spells2" placeholder="Magias de 2º nível"></textarea>
+          </div>
+          <div>
+            <label>Magias Nível 3</label>
+            <textarea id="spells3" placeholder="Magias de 3º nível"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVENTÁRIO / TRAÇOS -->
+    <div class="grid cols-2 section">
+      <div class="card">
+        <h3>Equipamentos & Tesouros</h3>
+        <textarea id="inventory" placeholder="Anote equipamentos, poções, tesouros, moedas..."></textarea>
+      </div>
+      <div class="card">
+        <h3>Traços, Características e Anotações</h3>
+        <textarea id="traits" placeholder="Traços raciais, talentos, características de classe, anotações..."></textarea>
+      </div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="section">
+      <h3>Utilidades</h3>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Rolador de Dados</h3>
+          <div class="row">
+            <input id="diceExpr" placeholder="Ex.: 1d20+5, 4d6kh3, 2d8+mod DES"/>
+            <button id="rollDice">Rolar</button>
+          </div>
+          <div id="diceResult" class="notice" style="margin-top:10px">Sem rolagem ainda.</div>
+        </div>
+        <div class="card">
+          <h3>Exportar / Importar</h3>
+          <div class="button-bar">
+            <button id="btnExport">Exportar JSON</button>
+            <button id="btnImport">Importar JSON</button>
+            <button id="btnPrint">Imprimir</button>
+            <button id="btnReset">Resetar Ficha</button>
+          </div>
+          <div class="muted" style="margin-top:8px">A exportação salva todos os campos desta página.</div>
+        </div>
+        <div class="card">
+          <h3>Outros</h3>
+          <label>Idiomas</label>
+          <input id="languages" placeholder="Ex.: Comum, Élfico, Anão...">
+          <label>Proficiências (ferramentas, armas, armaduras)</label>
+          <textarea id="proficiencies" placeholder="Ferramentas, kits de artesão, armas, armaduras..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- DM -->
+    <button class="dm-toggle">⚔️ Abrir Ferramentas do Mestre ⚔️</button>
+    <div class="dm-area" id="dmArea">
+      <h2>Ferramentas do Mestre</h2>
+      <div class="grid cols-2">
+        <div class="card" style="background:rgba(255,255,255,.1)">
+          <h3>Construtor Rápido de Encontros</h3>
+          <div class="grid">
+            <label>Nível Médio do Grupo</label>
+            <input id="partyLvl" type="number" placeholder="Nível médio">
+            <label>Nº de Personagens</label>
+            <input id="partySize" type="number" placeholder="Tamanho do grupo">
+            <label>XP do Encontro (total)</label>
+            <input id="encXP" type="number" placeholder="Soma de XP dos monstros">
+            <button id="calcEncounter">Calcular Dificuldade</button>
+            <div id="encDiff" class="notice" style="margin-top:8px; color:#111">Sem cálculo ainda.</div>
+          </div>
+        </div>
+        <div class="card" style="background:rgba(255,255,255,.1)">
+          <h3>Gerador Simples de NPC</h3>
+          <div class="button-bar">
+            <button id="genNPC">Gerar NPC</button>
+          </div>
+          <div id="npcBox" class="notice" style="margin-top:8px; color:#111">Clique em “Gerar NPC”.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ========= Dados Base (listas) =========
+    const RACAS = [
+      {nome:"Anão", speed:7.5}, {nome:"Elfo", speed:9}, {nome:"Halfling", speed:7.5},
+      {nome:"Humano", speed:9}, {nome:"Draconato", speed:9}, {nome:"Gnomo", speed:7.5},
+      {nome:"Meio-Elfo", speed:9}, {nome:"Meio-Orc", speed:9}, {nome:"Tiefling", speed:9}
+    ];
+    const CLASSES = ["Bárbaro","Bardo","Bruxo","Clérigo","Druida","Feiticeiro","Guerreiro","Ladino","Mago","Monge","Paladino","Patrulheiro"];
+
+    const SKILLS = [
+      {id:"acrobatics",    nome:"Acrobacia",       abil:"dex"},
+      {id:"animal",        nome:"Adestrar Animais",abil:"wis"},
+      {id:"arcana",        nome:"Arcanismo",       abil:"int"},
+      {id:"athletics",     nome:"Atletismo",       abil:"str"},
+      {id:"deception",     nome:"Enganação",       abil:"cha"},
+      {id:"history",       nome:"História",        abil:"int"},
+      {id:"insight",       nome:"Intuição",        abil:"wis"},
+      {id:"intimidation",  nome:"Intimidação",     abil:"cha"},
+      {id:"investigation", nome:"Investigação",    abil:"int"},
+      {id:"medicine",      nome:"Medicina",        abil:"wis"},
+      {id:"nature",        nome:"Natureza",        abil:"int"},
+      {id:"perception",    nome:"Percepção",       abil:"wis"},
+      {id:"performance",   nome:"Atuação",         abil:"cha"},
+      {id:"persuasion",    nome:"Persuasão",       abil:"cha"},
+      {id:"religion",      nome:"Religião",        abil:"int"},
+      {id:"sleight",       nome:"Furtividade de Mão", abil:"dex"},
+      {id:"stealth",       nome:"Furtividade",     abil:"dex"},
+      {id:"survival",      nome:"Sobrevivência",   abil:"wis"},
+    ];
+
+    // ========= Helpers =========
+    const el = id => document.getElementById(id);
+    const txt = (n) => (n===null || n===undefined || Number.isNaN(n)) ? "" : (n>=0?`+${n}`:`${n}`);
+    const onlyNum = (v)=> (v===null||v===undefined||v==="") ? null : (isNaN(parseInt(v)) ? null : parseInt(v));
+    const mod = (score)=> {
+      const n = onlyNum(score);
+      if(n===null) return "";
+      return Math.floor((n - 10)/2);
+    };
+    const profFromLevel = (lvl) => {
+      const n = onlyNum(lvl);
+      if(n===null || n<1) return "";
+      return 2 + Math.floor((n-1)/4);
+    };
+
+    const abilityIds = ["str","dex","con","int","wis","cha"];
+
+    // ========= Popular selects =========
+    (function fillStatic(){
+      const raceSel = el("race");
+      raceSel.appendChild(new Option("Selecione...",""));
+      RACAS.forEach(r => raceSel.appendChild(new Option(r.nome, r.nome)));
+      const classSel = el("classe");
+      classSel.appendChild(new Option("Selecione...",""));
+      CLASSES.forEach(c => classSel.appendChild(new Option(c,c)));
+    })();
+
+    // ========= Construir UI de Perícias =========
+    (function buildSkills(){
+      const wrap = el("skills");
+      SKILLS.forEach(s=>{
+        const row = document.createElement("div");
+        row.className = "skill-row";
+        row.innerHTML = `
+          <label>${s.nome} <span class="muted">(${s.abil.toUpperCase()})</span></label>
+          <span class="center"><input type="checkbox" id="prof-${s.id}"> Proef.</span>
+          <span class="center"><input type="checkbox" id="exp-${s.id}"> Esp.</span>
+          <div id="sk-${s.id}" class="out"> </div>
+        `;
+        wrap.appendChild(row);
+      });
+    })();
+
+    // ========= Atualizações / Cálculos =========
+    function updateAll(){
+      // Modificadores de atributos
+      abilityIds.forEach(a=>{
+        const val = el(a).value;
+        const m = mod(val);
+        el('mod-'+a).textContent = txt(m===""? "": m).trim();
+      });
+
+      // Proficiência
+      const pb = profFromLevel(el("level").value);
+      el("profBonus").textContent = txt(pb===""? "": pb).trim();
+
+      // Iniciativa = Mod DES + misc (se houver)
+      const mdex = mod(el("dex").value);
+      const miscInit = onlyNum(el("initMisc").value) ?? 0;
+      let init = "";
+      if(mdex !== "" || el("initMisc").value !== ""){
+        init = ( (mdex===""?0:mdex) + miscInit );
+      }
+      el("initiative").textContent = txt(init===""? "": init).trim();
+
+      // Salvaguardas
+      const saveMap = {str:"Força", dex:"Destreza", con:"Constituição", int:"Inteligência", wis:"Sabedoria", cha:"Carisma"};
+      Object.keys(saveMap).forEach(a=>{
+        const m = mod(el(a).value);
+        let val = "";
+        const prof = el("profSave-"+a).checked;
+        if(m !== "" || prof){
+          const bonus = (m===""?0:m) + (prof && pb!=="" ? pb : 0);
+          val = bonus;
+        }
+        el("save-"+a).textContent = txt(val===""? "": val).trim();
+      });
+
+      // Perícias
+      SKILLS.forEach(s=>{
+        const m = mod(el(s.abil).value);
+        const hasProf = el("prof-"+s.id).checked;
+        const hasExp  = el("exp-"+s.id).checked;
+        let val = "";
+        if(m !== "" || hasProf || hasExp){
+          const pbVal = (pb===""?0:pb);
+          const profBonus = hasExp ? (pbVal*2) : (hasProf ? pbVal : 0);
+          val = (m===""?0:m) + profBonus;
+        }
+        el("sk-"+s.id).textContent = txt(val===""? "": val).trim();
+      });
+
+      // Percepção Passiva = 10 + bônus de Percepção
+      let pp = "";
+      const skPercTxt = el("sk-perception").textContent.trim();
+      if(skPercTxt){
+        const n = parseInt(skPercTxt);
+        if(!isNaN(n)) pp = 10 + n;
+      } else {
+        // fallback: 10 + mod SAB se houver
+        const mw = mod(el("wis").value);
+        if(mw !== "") pp = 10 + mw;
+      }
+      el("passivePerception").textContent = pp===""? "" : `${pp}`;
+
+      // Spell DC / Ataque Mágico
+      const cast = el("castingStat").value;
+      let spellMod = "";
+      if(cast){
+        const m = mod(el(cast).value);
+        if(m !== "") spellMod = m;
+      }
+      const spellDC = (pb!=="" && spellMod!=="") ? (8 + pb + spellMod) : "";
+      const spellAtk = (pb!=="" && spellMod!=="") ? (pb + spellMod) : "";
+      el("spellDC").textContent  = spellDC===""? "" : `${spellDC}`;
+      el("spellAtk").textContent = spellAtk===""? "" : txt(spellAtk);
+
+      // Ataques: bônus por linha
+      document.querySelectorAll("#attacksTable tbody tr").forEach(tr=>{
+        const abilSel = tr.querySelector(".atk-abil").value;
+        const profChk = tr.querySelector(".atk-prof").checked;
+        let res = "";
+        const m = abilSel ? mod(el(abilSel).value) : "";
+        if(m!=="" || profChk){
+          const addedPB = (profChk && pb!=="") ? pb : 0;
+          res = ( (m===""?0:m) + addedPB );
+        }
+        tr.querySelector(".atk-bonus").textContent = res===""? "": txt(res);
+      });
+    }
+
+    // ========= Eventos =========
+    // Inputs que afetam quase tudo
+    [
+      "level","str","dex","con","int","wis","cha","initMisc","castingStat",
+      "race","classe"
+    ].forEach(id=>{
+      el(id).addEventListener("input", updateAll);
+      el(id).addEventListener("change", updateAll);
+    });
+
+    // Salvaguardas / Perícias toggles
+    function hookSkillSaveToggles(){
+      document.querySelectorAll('[id^="profSave-"]').forEach(chk=>chk.addEventListener("change", updateAll));
+      SKILLS.forEach(s=>{
+        el("prof-"+s.id).addEventListener("change", updateAll);
+        el("exp-"+s.id).addEventListener("change", updateAll);
+      });
+    }
+    hookSkillSaveToggles();
+
+    // Race muda deslocamento (somente após seleção; não há valor inicial)
+    el("race").addEventListener("change", ()=>{
+      const r = RACAS.find(x=>x.nome===el("race").value);
+      if(r){
+        // só define se o campo estiver vazio (não sobreescrever manual)
+        if(!el("speed").value) el("speed").value = r.speed;
+      }
+      updateAll();
+    });
+
+    // Ataques: adicionar/remover
+    el("addAttack").addEventListener("click", ()=>{
+      const tb = el("attacksTable").querySelector("tbody");
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input placeholder="Ataque"/></td>
+        <td class="center"><div class="out atk-bonus"> </div></td>
+        <td><input placeholder="Ex.: 1d8 cortante"/></td>
+        <td>
+          <select class="atk-abil">
+            <option value="">—</option>
+            <option value="str">FOR</option>
+            <option value="dex">DES</option>
+            <option value="con">CON</option>
+            <option value="int">INT</option>
+            <option value="wis">SAB</option>
+            <option value="cha">CAR</option>
+          </select>
+        </td>
+        <td class="center"><input type="checkbox" class="atk-prof"></td>
+      `;
+      tb.appendChild(tr);
+      tr.querySelectorAll("input,select").forEach(i=>{
+        i.addEventListener("input", updateAll);
+        i.addEventListener("change", updateAll);
+      });
+      updateAll();
+    });
+    el("rmAttack").addEventListener("click", ()=>{
+      const tb = el("attacksTable").querySelector("tbody");
+      if(tb.rows.length>1) tb.deleteRow(tb.rows.length-1);
+      updateAll();
+    });
+
+    // Inicia listeners de ataques existentes
+    document.querySelectorAll("#attacksTable input, #attacksTable select").forEach(i=>{
+      i.addEventListener("input", updateAll);
+      i.addEventListener("change", updateAll);
+    });
+
+    // ========= DM AREA =========
+    document.querySelector(".dm-toggle").addEventListener("click", ()=>{
+      el("dmArea").classList.toggle("visible");
+    });
+
+    // Encontro (estimativa MUITO simples; ajuste conforme sua mesa)
+    el("calcEncounter").addEventListener("click", ()=>{
+      const lvl  = onlyNum(el("partyLvl").value);
+      const size = onlyNum(el("partySize").value);
+      const xp   = onlyNum(el("encXP").value);
+      if(lvl===null || size===null || xp===null){
+        el("encDiff").textContent = "Preencha nível médio, tamanho do grupo e XP total.";
+        return;
+      }
+      // Limiar aproximado por personagem (bem simplificado!)
+      // Fácil ~ 25*lvl  | Médio ~ 50*lvl | Difícil ~ 75*lvl | Mortal ~ 100*lvl
+      const easy = 25*lvl*size, med = 50*lvl*size, hard = 75*lvl*size, dead = 100*lvl*size;
+      let diff = "Trivial";
+      if(xp >= dead) diff = "Mortal";
+      else if(xp >= hard) diff = "Difícil";
+      else if(xp >= med) diff = "Médio";
+      else if(xp >= easy) diff = "Fácil";
+      el("encDiff").innerHTML = `
+        <div><b>Dificuldade:</b> ${diff}</div>
+        <div class="muted">Limiares ~ Fácil ${easy}, Médio ${med}, Difícil ${hard}, Mortal ${dead}</div>
+      `;
+    });
+
+    // NPC simples
+    const NAMES = ["Aelar","Bryn","Calia","Dorn","Elaith","Finn","Garruk","Helga","Iriel","Jasper","Kael","Lyra","Marek","Neris","Orin","Pike","Quinn","Rurik","Syl","Theren","Ulric","Veya","Wren","Yara","Zane"];
+    const JOBS  = ["Ferreiro","Taberneiro","Guarda","Mercador","Caçador","Curandeiro","Sacerdote","Mago","Ladino","Bardo","Agricultor","Pescador","Minerador"];
+    const QUIRKS= ["fala baixo demais","ri em momentos tensos","coleciona botões","tem medo de gatos","sempre mastiga ervas","sussurra segredos","odeia chuva","aprecia poesia","tem cicatriz notável","admira aventureiros"];
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    el("genNPC").addEventListener("click", ()=>{
+      const npc = `${pick(NAMES)} — ${pick(JOBS)}; ${pick(QUIRKS)}.`;
+      el("npcBox").textContent = npc;
+    });
+
+    // ========= Exportar / Importar / Print / Reset =========
+    function collectData(){
+      const data = {};
+      // inputs, selects, textareas
+      document.querySelectorAll("input, select, textarea").forEach(inp=>{
+        if(inp.type==="checkbox"){
+          data[inp.id||inp.name||Math.random()] = inp.checked;
+        } else {
+          data[inp.id||inp.name||Math.random()] = inp.value;
+        }
+      });
+      // salvar tabelas, se necessário no futuro
+      return data;
+    }
+    function applyData(data){
+      if(!data) return;
+      document.querySelectorAll("input, select, textarea").forEach(inp=>{
+        const key = inp.id||inp.name;
+        if(!(key in data)) return;
+        if(inp.type==="checkbox"){
+          inp.checked = !!data[key];
+        } else {
+          inp.value = data[key];
+        }
+      });
+      updateAll();
+    }
+    el("btnExport").addEventListener("click", ()=>{
+      const blob = new Blob([JSON.stringify(collectData(), null, 2)], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = (el("charName").value || "ficha") + ".json";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    el("btnImport").addEventListener("click", ()=>{
+      const i = document.createElement("input");
+      i.type="file"; i.accept="application/json";
+      i.onchange = ()=>{
+        const f = i.files[0];
+        if(!f) return;
+        const r = new FileReader();
+        r.onload = ()=> {
+          try{
+            const data = JSON.parse(r.result);
+            applyData(data);
+          }catch(e){ alert("JSON inválido."); }
+        };
+        r.readAsText(f);
+      };
+      i.click();
+    });
+    el("btnPrint").addEventListener("click", ()=> window.print());
+    el("btnReset").addEventListener("click", ()=>{
+      if(!confirm("Limpar todos os campos?")) return;
+      document.querySelectorAll("input, select, textarea").forEach(inp=>{
+        if(inp.type==="checkbox"){ inp.checked = false; }
+        else { inp.value = ""; }
+      });
+      updateAll();
+    });
+
+    // ========= Dice Roller =========
+    // Suporta expressões simples tipo: 1d20+5, 4d6kh3 (keep highest 3), 3d8-1
+    function rollDiceExpr(expr){
+      if(!expr) return "Informe a expressão.";
+      let e = expr.toLowerCase().replace(/\s+/g,"");
+      const m = e.match(/^(\d+)d(\d+)(kh(\d+))?(kl(\d+))?([+-]\d+)?$/);
+      if(!m){
+        // fallback: tentar 1d20+X padrão
+        const m2 = e.match(/^(\d+)d(\d+)([+-]\d+)?$/);
+        if(!m2) return "Formato não reconhecido.";
+      }
+      const dice = parseInt(m?.[1] ?? RegExp.$1);
+      const faces = parseInt(m?.[2] ?? RegExp.$2);
+      const kh = m?.[4] ? parseInt(m[4]) : null;
+      const kl = m?.[6] ? parseInt(m[6]) : null;
+      const modFlat = m?.[7] ? parseInt(m[7]) : 0;
+
+      const rolls = [];
+      for(let i=0;i<dice;i++){
+        rolls.push(1 + Math.floor(Math.random()*faces));
+      }
+      let used = [...rolls];
+      if(kh!==null){
+        used.sort((a,b)=>b-a);
+        used = used.slice(0,kh);
+      } else if(kl!==null){
+        used.sort((a,b)=>a-b);
+        used = used.slice(0,kl);
+      }
+      const sum = used.reduce((a,b)=>a+b,0) + modFlat;
+      return `Rolagem: [${rolls.join(", ")}]  Usados: [${used.join(", ")}]  Mod: ${txt(modFlat)}  = Total: ${sum}`;
+    }
+    el("rollDice").addEventListener("click", ()=>{
+      const out = rollDiceExpr(el("diceExpr").value);
+      el("diceResult").textContent = out;
+    });
+
+    // ========= Gatilhos iniciais =========
+    // Nada de presets: apenas conectar eventos e deixar tudo em branco
+    document.querySelectorAll("input, select, textarea").forEach(i=>{
+      i.addEventListener("input", updateAll);
+      i.addEventListener("change", updateAll);
+    });
+
+    // Primeira atualização apenas para limpar dependências (mantém outputs vazios)
+    updateAll();
+  </script>
+</body>
+</html>
