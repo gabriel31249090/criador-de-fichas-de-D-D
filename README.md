@@ -1,40 +1,44 @@
-# Ficha D&D 5e — V5 · Construtor de Heróis (Livro do Jogador 2014)
+# D&D 5e — Mesa V6 (compatível com o Livro do Jogador 2014)
 
 ## Iniciar
 
-Abra **`site.html`** no Chrome, Edge ou Firefox. É o arquivo independente e offline; nenhuma instalação, chave de API ou cadastro é necessária.
+Abra `site.html` para usar a ficha **totalmente offline** sem instalação. Para instalar como PWA e usar a sala online, execute um servidor HTTPS/localhost (por exemplo, `python -m http.server 8000` na pasta raiz) e abra `http://localhost:8000/index.html`. O serviço de cache só funciona sob HTTPS/localhost.
 
-Para editar o código, use `src/index.html`, `src/style.css`, `src/rules2014.js`, `src/app.js` e `src/v5.js` em um servidor estático (ou diretamente no navegador se permitir recursos locais). `index.html` na raiz é outra cópia offline.
+A versão V6 preserva as páginas e o armazenamento da V4/V5 (`dnd-v3-library`). **Antes de atualizar faça backup JSON dos personagens.** `site.html` contém os scripts e estilos embutidos. `src/` tem os mesmos módulos separados para desenvolvimento.
 
-## Compatibilidade
+## 15 melhorias solicitadas
 
-A ficha original da V4 foi preservada, incluindo suas três páginas, rolagens, atributo/CA/PV, espaços, histórico, histórico de personagem, importação/exportação JSON e salvamento local. A V5 adiciona a aba **V · Construtor V5**. Os novos dados são armazenados dentro de `state.v5` no mesmo JSON do personagem, sem apagar o legado. Fichas antigas continuam disponíveis quando o mesmo navegador conserva seu `localStorage` (`dnd-v3-library`). Recomenda-se exportar JSON antes de substituir a V4.
+1. Motor de conjuração assistida (rolagens de dano/cura/ataque/resistência de um catálogo selecionado).
+2. Gerenciador de combate, iniciativa por combatente, turnos e registros.
+3. Companheiros e formas selvagens com fichas auxiliares e PV (limites por subclasse requerem Mestre).
+4. Explicações e apoio a recursos de subclasses selecionados; não substitui todos os efeitos condicionais.
+5. Condições com explicações; várias limitações situacionais ainda exigem confirmação de jogadas.
+6. Imunidade, resistência e vulnerabilidade por tipo de dano, com cálculo correto de arredondamento.
+7. Equipamentos +1/+2/+3, com ajuste numérico na CA e ataques quando equipados.
+8. Economia/loja e conversão de moedas.
+9. Sintonização com limite de três itens (sem classificar automaticamente os requisitos únicos de cada item).
+10. Gerador de encontros pelo XP ajustado e multiplicadores 2014.
+11. Painel de sala do Mestre (requer Supabase configurado separadamente).
+12. Publicação de ficha e atualização em tempo real (opcional, requer servidor Supabase).
+13. Seletor de regras 2014 / 2024 informativo: **a lógica 2024 NÃO está implementada** e não se misturam regras.
+14. Explicações de cálculo de PV, CA, proficiência e conjuração.
+15. PWA instalável e cache offline (somente quando servido em localhost ou HTTPS).
 
-## Dez funcionalidades da V5
+## Sala online com segurança
 
-1. Criação guiada: etapas para identidade, raça/classe, atributos, perícias, equipamento e revisão.
-2. Evolução de nível: nível 1–20, escolha de classe, aumento de atributo e seleção de talento em avanços pertinentes (multiclasse até duas classes).
-3. Subclasses: opções das doze classes do Livro do Jogador 2014; apresentação de requisitos e recursos relevantes, inclusive Cavaleiro Arcano e Trapaceiro Arcano.
-4. Grimório pesquisável: índice curado de magias dos níveis 0–9, busca por nome/escola, filtro de classe/nível/concentração, preparação na ficha e cadastro de magia personalizada. **Não é uma transcrição integral das magias do livro**; resumos são autorais e não substituem a descrição completa.
-5. Validador de personagem: campos ausentes, multiclasse sem pré-requisitos, subclassificação pendente, perícias, gastos de espaços e excesso de talentos.
-6. Equipamentos automáticos: catálogo inicial de armas, armaduras, escudos e alguns itens; ajuste de CA, ataque e peso ao equipar. Alterações manuais continuam possíveis.
-7. Talentos: catálogo inicial com seleção, efeitos diretos seguros como Alerta, Robusto, Observador e Resiliente; efeitos situacionais exigem avaliação do Mestre.
-8. Multiclasse: duas classes, pré-requisitos, Dados de Vida de classes distintas, progressão combinada de espaços, pacto separado e progressões de 1/3 conjugadas quando aplicável. Consulte o livro para particularidades de proficiência e características específicas.
-9. Recursos de classe: contadores para recursos selecionados, recuperação em descansos e indicação de recursos passivos por nível.
-10. Exportação PDF: guia para impressão via navegador (Ctrl+P → Salvar como PDF), com estilos A4 das três folhas básicas; exportação JSON continua sendo backup editável.
+1. Crie um projeto **seu** no Supabase; não conecte banco de outros projetos.
+2. Execute `supabase/campaign.sql` no SQL Editor.
+3. Configure a URL pública do projeto e a chave **anon/publishable** na aba **Mesa V6 → Campanha online**. Nunca utilize uma chave de serviço (`service_role`/secret).
+4. Habilite login por e-mail e SMTP adequados no Auth. Por padrão, acesso por link OTP é requerido antes de entrar em sala.
+5. Após autenticação, o Mestre cria sala e compartilha **convite UUID**; jogadores entram pelo convite e publicam a ficha explicitamente.
+6. As regras de row-level security impedem um jogador de consultar fichas de outro sem ser Mestre. Confirme o projeto e as políticas antes de uso real. Nenhum banco foi criado pelo arquivo offline.
 
-## O que não fica 100% automatizado
+A **chave pública** pode ser enviada pelo navegador; a chave secreta jamais. O estado do personagem compartilhado pode conter notas privadas — revise o JSON antes de publicar.
 
-A V5 **não implementa automaticamente todos os textos e efeitos** de cada subclasse, de todas as magias, talentos e equipamentos do Livro do Jogador. Concentração, resistências especiais, rolagens passadas de PV, componentes materiais, proficiências específicas de multiclasse e escolhas de jogador/Mestre podem exigir revisão. O grimório vem com uma biblioteca inicial extensível, não com todos os encantamentos do livro. Regras da edição 2024 e variantes da campanha não são aplicadas automaticamente.
+## Limitações e regras
 
-**Licenciamento de conteúdo:** nomes, tabelas necessárias e metadados resumidos são usados como referência para a ferramenta; nenhuma descrição integral de magia do livro comercial foi copiada.
+O grimório interativo da V6 é um catálogo selecionado de magias, com resumos próprios; não transcreve todos os feitiços do PHB. Concentração e efeitos de classe são parcialmente automatizados. 2024/5.5 é marcado como informativo e não altera cálculos. Combates completos requerem adjudicação do Mestre. Higgsfield não foi conectado — o redesign foi feito localmente, sem fingir geração de ativos pela plataforma.
 
-## Rodar testes
+## Testar
 
-`pip install playwright pymupdf` e execute `python test_v5.py` e `python test_extended_v5.py` na pasta raiz. Necessário Chromium disponível no sistema. Para validar sintaxe: `node --check src/app.js` e `node --check src/v5.js`.
-
-Os testes usam navegador headless, injetando scripts como texto porque ambientes isolados podem bloquear navegação local. A exportação PDF foi verificada em três páginas A4.
-
-## Origem das regras
-
-Livro do Jogador de D&D 5e (2014), PDF disponibilizado pelo solicitante. Ver `AUDITORIA_V5.md` para referências e limites.
+`node --check src/{app,v5,v6,rules2014}.js` (individualmente) e `python tests/test_v6.py`. É necessário instalar Playwright e ter Chromium disponível. O teste imprime resultados e exporta PDF A4. Teste de banco com usuários reais é uma etapa separada, não executada.
