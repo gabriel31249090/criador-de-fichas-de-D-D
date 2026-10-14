@@ -216,7 +216,36 @@ button:active{transform:scale(.98)}
 @media(max-width:410px){.sheet-page>.grid.cols-3.section{grid-template-columns:1fr}.sheet-slots{grid-template-columns:1fr}.sheet-stats-row{grid-template-columns:repeat(3,minmax(0,1fr))}.sheet-page{padding:8px}}
 @media print{@page{size:A4 portrait;margin:8mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:white;padding:0}.sheet-toolbar,.sheet-utilities,.dm-toggle,.dm-area,.button-bar,#rollDice,.save-indicator{display:none!important}.container{max-width:none}.sheet-page,.sheet-page[hidden]{display:block!important;box-shadow:none;border:0;page-break-after:always;break-after:page;padding:0;margin:0;min-height:0}.sheet-page:last-of-type{break-after:auto}.sheet-columns{grid-template-columns: 0.96fr 1.08fr .95fr;gap:6px}.sheet-column{gap:7px}.sheet-page .section,.sheet-page .card{padding:6px;border-width:1.5px}.sheet-page h3{font-size:9px;margin:0 0 6px;padding-bottom:4px}.sheet-page label,.sheet-page input,.sheet-page textarea,.sheet-page select{font-size:9px;padding:3px 1px;margin:1px}.sheet-page textarea{min-height:55px}.sheet-page .muted,.sheet-page .notice{display:none}.sheet-page .grid{gap:4px}.sheet-page .skill-row{gap:1px}.sheet-page .skill-row label{font-size:8px!important}.sheet-page .skill-row .out{font-size:9px}.sheet-page>.grid.cols-3.section{gap:4px;margin-bottom:6px!important;padding:7px!important}.sheet-page-head{padding:0 0 7px;margin-bottom:6px}.sheet-page .button-bar{display:none!important}.sheet-extra textarea{min-height:130px}.sheet-extra .history-area{min-height:200px}.sheet-magic textarea{min-height:100px}.sheet-slots{grid-template-columns:repeat(3,1fr)}.sheet-slot{padding:3px}.sheet-page .xp-meter{height:3px;margin:3px 0}input,textarea,select{border-color:#bbb}.sheet-page .out{font-size:10px}}
 
-  </style>
+  
+/* Rolagens visíveis e distribuição automática de perícias */
+.sheet-rollbox{border:2px solid #232323;background:#fafafa;border-radius:8px;padding:12px;margin:10px 0;font-family:Arial,Helvetica,sans-serif;}
+.sheet-rollbox h4{font:bold 12px Arial,sans-serif;letter-spacing:.04em;text-transform:uppercase;margin:0 0 7px;}
+.sheet-rollbox p{font:12px/1.5 Arial,sans-serif;margin:6px 0;color:#464646;}
+.sheet-rollbox .roll-controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+.sheet-rollbox button{margin:3px 0;font:700 11px Arial,sans-serif;padding:8px 9px;}
+.sheet-rollbox input,.sheet-rollbox select{font-size:13px;margin:3px 0;flex:1 1 125px;min-width:0;}
+.sheet-rollbox .roll-output{border:1px solid #b1b1b1;border-radius:5px;padding:9px;margin-top:8px;background:#fff;font:12px/1.6 Arial,sans-serif;white-space:normal;word-wrap:break-word;min-height:33px;}
+.sheet-rollbox .roll-output strong{font-weight:800}
+.sheet-rollbox .roll-chip{display:inline-block;border:1px solid #999;border-radius:4px;margin:3px 4px 3px 0;padding:3px 7px;font:700 13px Arial,sans-serif;background:#fff;}
+.sheet-rollbox .roll-chip em{display:block;font:9px Arial,sans-serif;color:#666}
+.sheet-rollbox .roll-chip.low{background:#eaeaea;color:#737373}
+.roll-attr-actions{display:flex;gap:5px;align-items:center;margin-top:4px}
+.roll-attr-actions button{font:700 10px Arial,sans-serif;border-radius:5px;padding:5px 7px;margin:0}
+.roll-attr-actions button+button{background:#666}
+.sheet-column .skill-row{grid-template-columns:minmax(100px,1fr) 19px 19px 35px 33px!important;gap:3px!important}
+.sheet-column .skill-row .roll-skill{font:700 10px Arial,sans-serif;min-height:27px;padding:3px 4px;border-radius:4px;margin:0}
+.sheet-column .save-row{grid-template-columns:minmax(60px,1fr) 22px 34px 43px 34px!important;gap:3px!important}
+.sheet-column .save-row .roll-save{font:700 10px Arial,sans-serif;min-height:27px;padding:3px 3px;border-radius:4px;margin:0}
+#skillAutoPanel{margin-bottom:11px;}
+#skillAutoPanel select{width:100%;max-width:100%;}
+#skillAutoFeedback{font:12px/1.6 Arial,sans-serif;}
+.sheet-rollbox label{font:700 11px Arial,sans-serif;}
+.sheet-rollbox .dice-line{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.sheet-rollbox .dice-line output{min-width:30px}
+@media(max-width:440px){.sheet-rollbox{padding:7px}.sheet-column .skill-row{grid-template-columns:minmax(80px,1fr) 18px 18px 30px 29px!important}.sheet-column .skill-row label{font-size:10px!important}.sheet-rollbox button{padding:6px}}
+@media print{.sheet-rollbox{border:1px solid #333;padding:4px;margin:3px 0}.sheet-rollbox h4{font-size:8px}.sheet-rollbox p,.roll-attr-actions,.roll-skill,.roll-save,.roll-controls,.sheet-rollbox .roll-output,#skillAutoFeedback{display:none!important}.sheet-rollbox button{display:none}.sheet-column .skill-row{grid-template-columns:minmax(75px,1fr) 13px 13px 32px!important}.sheet-column .save-row{grid-template-columns:minmax(60px,1fr) 13px 24px 32px!important}.sheet-rollbox select,.sheet-rollbox input{display:none}.sheet-rollbox:empty{display:none}}
+
+</style>
 </head>
 <body>
   <div class="container">
@@ -1097,5 +1126,173 @@ button:active{transform:scale(.98)}
 })();
 
   </script>
+<script>
+
+(function(){
+ "use strict";
+ var $=function(id){return document.getElementById(id)};
+ if(!$("sheetPage1") || $("rollAbilities6"))return;
+ var attrs=["str","dex","con","int","wis","cha"];
+ var names={str:"Força",dex:"Destreza",con:"Constituição",int:"Inteligência",wis:"Sabedoria",cha:"Carisma"};
+ var skills=[
+ ["acrobatics","dex"],["animal","wis"],["arcana","int"],["athletics","str"],["deception","cha"],
+ ["history","int"],["insight","wis"],["intimidation","cha"],["investigation","int"],
+ ["medicine","wis"],["nature","int"],["perception","wis"],["performance","cha"],
+ ["persuasion","cha"],["religion","int"],["sleight","dex"],["stealth","dex"],["survival","wis"]
+ ];
+ var classSkills={
+ "Bárbaro":[2,["animal","athletics","intimidation","nature","perception","survival"]],
+ "Bardo":[3,skills.map(function(s){return s[0]})],
+ "Bruxo":[2,["arcana","deception","history","intimidation","investigation","nature","religion"]],
+ "Clérigo":[2,["history","insight","medicine","persuasion","religion"]],
+ "Druida":[2,["arcana","animal","insight","medicine","nature","perception","religion","survival"]],
+ "Feiticeiro":[2,["arcana","deception","insight","intimidation","persuasion","religion"]],
+ "Guerreiro":[2,["acrobatics","animal","athletics","history","insight","intimidation","perception","survival"]],
+ "Ladino":[4,["acrobatics","athletics","performance","deception","stealth","intimidation","insight","investigation","perception","persuasion","sleight"]],
+ "Mago":[2,["arcana","history","insight","investigation","medicine","religion"]],
+ "Monge":[2,["acrobatics","athletics","stealth","history","insight","religion"]],
+ "Paladino":[2,["athletics","insight","intimidation","medicine","persuasion","religion"]],
+ "Patrulheiro":[3,["animal","athletics","stealth","insight","investigation","nature","perception","survival"]]
+ };
+ var priorities={
+ "Bárbaro":["str","con","dex","wis","cha","int"],"Bardo":["cha","dex","con","wis","int","str"],
+ "Bruxo":["cha","con","dex","wis","int","str"],"Clérigo":["wis","con","str","dex","cha","int"],
+ "Druida":["wis","con","dex","int","cha","str"],"Feiticeiro":["cha","con","dex","wis","int","str"],
+ "Guerreiro":["str","con","dex","wis","int","cha"],"Ladino":["dex","con","wis","cha","int","str"],
+ "Mago":["int","con","dex","wis","cha","str"],"Monge":["dex","wis","con","str","int","cha"],
+ "Paladino":["str","cha","con","wis","dex","int"],"Patrulheiro":["dex","wis","con","str","int","cha"]
+ };
+ var backgrounds={
+ "acolito":["insight","religion"],"artesao de guilda":["insight","persuasion"],
+ "artista":["acrobatics","performance"],"charlatao":["deception","sleight"],
+ "criminoso":["deception","stealth"],"eremita":["medicine","religion"],
+ "forasteiro":["athletics","survival"],"heroi do povo":["animal","survival"],
+ "marinheiro":["athletics","perception"],"nobre":["history","persuasion"],
+ "orfao":["sleight","stealth"],"sabio":["arcana","history"],"soldado":["athletics","intimidation"]
+ };
+ var skillNames={acrobatics:"Acrobacia",animal:"Adestrar Animais",arcana:"Arcanismo",athletics:"Atletismo",
+ deception:"Enganação",history:"História",insight:"Intuição",intimidation:"Intimidação",
+ investigation:"Investigação",medicine:"Medicina",nature:"Natureza",perception:"Percepção",
+ performance:"Atuação",persuasion:"Persuasão",religion:"Religião",sleight:"Prestidigitação",
+ stealth:"Furtividade",survival:"Sobrevivência"};
+ var norm=function(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z ]/g," ").replace(/\s+/g," ").trim()};
+ var rand=function(n){if(window.crypto&&window.crypto.getRandomValues){var buf=new Uint32Array(1),limit=Math.floor(4294967296/n)*n;do{window.crypto.getRandomValues(buf)}while(buf[0]>=limit);return 1+(buf[0]%n)}return 1+Math.floor(Math.random()*n)};
+ var rolled=[];
+ var attrCard=$("str").closest(".card");
+ var firstGrid=attrCard.querySelector(".grid");
+ var panel=document.createElement("div");
+ panel.className="sheet-rollbox";
+ panel.innerHTML='<h4>Gerador de atributos · D&amp;D 5e</h4>'+
+ '<p>Role seis vezes 4d6, descarte o menor dado de cada grupo e distribua os seis resultados. Você também pode escolher os valores padrão.</p>'+
+ '<div class="roll-controls"><button type="button" id="rollAbilities6">🎲 Rolar seis atributos</button><button type="button" id="useStandardArray">Valores padrão</button><button type="button" id="assignAbilities">Distribuir pela classe</button></div>'+
+ '<div id="rollAbilityResult" class="roll-output" role="status" aria-live="polite">Nenhum atributo foi rolado. Os valores da ficha permanecem em branco.</div>'+
+ '<label for="rollMode">Modo dos testes d20</label><select id="rollMode"><option value="normal">Normal</option><option value="advantage">Vantagem (2d20, maior)</option><option value="disadvantage">Desvantagem (2d20, menor)</option></select>'+
+ '<div id="rollCheckResult" class="roll-output" role="status" aria-live="polite">Use os botões d20 para testar um atributo, uma perícia ou uma resistência.</div>';
+ attrCard.insertBefore(panel,firstGrid);
+ function rollAbility(){var arr=Array.from({length:4},function(){return rand(6)});return {dice:arr,value:arr.reduce(function(a,b){return a+b},0)-Math.min.apply(null,arr)}}
+ function showRolls(){var out=$("rollAbilityResult");if(!rolled.length){out.textContent="Ainda não há resultados.";return}
+ out.innerHTML=rolled.map(function(r,i){var low=Math.min.apply(null,r.dice),discarded=false;return '<div><b>'+(i+1)+'º valor: '+r.value+'</b> · '+r.dice.map(function(d){if(d===low&&!discarded){discarded=true;return '<span class="roll-chip low">'+d+'<em>descartado</em></span>'}return '<span class="roll-chip">'+d+'</span>'}).join("")+'</div>'}).join("")+
+ '<p>Resultados: '+rolled.map(function(r){return r.value}).join(" · ")+'. Clique em <b>Distribuir pela classe</b> para aplicar.</p>'}
+ $("rollAbilities6").addEventListener("click",function(){rolled=Array.from({length:6},rollAbility);showRolls()});
+ $("useStandardArray").addEventListener("click",function(){rolled=[15,14,13,12,10,8].map(function(value){return {value:value,dice:[]}});$("rollAbilityResult").innerHTML='<b>Valores padrão selecionados:</b> 15 · 14 · 13 · 12 · 10 · 8. Clique em <b>Distribuir pela classe</b>.'});
+ function notifyInputs(ids){ids.forEach(function(id){$(id).dispatchEvent(new Event("input",{bubbles:true}));$(id).dispatchEvent(new Event("change",{bubbles:true}))})}
+ $("assignAbilities").addEventListener("click",function(){
+  if(rolled.length!==6){$("rollAbilityResult").textContent="Primeiro role os atributos ou escolha os valores padrão.";return}
+  var cl=$("classe").value;if(!priorities[cl]){$("rollAbilityResult").insertAdjacentText("beforeend"," Selecione uma classe para determinar a prioridade de distribuição.");return}
+  var vals=rolled.map(function(r){return r.value}).sort(function(a,b){return b-a});
+  priorities[cl].forEach(function(id,index){$(id).value=vals[index]});
+  notifyInputs(attrs);
+  $("rollAbilityResult").innerHTML="<b>Distribuição aplicada a "+cl+":</b> "+priorities[cl].map(function(a,i){return names[a]+" "+vals[i]}).join(" • ")+". <p>Os valores são anteriores aos ajustes raciais da edição 2014. Ajuste-os conforme sua raça/sub-raça.</p>";
+ });
+ function d20(bonus,label,kind){
+  if(!Number.isFinite(bonus)){$("rollCheckResult").textContent="Preencha primeiro o valor necessário para o teste.";return}
+  var mode=$("rollMode").value,raw=[rand(20)],chosen=raw[0];
+  if(mode!=="normal"){raw.push(rand(20));chosen=mode==="advantage"?Math.max.apply(null,raw):Math.min.apply(null,raw)}
+  var val=chosen+bonus;
+  $("rollCheckResult").innerHTML="<strong>"+label+" · "+(kind||"teste")+":</strong> d20 ["+raw.join(", ")+"] = "+chosen+
+  " "+(bonus>=0?"+":"−")+" "+Math.abs(bonus)+" → <strong>"+val+"</strong>"+(mode==="normal"?"":" ("+ (mode==="advantage"?"vantagem":"desvantagem")+")");
+ }
+ attrs.forEach(function(id){
+  var wrap=$(id).parentElement;var actions=document.createElement("div");actions.className="roll-attr-actions";
+  actions.innerHTML='<button type="button" data-roll4d6="'+id+'" aria-label="Rolar 4d6 para '+names[id]+'">4d6</button><button type="button" data-rolltest="'+id+'" aria-label="Teste d20 de '+names[id]+'">d20</button>';
+  wrap.appendChild(actions);
+  actions.querySelector("[data-roll4d6]").addEventListener("click",function(){var r=rollAbility();$(id).value=r.value;notifyInputs([id]);$("rollAbilityResult").textContent=names[id]+": ["+r.dice.join(", ")+"] → descarta "+Math.min.apply(null,r.dice)+" = "+r.value});
+  actions.querySelector("[data-rolltest]").addEventListener("click",function(){var m=mod($(id).value);d20(m===""?NaN:m,names[id],"atributo")});
+ });
+ var skillBlock=$("skills").closest(".section");
+ var skillPanel=document.createElement("div");skillPanel.className="sheet-rollbox";skillPanel.id="skillAutoPanel";
+ skillPanel.innerHTML='<h4>Distribuição automática de perícias</h4>'+
+ '<p>Respeita as opções e quantidades da classe, proficiências raciais básicas e duas perícias do antecedente selecionado (Livro do Jogador 2014). Prioriza os atributos mais altos.</p>'+
+ '<div class="roll-controls"><button type="button" id="assignSkillsAuto">⚙️ Distribuir perícias</button><button type="button" id="clearAutoSkills">Desfazer distribuição automática</button></div>'+
+ '<input type="hidden" id="autoSkillIds" value="[]"><div id="skillAutoFeedback" class="roll-output" role="status" aria-live="polite">Selecione sua classe e, opcionalmente, raça e antecedente.</div>';
+ skillBlock.insertBefore(skillPanel,$("skills"));
+ var bg=$("background"),dl=document.createElement("datalist");dl.id="backgroundOptions";
+ Object.keys(backgrounds).forEach(function(k){var op=document.createElement("option");op.value=k.replace(/\b[a-z]/g,function(c){return c.toUpperCase()});dl.appendChild(op)});
+ bg.setAttribute("list","backgroundOptions");bg.insertAdjacentElement("afterend",dl);
+ function managedGet(){try{var a=JSON.parse($("autoSkillIds").value||"[]");return new Set(Array.isArray(a)?a:[])}catch(e){return new Set()}}
+ function managedSet(s){$("autoSkillIds").value=JSON.stringify(Array.from(s));$("autoSkillIds").dispatchEvent(new Event("input",{bubbles:true}))}
+ function perk(id){return $("prof-"+id)}
+ function mark(id,set){if(perk(id)&&!perk(id).checked){perk(id).checked=true;set.add(id)}}
+ function unmarkSet(set){set.forEach(function(id){if(perk(id))perk(id).checked=false})}
+ function weight(id){var skill=skills.find(function(item){return item[0]===id});if(!skill)return -50;var val=$(skill[1]).value;return val===""?0:(Math.floor((Number(val)-10)/2)+10)}
+ function bestOptions(arr,limit,block){return arr.filter(function(id){return !perk(id).checked && !block.has(id)}).sort(function(a,b){return weight(b)-weight(a)||a.localeCompare(b)}).slice(0,limit)}
+ function currentBackground(){
+  var text=norm(bg.value);
+  var aliases={"heroi popular":"heroi do povo","artesao":"artesao de guilda","membro de guilda":"artesao de guilda","urchin":"orfao","acolyte":"acolito","outlander":"forasteiro","sage":"sabio","criminal":"criminoso"};
+  return backgrounds[aliases[text]||text]||[];
+ }
+ function grant(){
+  var cl=$("classe").value,conf=classSkills[cl];if(!conf){$("skillAutoFeedback").textContent="Selecione uma classe válida antes de distribuir as perícias.";return}
+  var old=managedGet();unmarkSet(old);
+  var marked=new Set(),source={background:[],race:[],class:[]};
+  var backgroundSet=new Set(currentBackground());
+  backgroundSet.forEach(function(id){mark(id,marked);source.background.push(id)});
+  var race=$("race").value;
+  if(race==="Elfo"){mark("perception",marked);source.race.push("perception")}
+  if(race==="Meio-Orc"){mark("intimidation",marked);source.race.push("intimidation")}
+  if(race==="Meio-Elfo"){bestOptions(skills.map(function(s){return s[0]}),2,new Set()).forEach(function(id){mark(id,marked);source.race.push(id)})}
+  var pool=conf[1].filter(function(id){return !backgroundSet.has(id)&&!source.race.includes(id)});
+  var chosen=pool.filter(function(id){return perk(id).checked}).length;
+  var needed=Math.max(0,conf[0]-chosen);
+  bestOptions(pool,needed,new Set()).forEach(function(id){mark(id,marked);source.class.push(id)});
+  managedSet(marked);updateAll();
+  var print=function(ids){return ids.length?ids.map(function(id){return skillNames[id]}).join(", "):"nenhuma adicional"};
+  $("skillAutoFeedback").innerHTML="<b>Perícias distribuídas.</b><div>Classe "+cl+" ("+conf[0]+" escolhas): "+print(source.class)+"</div><div>Antecedente: "+print(source.background)+"</div><div>Raça: "+print(source.race)+"</div><small>Proficiências manuais foram mantidas. Revise qualquer escolha especial de origem/subclasse com o Mestre.</small>";
+ }
+ $("assignSkillsAuto").addEventListener("click",grant);
+ $("clearAutoSkills").addEventListener("click",function(){var managed=managedGet();unmarkSet(managed);managedSet(new Set());updateAll();$("skillAutoFeedback").textContent="Removidas somente as perícias que a distribuição automática havia marcado. Suas escolhas manuais foram preservadas."});
+ skills.forEach(function(item){
+  var id=item[0],node=perk(id);if(!node)return;
+  node.addEventListener("change",function(){var managed=managedGet();if(managed.has(id)){managed.delete(id);managedSet(managed)}});
+  var row=node.closest(".skill-row");if(!row||row.querySelector(".roll-skill"))return;
+  var btn=document.createElement("button");btn.type="button";btn.className="roll-skill";btn.textContent="🎲";btn.title="Rolar teste de "+skillNames[id];btn.setAttribute("aria-label","Rolar teste de "+skillNames[id]);row.appendChild(btn);
+  btn.addEventListener("click",function(){var out=$("sk-"+id).textContent.trim();d20(out===""?NaN:Number(out),skillNames[id],"perícia")});
+ });
+ attrs.forEach(function(a){
+  var row=$("profSave-"+a).closest(".save-row");if(!row||row.querySelector(".roll-save"))return;
+  var btn=document.createElement("button");btn.type="button";btn.className="roll-save";btn.textContent="🎲";btn.title="Rolar resistência de "+names[a];btn.setAttribute("aria-label","Rolar resistência de "+names[a]);row.appendChild(btn);
+  btn.addEventListener("click",function(){var out=$("save-"+a).textContent.trim();d20(out===""?NaN:Number(out),names[a],"resistência")});
+ });
+ var combatCard=$("ac").closest(".card"),armorBox=$("armorType").closest(".sheet-extra-fields");
+ var combatPanel=document.createElement("div");combatPanel.className="sheet-rollbox";combatPanel.id="defenseRollPanel";
+ combatPanel.innerHTML='<h4>CA · ataque recebido e defesa opcional</h4>'+
+ '<p><b>Regra oficial:</b> a CA é fixa. O atacante rola d20 + bônus de ataque e compara com a CA.</p>'+
+ '<label for="enemyAttackBonus">Bônus de ataque do inimigo</label>'+
+ '<div class="roll-controls"><input id="enemyAttackBonus" type="number" value="0" step="1" aria-label="Bônus do inimigo"><button id="rollAgainstAC" type="button">🎲 Rolar ataque contra CA</button></div>'+
+ '<p><b>Regra da casa (opcional):</b> teste de defesa ativa, d20 + modificador de Destreza + bônus informado abaixo. Não substitui a regra oficial.</p>'+
+ '<div class="roll-controls"><input id="defenseExtra" type="number" value="0" step="1" aria-label="Bônus extra da defesa ativa"><button id="rollActiveDefense" type="button">🎲 Rolar defesa ativa</button></div>'+
+ '<div id="defenseRollResult" class="roll-output" role="status" aria-live="polite">CA atual: preencha armadura e Destreza.</div>';
+ combatCard.insertBefore(combatPanel,armorBox.nextSibling);
+ $("rollAgainstAC").addEventListener("click",function(){var ac=Number($("ac").value),bonus=Number($("enemyAttackBonus").value)||0;if($("ac").value===""||!Number.isFinite(ac)){$("defenseRollResult").textContent="Informe uma Classe de Armadura antes do teste.";return}
+ var d=rand(20),total=d+bonus,hit=d===20||d!==1&&total>=ac;
+ $("defenseRollResult").innerHTML="<b>Ataque recebido:</b> d20 "+d+" "+(bonus>=0?"+ ":"− ")+Math.abs(bonus)+" = <b>"+total+"</b> contra <b>CA "+ac+"</b> → <b>"+(hit?(d===20?"ACERTO CRÍTICO":"ACERTOU"):"ERROU")+"</b>"+(d===1?" (1 natural)":d===20?" (20 natural)":"");
+ });
+ $("rollActiveDefense").addEventListener("click",function(){var d=mod($("dex").value);if(d===""){$("defenseRollResult").textContent="Preencha Destreza para usar a regra opcional de defesa ativa.";return}
+ var roll=rand(20),extra=Number($("defenseExtra").value)||0,total=roll+d+extra;
+ $("defenseRollResult").innerHTML="<b>Defesa ativa (regra da casa):</b> d20 <b>"+roll+"</b> + modificador DES ("+d+") + extra ("+extra+") = <b>"+total+"</b>. O Mestre decide como comparar este resultado.";
+ });
+})();
+
+</script>
 </body>
 </html>
