@@ -31,7 +31,7 @@ const SLOT_FULL=[
 ];
 const XP=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
 const COST={8:0,9:1,10:2,11:3,12:4,13:5,14:7,15:9};
-const FIELDS={name:'',className:'',level:'',race:'',subrace:'',raceAuto:true,raceExtra1:'dex',raceExtra2:'con',featTough:false,draconicSoul:false,background:'',player:'',alignment:'',xp:'',speed:'',inspiration:false,initiativeExtra:'',mageArmor:false,armor:'Sem armadura',acExtra:'',shield:false,acOverride:'',hpCurrent:'',hpTemp:'',hpMethod:'average',hpPerLevel:'',hpExtra:'',hitDiceSpent:'',personality:'',ideals:'',bonds:'',flaws:'',traits:'',otherProfs:'',age:'',height:'',weight:'',eyes:'',skin:'',hair:'',appearance:'',allies:'',history:'',features:'',treasure:'',castClass:'',castAbility:'',spellProgression:'auto',manaMax:'',manaUsed:'',exhaustion:'',resourceName:'',resourceMax:'',resourceUsed:''};
+const FIELDS={name:'',className:'',level:'',race:'',subrace:'',raceAuto:true,raceExtra1:'dex',raceExtra2:'con',featTough:false,draconicSoul:false,initiativeExtra:'',mageArmor:false,background:'',player:'',alignment:'',xp:'',speed:'',inspiration:false,armor:'Sem armadura',acExtra:'',shield:false,acOverride:'',hpCurrent:'',hpTemp:'',hpMethod:'average',hpPerLevel:'',hpExtra:'',hitDiceSpent:'',personality:'',ideals:'',bonds:'',flaws:'',traits:'',otherProfs:'',age:'',height:'',weight:'',eyes:'',skin:'',hair:'',appearance:'',allies:'',history:'',features:'',treasure:'',castClass:'',castAbility:'',spellProgression:'auto',manaMax:'',manaUsed:'',exhaustion:'',resourceName:'',resourceMax:'',resourceUsed:''};
 const uid=()=>{try{return crypto.randomUUID()}catch(e){return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9)}};
 const fresh=()=>({version:3,id:uid(),fields:{...FIELDS},abilities:Object.fromEntries(A.map(x=>[x[0],''])),saves:[],skillProfs:[],expertise:[],autoSkills:[],hpRolls:[],hpRollDie:null,hpLastMax:null,attacks:[{id:uid(),name:'',type:'str',damage:'1d8',prof:true}],items:[],currency:{pc:0,pp:0,pe:0,po:0,pl:0},conditions:[],deathSuccess:0,deathFailure:0,spells:Object.fromEntries(Array.from({length:10},(_,i)=>[i,''])),slotsUsed:Array(9).fill(0),pointBuy:Object.fromEntries(A.map(x=>[x[0],8])),rollLog:[]});
 let library={},active='',state,saveTimer,rolls=[],restoring=false;
@@ -116,10 +116,10 @@ function derivedAC(){const override=state.fields.acOverride;if(!blank(override)&
  const dex=mod('dex');if(dex===null)return null;
  const armor=state.fields.armor,base=ARMOR[armor]||ARMOR['Sem armadura'];let val=base[0]+Math.min(dex,base[1]);
  if(armor==='Sem armadura'){
-  if(state.fields.mageArmor)val=Math.max(val,13+dex);
-  if(state.fields.draconicSoul&&state.fields.className==='Feiticeiro')val=Math.max(val,13+dex);
-  if(state.fields.className==='Bárbaro'&&mod('con')!==null)val=Math.max(val,10+dex+mod('con'));
-  if(state.fields.className==='Monge'&&!state.fields.shield&&mod('wis')!==null)val=Math.max(val,10+dex+mod('wis'));
+ if(state.fields.mageArmor)val=Math.max(val,13+dex);
+ if(state.fields.draconicSoul&&state.fields.className==='Feiticeiro')val=Math.max(val,13+dex);
+ if(state.fields.className==='Bárbaro'&&mod('con')!==null)val=Math.max(val,10+dex+mod('con'));
+ if(state.fields.className==='Monge'&&!state.fields.shield&&mod('wis')!==null)val=Math.max(val,10+dex+mod('wis'));
  }
  return val+(state.fields.shield?2:0)+n(state.fields.acExtra);
 }
