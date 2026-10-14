@@ -119,6 +119,103 @@
     .table th{ background:#f6ead3; }
 
     .notice{ padding:10px; border:2px dashed var(--dourado); border-radius:8px; background:#fff8e0;}
+  
+/* D&D 5e – adaptação visual da ficha impressa nas 3 últimas páginas do PHB */
+:root {--bordo:#222;--dourado:#74716a;--vinho:#272727;--texto:#252321;--papel:#fff}
+body {background:#d5d3cd;background-image:repeating-linear-gradient(90deg,transparent 0,transparent 34px,#ffffff16 34px,#ffffff16 35px);padding:18px 12px;color:#202020}
+.container{max-width:1450px;background:transparent;border:0;box-shadow:none;padding:0}
+h1,h2,h3{font-family:Georgia,'Times New Roman',serif!important;color:#242424!important;text-shadow:none;border:0;font-weight:800}
+h1{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.5rem,3vw,2.5rem);text-align:left;margin:5px 0 16px}
+h3{text-transform:uppercase;font-family:Arial,Helvetica,sans-serif!important;letter-spacing:.065em;font-size:.86rem;border-bottom:2px solid #333!important;padding-bottom:8px;margin-bottom:13px}
+label{font-family:Arial,Helvetica,sans-serif!important;font-size:.75rem;letter-spacing:.025em;margin:7px 0 4px}
+input,select,textarea{border:0;border-bottom:1px solid #bababa;background:transparent;border-radius:0;padding:8px 5px;color:#1a1a1a;min-width:0}
+textarea{line-height:1.85;background-image:repeating-linear-gradient(transparent 0,transparent 29px,#dfdfdf 30px);min-height:106px}
+input[type=checkbox]{width:17px!important;height:17px!important;min-width:17px;margin:0;accent-color:#292929}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid #a66b2c;outline-offset:2px}
+button{font-family:Arial,Helvetica,sans-serif;font-size:.83rem;background:#292928;color:white;border:1px solid #323232;border-radius:5px;padding:9px 12px;box-shadow:none}
+button:hover{filter:brightness(1.2);transform:translateY(-1px)}
+button:active{transform:scale(.98)}
+.out{font:800 1rem Arial,sans-serif;border:0;border-bottom:1px solid #bbb;background:transparent;padding:5px 4px;min-width:35px;min-height:26px}
+.notice{border:1px solid #c4c4c4;background:#f4f4f4;border-radius:4px;font:12px Arial,sans-serif;padding:8px}
+.pill{border:1px solid #888;background:#fff}
+.muted{font-family:Arial,sans-serif;font-size:11px;color:#666}
+.sheet-page{background:white;padding:24px;box-shadow:0 6px 35px #0002;margin:0 0 24px;min-width:0}
+.sheet-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;margin-bottom:14px;background:#252525;color:white;border-radius:8px}
+.sheet-toolbar strong{font:700 .95rem Arial,sans-serif;letter-spacing:.03em}
+.sheet-nav{display:flex;flex-wrap:wrap;gap:6px}
+.sheet-nav button{background:#555;border-color:#666}
+.sheet-nav button.active{background:#f3f3f3;color:#111}
+.save-indicator{font:12px Arial,sans-serif;color:#e8e8e8}
+.sheet-page[hidden]{display:none!important}
+.sheet-page-head{display:flex;align-items:center;gap:12px;padding:5px 8px 14px;margin-bottom:15px;border-bottom:4px double #333;background:linear-gradient(164deg,#f7f7f7 0%,#fff 50%)}
+.sheet-page-head .seal{font:900 2.5rem Georgia,serif;color:#222;letter-spacing:-.08em;white-space:nowrap}
+.sheet-page-head .heading-lines{flex:1}
+.sheet-page-head .heading-lines b{display:block;font:800 19px Georgia,serif;text-transform:uppercase;letter-spacing:.065em}
+.sheet-page-head .heading-lines small{font:11px Arial,sans-serif;text-transform:uppercase}
+.sheet-page> .grid.cols-3.section{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px!important;padding:13px!important;margin-bottom:14px!important}
+.sheet-page>.section,.sheet-page>.grid.section{border-color:#222}
+.sheet-page .section,.sheet-page .card{background:#fff;border:2px solid #323232;border-radius:9px;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 3px #dedede;padding:12px}
+.sheet-page .section .card{border-color:#aaa}
+.sheet-page .grid{gap:9px}
+.sheet-columns{display:grid;grid-template-columns: minmax(0,.97fr) minmax(0,1.11fr) minmax(0,.98fr);gap:14px;align-items:start}
+.sheet-column{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sheet-column > .card,.sheet-column > .section{margin:0;min-width:0}
+.sheet-column .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sheet-column .row{flex-wrap:wrap}
+.sheet-column .row>*{flex:1 1 75px}
+.sheet-column .save-row{grid-template-columns:1.5fr 24px 36px 52px;gap:6px}
+.sheet-column .skill-row{grid-template-columns:1.7fr 20px 20px 42px;gap:3px;font-size:12px}
+.sheet-column .skill-row label{font:12px Arial,sans-serif!important}
+.sheet-column .skill-row .center{font-size:0}
+.sheet-column .skill-row input{display:inline-block}
+.sheet-column #skills{display:flex;flex-direction:column;gap:7px!important}
+.sheet-column #skills .out{font-size:12px;min-width:25px;padding:0}
+.sheet-column #attacksTable{font-size:11px;table-layout:fixed}
+.sheet-column #attacksTable input,.sheet-column #attacksTable select{font-size:12px;width:100%;padding:6px 2px}
+.sheet-column #attacksTable th,.sheet-column #attacksTable td{padding:4px 2px;word-break:break-word}
+.sheet-column #attacksTable th:nth-child(2),.sheet-column #attacksTable th:last-child{width:43px}
+.sheet-column #attacksTable th:nth-child(4){width:64px}
+.sheet-column #attacksTable th:nth-child(5){width:38px}
+.sheet-column #attacksTable th:nth-child(6){width:38px}
+.sheet-column #attacksTable input[type=checkbox]{width:16px!important;min-width:16px}
+.sheet-column #attacksTable .out{font-size:12px;min-width:22px}
+.sheet-page .card>h3:first-child{border-bottom:3px double #555!important}
+.sheet-page .xp-meter{height:7px;background:#e7e7e7;border-radius:5px;overflow:hidden;margin:8px 0}
+.sheet-page .xp-meter>span{display:block;background:#525252;height:100%;width:0}
+.sheet-extra,.sheet-magic{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.sheet-extra .card,.sheet-magic .card{min-width:0}
+.sheet-extra .wide,.sheet-magic .wide{grid-column:1/-1}
+.sheet-extra textarea{min-height:210px}
+.sheet-extra .portrait{min-height:220px}
+.sheet-extra .history-area{min-height:280px}
+.sheet-subgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sheet-stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.sheet-stats-row .out{text-align:center;width:100%;font-size:1.08rem;border:2px solid #222;border-radius:6px;background:#f8f8f8}
+.sheet-extra-fields{border:2px solid #2d2d2d;border-radius:8px;padding:12px;background:#fafafa}
+.sheet-extra-fields label{display:block}
+.sheet-death{display:flex;flex-wrap:wrap;gap:7px;align-items:center;font:11px Arial,sans-serif}
+.sheet-death label{display:inline-flex;align-items:center;gap:3px;margin:0}
+.sheet-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sheet-slot{border:2px double #292929;border-radius:6px;padding:8px;display:grid;grid-template-columns:auto 1fr 65px;gap:5px;align-items:center}
+.sheet-slot b{font:700 11px Arial,sans-serif}
+.sheet-slot output{font:800 17px Arial,sans-serif;text-align:center}
+.sheet-slot input{width:100%;text-align:center}
+.sheet-slot small{grid-column:1/-1;font:10px Arial,sans-serif;color:#666}
+.sheet-magic textarea{min-height:120px}
+.sheet-page .table th,.sheet-page .table td{background:#fff;border-color:#bababa}
+.sheet-page .table th{background:#eee}
+.sheet-utilities{background:#fdfdfd;border:2px solid #272727;padding:16px;margin:0 0 20px;border-radius:7px}
+.sheet-utilities>.grid.cols-3{gap:12px}
+.sheet-utilities .card{border:1px solid #aaa;border-radius:7px;background:#fff;box-shadow:none}
+.dm-toggle{border-radius:7px}
+.dm-area{background:#262522;border-color:#111}
+.dm-area h2,.dm-area h3{color:white!important}
+#hpMax[readonly],#ac[readonly],#hitDie[readonly]{background:#f0f0f0}
+@media(max-width:1150px){.sheet-columns{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.sheet-column:last-child{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.sheet-column:last-child .card{min-width:0}}
+@media(max-width:720px){body{padding:8px}.sheet-page{padding:10px}.sheet-columns,.sheet-extra,.sheet-magic,.sheet-subgrid{grid-template-columns:1fr}.sheet-column:last-child{grid-column:auto;display:flex}.sheet-page>.grid.cols-3.section{grid-template-columns:repeat(2,minmax(0,1fr))}.sheet-page-head .seal{font-size:1.55rem}.sheet-page-head .heading-lines b{font-size:15px}.sheet-slots{grid-template-columns:repeat(2,minmax(0,1fr))}.sheet-utilities>.grid.cols-3{grid-template-columns:1fr}.sheet-extra .wide,.sheet-magic .wide{grid-column:auto}}
+@media(max-width:410px){.sheet-page>.grid.cols-3.section{grid-template-columns:1fr}.sheet-slots{grid-template-columns:1fr}.sheet-stats-row{grid-template-columns:repeat(3,minmax(0,1fr))}.sheet-page{padding:8px}}
+@media print{@page{size:A4 portrait;margin:8mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:white;padding:0}.sheet-toolbar,.sheet-utilities,.dm-toggle,.dm-area,.button-bar,#rollDice,.save-indicator{display:none!important}.container{max-width:none}.sheet-page,.sheet-page[hidden]{display:block!important;box-shadow:none;border:0;page-break-after:always;break-after:page;padding:0;margin:0;min-height:0}.sheet-page:last-of-type{break-after:auto}.sheet-columns{grid-template-columns: 0.96fr 1.08fr .95fr;gap:6px}.sheet-column{gap:7px}.sheet-page .section,.sheet-page .card{padding:6px;border-width:1.5px}.sheet-page h3{font-size:9px;margin:0 0 6px;padding-bottom:4px}.sheet-page label,.sheet-page input,.sheet-page textarea,.sheet-page select{font-size:9px;padding:3px 1px;margin:1px}.sheet-page textarea{min-height:55px}.sheet-page .muted,.sheet-page .notice{display:none}.sheet-page .grid{gap:4px}.sheet-page .skill-row{gap:1px}.sheet-page .skill-row label{font-size:8px!important}.sheet-page .skill-row .out{font-size:9px}.sheet-page>.grid.cols-3.section{gap:4px;margin-bottom:6px!important;padding:7px!important}.sheet-page-head{padding:0 0 7px;margin-bottom:6px}.sheet-page .button-bar{display:none!important}.sheet-extra textarea{min-height:130px}.sheet-extra .history-area{min-height:200px}.sheet-magic textarea{min-height:100px}.sheet-slots{grid-template-columns:repeat(3,1fr)}.sheet-slot{padding:3px}.sheet-page .xp-meter{height:3px;margin:3px 0}input,textarea,select{border-color:#bbb}.sheet-page .out{font-size:10px}}
+
   </style>
 </head>
 <body>
@@ -839,6 +936,166 @@
 
     // Primeira atualização apenas para limpar dependências (mantém outputs vazios)
     updateAll();
+  </script>
+  <script>
+
+(function(){
+ "use strict";
+ var root=document.querySelector(".container");
+ if(!root||document.getElementById("sheetNav"))return;
+ var heading=root.querySelector("h1");
+ var top=heading.nextElementSibling;
+ var stats=top.nextElementSibling;
+ var skills=stats.nextElementSibling;
+ var attackGrid=skills.nextElementSibling;
+ var infoGrid=attackGrid.nextElementSibling;
+ var utilities=infoGrid.nextElementSibling;
+ var statCards=Array.from(stats.children);
+ var combatCards=Array.from(attackGrid.children);
+ var infoCards=Array.from(infoGrid.children);
+ var q=function(id){return document.getElementById(id)};
+ var create=function(tag,cls,html){var n=document.createElement(tag);if(cls)n.className=cls;if(html!==undefined)n.innerHTML=html;return n};
+ var page1=create("section","sheet-page"),page2=create("section","sheet-page"),page3=create("section","sheet-page");
+ page1.id="sheetPage1";page2.id="sheetPage2";page3.id="sheetPage3";
+ page2.hidden=true;page3.hidden=true;
+ function head(title,sub){return create("div","sheet-page-head",'<div class="seal">D&amp;D</div><div class="heading-lines"><b>'+title+'</b><small>'+sub+'</small></div>')};
+ var nav=create("nav","sheet-toolbar",'<strong>FICHA DE PERSONAGEM · 5ª EDIÇÃO</strong><div id="sheetNav" class="sheet-nav"><button type="button" data-sheet="1" class="active">01 · Personagem</button><button type="button" data-sheet="2">02 · História</button><button type="button" data-sheet="3">03 · Magias</button></div><span id="saveIndicator" class="save-indicator">Dados armazenados neste navegador</span>');
+ root.insertBefore(nav,heading);
+ root.insertBefore(page1,heading);
+ root.insertBefore(page2,heading);
+ root.insertBefore(page3,heading);
+ page1.appendChild(head("Ficha do personagem","Aventureiro • atributos • combate • proficiências"));
+ page1.appendChild(heading);
+ page1.appendChild(top);
+ heading.textContent="Dungeons & Dragons · Ficha 5e";
+ var cols=create("div","sheet-columns");
+ var left=create("div","sheet-column"),middle=create("div","sheet-column"),right=create("div","sheet-column");
+ cols.append(left,middle,right);page1.appendChild(cols);
+ left.appendChild(statCards[0]);left.appendChild(statCards[2]);left.appendChild(skills);
+ middle.appendChild(statCards[1]);middle.appendChild(combatCards[0]);middle.appendChild(infoCards[0]);
+ right.appendChild(create("div","card",'<h3>Personalidade</h3><label>Traços de personalidade</label><textarea id="personality"></textarea><label>Ideais</label><textarea id="ideals"></textarea><label>Vínculos</label><textarea id="bonds"></textarea><label>Defeitos</label><textarea id="flaws"></textarea>'));
+ right.appendChild(infoCards[1]);
+ var combat=statCards[1];
+ combat.insertAdjacentHTML("beforeend",'<div class="sheet-extra-fields"><h3>Defesa e pontos de vida automáticos</h3><label for="armorType">Armadura</label><select id="armorType"><option value="none">Sem armadura</option><option value="padded">Acolchoada (11 + DES)</option><option value="leather">Couro (11 + DES)</option><option value="studded">Couro batido (12 + DES)</option><option value="hide">Peles (12 + DES, máx. +2)</option><option value="chainshirt">Camisão de malha (13 + DES, máx. +2)</option><option value="scale">Brunea (14 + DES, máx. +2)</option><option value="breastplate">Peitoral (14 + DES, máx. +2)</option><option value="halfplate">Meia armadura (15 + DES, máx. +2)</option><option value="ring">Cota de anéis (14)</option><option value="chain">Cota de malha (16)</option><option value="splint">Cota de talas (17)</option><option value="plate">Placas (18)</option></select><div class="sheet-subgrid"><label><input id="shieldEquipped" type="checkbox"> Escudo (+2)</label><label>Outros bônus na CA <input id="acMisc" type="number" placeholder="0"></label><label>Modo de CA<select id="acMode"><option value="auto">Automático</option><option value="manual">Manual / especial</option></select></label><label><input id="autoHp" type="checkbox" checked> PV máximo automático</label><label>PV bônus por nível<input id="hpPerLevelBonus" type="number" placeholder="Ex.: talento"></label><label>PV adicional total<input id="hpMisc" type="number" placeholder="0"></label><label>Dados de Vida gastos<input id="hitDiceSpent" type="number" min="0" placeholder="0"></label><label>PV temporários<input id="hpTemp" type="number" min="0" placeholder="0"></label></div><div class="sheet-death"><b>Resistência à morte:</b><span>Sucessos</span><label><input type="checkbox" id="deathS1" aria-label="Sucesso 1"></label><label><input type="checkbox" id="deathS2" aria-label="Sucesso 2"></label><label><input type="checkbox" id="deathS3" aria-label="Sucesso 3"></label><span>Falhas</span><label><input type="checkbox" id="deathF1" aria-label="Falha 1"></label><label><input type="checkbox" id="deathF2" aria-label="Falha 2"></label><label><input type="checkbox" id="deathF3" aria-label="Falha 3"></label></div></div>');
+ var proficiency=statCards[0];
+ proficiency.insertAdjacentHTML("beforeend",'<div class="sheet-extra-fields"><h3>Medidas e passivas</h3><div class="sheet-subgrid"><div><label>Carga máxima (kg)</label><output id="carryCapacity" class="out"></output></div><div><label>Empurrar / arrastar (kg)</label><output id="pushCapacity" class="out"></output></div><div><label>Investigação passiva</label><output id="passiveInvestigation" class="out"></output></div><div><label>Intuição passiva</label><output id="passiveInsight" class="out"></output></div></div><div id="xpProgressText" class="muted"></div><div class="xp-meter"><span id="xpProgressFill"></span></div></div>');
+ var table=q("attacksTable");table.querySelector("thead tr").insertAdjacentHTML("beforeend","<th>Dano +</th>");
+ function enhanceAttacks(){Array.from(table.tBodies[0].rows).forEach(function(tr){if(!tr.querySelector(".damage-bonus"))tr.insertAdjacentHTML("beforeend",'<td class="center"><output class="out damage-bonus"></output></td>')})}
+ enhanceAttacks();
+ page2.appendChild(head("História & aparência","Segunda página da ficha de personagem"));
+ page2.appendChild(create("div","section sheet-extra",'<div class="card wide"><h3>Descrição do personagem</h3><div class="sheet-stats-row"><label>Idade<input id="age"></label><label>Altura<input id="heightText"></label><label>Peso<input id="weightText"></label><label>Olhos<input id="eyes"></label><label>Pele<input id="skin"></label><label>Cabelo<input id="hair"></label></div></div><div class="card"><h3>Aparência do personagem</h3><textarea id="appearance" class="portrait" placeholder="Aparência, vestes e marcas"></textarea></div><div class="card"><h3>Aliados e organizações</h3><textarea id="allies" placeholder="Grupos, aliados e patronos"></textarea><label>Símbolo</label><textarea id="symbol" placeholder="Descreva seu símbolo"></textarea></div><div class="card"><h3>Histórico do personagem</h3><textarea id="historyText" class="history-area"></textarea></div><div class="card"><h3>Características e traços adicionais</h3><textarea id="featuresExtra" class="history-area"></textarea></div><div class="card wide"><h3>Tesouro e recompensas</h3><textarea id="treasure"></textarea></div></div>'));
+ page3.appendChild(head("Ficha de conjuração","Terceira página • magias de nível 0 a 9"));
+ var mage=create("div","sheet-magic");
+ page3.appendChild(mage);
+ mage.appendChild(combatCards[1]);
+ mage.appendChild(create("div","card",'<h3>Espaços de magia e recursos</h3><label>Progressão de espaços</label><select id="slotsMode"><option value="auto">Automático pela classe</option><option value="full">Conjurador completo</option><option value="half">Meio conjurador</option><option value="third">Um terço de conjurador</option><option value="pact">Pacto do bruxo</option><option value="none">Sem espaços</option></select><div id="spellSlots" class="sheet-slots"></div><p id="pactNote" class="muted"></p><h3>Mana opcional / regra da mesa</h3><p class="muted">D&D 5e padrão usa espaços de magia, não mana. Use este painel apenas se a mesa adotar uma variante.</p><label>Sistema de mana</label><select id="manaMode"><option value="off">Desligado (regras padrão)</option><option value="points">Pontos de magia (variante)</option><option value="custom">Total manual da mesa</option></select><div class="sheet-subgrid"><label>Mana máxima<input id="manaMax" type="number" min="0" placeholder="Total" disabled></label><label>Mana gasta<input id="manaUsed" type="number" min="0" placeholder="0"></label></div><output id="manaRemaining" class="out"></output><p class="muted" id="manaInfo"></p></div>'));
+ mage.appendChild(create("div","card wide",'<h3>Magias adicionais de níveis 4 a 9</h3><div class="sheet-extra" id="additionalSpells"></div></div>'));
+ for(var j=4;j<=9;j++){q("additionalSpells").insertAdjacentHTML("beforeend",'<div><label for="spells'+j+'">Magias de nível '+j+'</label><textarea id="spells'+j+'" placeholder="Magias conhecidas / preparadas"></textarea></div>')}
+ for(var i=1;i<=9;i++){q("spellSlots").insertAdjacentHTML("beforeend",'<div class="sheet-slot"><b>N'+i+'</b><output id="slotTotal'+i+'">—</output><input type="number" id="slotUsed'+i+'" min="0" placeholder="Usados" aria-label="Espaços de magia de nível '+i+' usados"><small>Espaços restantes: <output id="slotRemaining'+i+'">—</output></small></div>')}
+ utilities.classList.remove("section");utilities.classList.add("sheet-utilities");
+ var b=document.querySelector(".dm-toggle");
+ root.insertBefore(utilities,b);
+ Array.from(q("sheetNav").querySelectorAll("button")).forEach(function(btn){btn.addEventListener("click",function(){selectPage(Number(btn.dataset.sheet))})});
+ function selectPage(n){[page1,page2,page3].forEach(function(p,idx){p.hidden=(idx+1!==n)});q("sheetNav").querySelectorAll("button").forEach(function(b){var active=Number(b.dataset.sheet)===n;b.classList.toggle("active",active);b.setAttribute("aria-current",active?"page":"false")});window.scrollTo({top:0,behavior:"smooth"})}
+ var hitDice={Bárbaro:12,Bardo:8,Bruxo:8,"Clérigo":8,Druida:8,Feiticeiro:6,Guerreiro:10,Ladino:8,Mago:6,Monge:8,Paladino:10,Patrulheiro:10};
+ var castClass={Bardo:"cha",Bruxo:"cha","Clérigo":"wis",Druida:"wis",Feiticeiro:"cha",Mago:"int",Paladino:"cha",Patrulheiro:"wis"};
+ var saveProf={Bárbaro:["str","con"],Bardo:["dex","cha"],Bruxo:["wis","cha"],"Clérigo":["wis","cha"],Druida:["int","wis"],Feiticeiro:["con","cha"],Guerreiro:["str","con"],Ladino:["dex","int"],Mago:["int","wis"],Monge:["str","dex"],Paladino:["wis","cha"],Patrulheiro:["str","dex"]};
+ var fullSlots=[
+ [0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[3,0,0,0,0,0,0,0,0],[4,2,0,0,0,0,0,0,0],[4,3,0,0,0,0,0,0,0],[4,3,2,0,0,0,0,0,0],[4,3,3,0,0,0,0,0,0],[4,3,3,1,0,0,0,0,0],[4,3,3,2,0,0,0,0,0],[4,3,3,3,1,0,0,0,0],[4,3,3,3,2,0,0,0,0],[4,3,3,3,2,1,0,0,0],[4,3,3,3,2,1,0,0,0],[4,3,3,3,2,1,1,0,0],[4,3,3,3,2,1,1,0,0],[4,3,3,3,2,1,1,1,0],[4,3,3,3,2,1,1,1,0],[4,3,3,3,2,1,1,1,1],[4,3,3,3,3,1,1,1,1],[4,3,3,3,3,2,1,1,1],[4,3,3,3,3,2,2,1,1]
+ ];
+ var xpLevels=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
+ var spellPoints=[0,4,6,14,17,27,32,38,44,57,64,73,73,83,83,94,94,107,114,123,133];
+ var armor={none:[10,99],padded:[11,99],leather:[11,99],studded:[12,99],hide:[12,2],chainshirt:[13,2],scale:[14,2],breastplate:[14,2],halfplate:[15,2],ring:[14,0],chain:[16,0],splint:[17,0],plate:[18,0]};
+ function num(id,fallback){var v=q(id)&&q(id).value;return v===""||v===undefined||!Number.isFinite(Number(v))?fallback:Number(v)}
+ function format(v){return Number.isFinite(v)?(v>=0?"+":"")+v:"—"}
+ function isReal(v){return v!==""&&v!==null&&v!==undefined&&Number.isFinite(Number(v))}
+ var rememberedClass=q("classe").value;
+ q("classe").addEventListener("change",function(){var cl=q("classe").value;if(!cl||cl===rememberedClass)return;rememberedClass=cl;abilityIds.forEach(function(a){q("profSave-"+a).checked=(saveProf[cl]||[]).includes(a)});if(castClass[cl])q("castingStat").value=castClass[cl];recalculate()});
+ var oldUpdate=updateAll;
+ updateAll=function(){oldUpdate();recalculate()};
+ function effectiveLevel(level,mode,cl){if(mode==="auto"){mode=(["Bardo","Clérigo","Druida","Feiticeiro","Mago"].includes(cl)?"full":cl==="Bruxo"?"pact":["Paladino","Patrulheiro"].includes(cl)?"half":"none")}return {mode:mode,lev:mode==="full"?level:mode==="half"?Math.floor(level/2):mode==="third"?Math.floor(level/3):0}}
+ function recalculate(){
+   var level=num("level",NaN),con=mod(q("con").value),dex=mod(q("dex").value),str=num("str",NaN),wis=mod(q("wis").value),cl=q("classe").value;
+   var die=hitDice[cl];enhanceAttacks();
+   if(q("autoHp").checked&&Number.isFinite(level)&&level>=1&&die!==undefined&&con!==""){
+     var per=num("hpPerLevelBonus",0),add=num("hpMisc",0);
+     var max=Math.max(1,die+con+per)+(level-1)*Math.max(1,Math.floor(die/2)+1+con+per)+add;
+     q("hpMax").value=Math.max(1,max);
+   }
+   q("hpMax").readOnly=q("autoHp").checked;
+   if(die&&Number.isFinite(level)&&level>=1)q("hitDie").value=level+"d"+die;else if(!cl)q("hitDie").value="";
+   q("hitDie").readOnly=true;
+   if(q("acMode").value==="auto"){
+     var selected=q("armorType").value,base=armor[selected]||armor.none;
+     var ca=base[0]+Math.min(base[1],Number.isFinite(dex)?dex:0);
+     if(selected==="none"&&cl==="Bárbaro")ca=10+(Number.isFinite(dex)?dex:0)+(con===""?0:con);
+     if(selected==="none"&&cl==="Monge")ca=10+(Number.isFinite(dex)?dex:0)+(wis===""?0:wis);
+     ca+=(q("shieldEquipped").checked?2:0)+num("acMisc",0);
+     q("ac").value=ca;
+   }
+   q("ac").readOnly=q("acMode").value==="auto";
+   q("carryCapacity").textContent=Number.isFinite(str)?(str*7.5).toLocaleString("pt-BR"):"—";
+   q("pushCapacity").textContent=Number.isFinite(str)?(str*15).toLocaleString("pt-BR"):"—";
+   [["investigation","passiveInvestigation"],["insight","passiveInsight"]].forEach(function(pair){var text=q("sk-"+pair[0]).textContent.trim();q(pair[1]).textContent=text&&Number.isFinite(Number(text))?10+Number(text):"—"});
+   var exp=num("xp",NaN),n=Number.isFinite(level)?Math.max(1,Math.min(20,Math.floor(level))):NaN;
+   if(Number.isFinite(n)&&Number.isFinite(exp)){
+      var low=xpLevels[n-1],high=n<20?xpLevels[n]:low,percent=n<20?Math.max(0,Math.min(100,100*(exp-low)/(high-low))):100;
+      q("xpProgressFill").style.width=percent+"%";
+      q("xpProgressText").textContent=n>=20?"Nível máximo":Math.max(0,high-exp).toLocaleString("pt-BR")+" XP até o nível "+(n+1);
+   }else{q("xpProgressFill").style.width="0";q("xpProgressText").textContent=""}
+   Array.from(table.tBodies[0].rows).forEach(function(tr){var a=tr.querySelector(".atk-abil"),o=tr.querySelector(".damage-bonus");var d=a&&a.value?mod(q(a.value).value):"";if(o)o.textContent=d===""?"—":format(d)});
+   var slotMode=q("slotsMode").value,eff=effectiveLevel(Number.isFinite(level)?Math.max(0,Math.min(20,Math.floor(level))):0,slotMode,cl),slots=new Array(9).fill(0),note="";
+   if(eff.mode==="pact"&&level>=1){
+     var pactLevel=level<3?1:Math.min(5,Math.ceil(level/2));
+     slots[pactLevel-1]=level===1?1:level<11?2:level<17?3:4;
+     note="Bruxo: espaços de pacto recuperados em descanso curto. Arcanos Místicos de níveis 6–9 são recursos separados.";
+   }else if(eff.mode!=="none"&&eff.lev>=1){
+     slots=(fullSlots[Math.min(20,eff.lev)]||slots).slice();
+   }
+   q("pactNote").textContent=note;
+   for(var z=1;z<=9;z++){
+     q("slotTotal"+z).textContent=slots[z-1];
+     var used=num("slotUsed"+z,0);
+     q("slotRemaining"+z).textContent=Math.max(0,slots[z-1]-used);
+     q("slotUsed"+z).max=slots[z-1];
+   }
+   var manaMode=q("manaMode").value,points=(eff.mode==="full"||eff.mode==="half"||eff.mode==="third")?spellPoints[eff.lev]||0:0;
+   q("manaMax").disabled=manaMode==="off"||manaMode==="points";
+   if(manaMode==="points")q("manaMax").value=points;
+   if(manaMode==="off"){q("manaRemaining").textContent="Mana desativada";q("manaInfo").textContent=""}
+   else {var total=num("manaMax",0),usedM=num("manaUsed",0);q("manaRemaining").textContent="Mana restante: "+Math.max(0,total-usedM)+" / "+total;q("manaInfo").textContent=manaMode==="points"?"Variante opcional; exige aprovação do Mestre.": "Total de mana determinado pela sua mesa."}
+ }
+ ["level","xp","classe","str","dex","con","wis","ac","armorType","shieldEquipped","acMisc","acMode","autoHp","hpPerLevelBonus","hpMisc","slotsMode","manaMode","manaMax","manaUsed"].forEach(function(id){if(q(id)){q(id).addEventListener("input",recalculate);q(id).addEventListener("change",recalculate)}});
+ Array.from(q("spellSlots").querySelectorAll("input")).forEach(function(inp){inp.addEventListener("input",recalculate)});
+ var observer=new MutationObserver(function(){enhanceAttacks();recalculate()});observer.observe(table.tBodies[0],{childList:true});
+ var storageKey="dnd-sheet-2014-autosave-v2";
+ var saveTimer=null;
+ function pack(){var form={};root.querySelectorAll("input[id],select[id],textarea[id]").forEach(function(inp){if(!inp.closest("#attacksTable"))form[inp.id]=inp.type==="checkbox"?inp.checked:inp.value});
+   var attacks=Array.from(table.tBodies[0].rows).map(function(tr){return {name:tr.cells[0].querySelector("input").value,damage:tr.cells[2].querySelector("input").value,stat:tr.querySelector(".atk-abil").value,prof:tr.querySelector(".atk-prof").checked}});
+   return {version:2,form:form,attacks:attacks};
+ }
+ function unpack(payload){if(!payload||typeof payload!=="object")throw Error("Dados inválidos");
+   var data=payload.form&&typeof payload.form==="object"?payload.form:payload;
+   Object.keys(data).forEach(function(id){var node=q(id);if(!node||node.closest("#attacksTable"))return;if(node.type==="checkbox")node.checked=!!data[id];else if(typeof data[id]==="string"||typeof data[id]==="number")node.value=data[id]});
+   if(Array.isArray(payload.attacks)){
+     while(table.tBodies[0].rows.length>1)table.tBodies[0].deleteRow(1);
+     payload.attacks.slice(0,60).forEach(function(item,idx){if(idx)q("addAttack").click();var tr=table.tBodies[0].rows[idx];tr.cells[0].querySelector("input").value=item.name||"";tr.cells[2].querySelector("input").value=item.damage||"";tr.querySelector(".atk-abil").value=item.stat||"";tr.querySelector(".atk-prof").checked=!!item.prof});
+   }
+   rememberedClass=q("classe").value;
+   updateAll();
+ }
+ function save(){try{localStorage.setItem(storageKey,JSON.stringify(pack()));q("saveIndicator").textContent="Salvo automaticamente • neste navegador"}catch(e){q("saveIndicator").textContent="Armazenamento indisponível: exporte JSON"}}
+ function debounce(){clearTimeout(saveTimer);saveTimer=setTimeout(save,450)}
+ root.addEventListener("input",debounce,true);
+ root.addEventListener("change",debounce,true);
+ function fileDownload(content,name){var blob=new Blob([content],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000)}
+ q("btnExport").addEventListener("click",function(e){e.stopImmediatePropagation();e.preventDefault();fileDownload(JSON.stringify(pack(),null,2),(q("charName").value||"ficha-dnd").replace(/[^\w\-\u00C0-\u00FF ]/g,"_")+".json")},true);
+ q("btnImport").addEventListener("click",function(e){e.stopImmediatePropagation();e.preventDefault();var f=document.createElement("input");f.type="file";f.accept=".json,application/json";f.onchange=function(){if(!f.files[0])return;var reader=new FileReader();reader.onload=function(){try{unpack(JSON.parse(reader.result));save();alert("Ficha importada com sucesso.")}catch(err){alert("Não foi possível ler esta ficha JSON.")}};reader.readAsText(f.files[0])};f.click()},true);
+ q("btnReset").addEventListener("click",function(e){e.stopImmediatePropagation();e.preventDefault();if(!confirm("Apagar todos os campos e a cópia salva neste navegador?"))return;root.querySelectorAll("input,select,textarea").forEach(function(inp){if(inp.type==="checkbox")inp.checked=false;else inp.value=""});while(table.tBodies[0].rows.length>1)table.tBodies[0].deleteRow(1);["autoHp"].forEach(function(id){q(id).checked=true});q("armorType").value="none";q("acMode").value="auto";q("slotsMode").value="auto";q("manaMode").value="off";rememberedClass="";try{localStorage.removeItem(storageKey)}catch(err){};updateAll();q("saveIndicator").textContent="Ficha reiniciada";selectPage(1)},true);
+ try{var stored=localStorage.getItem(storageKey);if(stored)unpack(JSON.parse(stored))}catch(e){q("saveIndicator").textContent="Dados anteriores não puderam ser lidos"}
+ updateAll();
+})();
+
   </script>
 </body>
 </html>
