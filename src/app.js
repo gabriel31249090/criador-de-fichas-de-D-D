@@ -31,14 +31,14 @@ const SLOT_FULL=[
 ];
 const XP=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
 const COST={8:0,9:1,10:2,11:3,12:4,13:5,14:7,15:9};
-const FIELDS={name:'',className:'',level:'',race:'',background:'',player:'',alignment:'',xp:'',speed:'',inspiration:false,armor:'Sem armadura',acExtra:'',shield:false,acOverride:'',hpCurrent:'',hpTemp:'',hpMethod:'average',hpPerLevel:'',hpExtra:'',hitDiceSpent:'',personality:'',ideals:'',bonds:'',flaws:'',traits:'',otherProfs:'',age:'',height:'',weight:'',eyes:'',skin:'',hair:'',appearance:'',allies:'',history:'',features:'',treasure:'',castClass:'',castAbility:'',spellProgression:'auto',manaMax:'',manaUsed:'',exhaustion:'',resourceName:'',resourceMax:'',resourceUsed:''};
+const FIELDS={name:'',className:'',level:'',race:'',subrace:'',raceAuto:true,raceExtra1:'dex',raceExtra2:'con',featTough:false,draconicSoul:false,background:'',player:'',alignment:'',xp:'',speed:'',inspiration:false,armor:'Sem armadura',acExtra:'',shield:false,acOverride:'',hpCurrent:'',hpTemp:'',hpMethod:'average',hpPerLevel:'',hpExtra:'',hitDiceSpent:'',personality:'',ideals:'',bonds:'',flaws:'',traits:'',otherProfs:'',age:'',height:'',weight:'',eyes:'',skin:'',hair:'',appearance:'',allies:'',history:'',features:'',treasure:'',castClass:'',castAbility:'',spellProgression:'auto',manaMax:'',manaUsed:'',exhaustion:'',resourceName:'',resourceMax:'',resourceUsed:''};
 const uid=()=>{try{return crypto.randomUUID()}catch(e){return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9)}};
 const fresh=()=>({version:3,id:uid(),fields:{...FIELDS},abilities:Object.fromEntries(A.map(x=>[x[0],''])),saves:[],skillProfs:[],expertise:[],autoSkills:[],hpRolls:[],hpRollDie:null,hpLastMax:null,attacks:[{id:uid(),name:'',type:'str',damage:'1d8',prof:true}],items:[],currency:{pc:0,pp:0,pe:0,po:0,pl:0},conditions:[],deathSuccess:0,deathFailure:0,spells:Object.fromEntries(Array.from({length:10},(_,i)=>[i,''])),slotsUsed:Array(9).fill(0),pointBuy:Object.fromEntries(A.map(x=>[x[0],8])),rollLog:[]});
 let library={},active='',state,saveTimer,rolls=[],restoring=false;
 const blank=v=>v===''||v===null||v===undefined;
 const n=(v,def=0)=>blank(v)||!Number.isFinite(Number(v))?def:Number(v);
 const safeInt=(v,def=0)=>Math.trunc(n(v,def));
-const score=a=>blank(state.abilities[a])?null:n(state.abilities[a]);
+const score=a=>blank(state.abilities[a])?null:n(state.abilities[a])+(window.DND2014?.raceBonus?.(state.fields,a)||0);
 const mod=a=>score(a)===null?null:Math.floor((score(a)-10)/2);
 const signed=x=>x===null?'—':(x>=0?'+':'')+x;
 const level=()=>{let l=n(state.fields.level,NaN);return Number.isInteger(l)&&l>=1&&l<=20?l:null};
@@ -62,7 +62,7 @@ function makeUI(){
 function save(){try{library[active]=state;localStorage.setItem('dnd-v3-library',JSON.stringify({version:3,active,library}));$('saveStatus').textContent='Salvo ✓'}catch(e){$('saveStatus').textContent='Sem espaço';msg('Falha ao salvar localmente: exporte um JSON.')}}
 function queueSave(){ $('saveStatus').textContent='Salvando...';clearTimeout(saveTimer);saveTimer=setTimeout(save,350)}
 function normalize(raw){const v=fresh();if(!raw||typeof raw!=='object')return v;
- if(raw.version===3){Object.assign(v,raw);v.fields={...FIELDS,...raw.fields};v.abilities={...v.abilities,...raw.abilities};v.currency={...v.currency,...raw.currency};v.spells={...v.spells,...raw.spells};v.pointBuy={...v.pointBuy,...raw.pointBuy};for(const prop of ['attacks','items','saves','skillProfs','expertise','autoSkills','hpRolls','conditions','slotsUsed','rollLog'])if(!Array.isArray(v[prop]))v[prop]=fresh()[prop];return v}
+ if(raw.version===3){Object.assign(v,raw);v.fields={...FIELDS,...raw.fields};if(raw.fields?.raceAuto===undefined)v.fields.raceAuto=false;v.abilities={...v.abilities,...raw.abilities};v.currency={...v.currency,...raw.currency};v.spells={...v.spells,...raw.spells};v.pointBuy={...v.pointBuy,...raw.pointBuy};for(const prop of ['attacks','items','saves','skillProfs','expertise','autoSkills','hpRolls','conditions','slotsUsed','rollLog'])if(!Array.isArray(v[prop]))v[prop]=fresh()[prop];return v}
  const obj=raw.form&&typeof raw.form==='object'?raw.form:raw;
  const mapping={charName:'name',playerName:'player',classe:'className',level:'level',race:'race',background:'background',xp:'xp',alignment:'alignment',speed:'speed',hpCur:'hpCurrent',hpTemp:'hpTemp',initMisc:'initiativeExtra',traits:'traits',inventory:'otherProfs',proficiencies:'otherProfs',languages:'otherProfs',castingStat:'castAbility',manaMax:'manaMax',manaUsed:'manaUsed',armorType:'armor',hpPerLevelBonus:'hpPerLevel',hpMisc:'hpExtra',hitDiceSpent:'hitDiceSpent',autoHp:'autoHp'};
  for(const [k,d] of Object.entries(mapping))if(k in obj&&d in v.fields)v.fields[d]=obj[k];
@@ -104,7 +104,7 @@ function calcHP(){const l=level(),cl=CLASSES[state.fields.className],con=mod('co
  for(let i=2;i<=l;i++){let d=state.fields.hpMethod==='rolled'?state.hpRolls[i-2]:Math.floor(cl.die/2)+1;
  if(state.fields.hpMethod==='rolled'&&(!Number.isInteger(d)||d<1||d>cl.die)){d=rand(cl.die);state.hpRolls[i-2]=d}
  let gain=Math.max(1,d+con+per);total+=gain;values.push(gain)}
- return {total:Math.max(1,total+extra),first,values,die:cl.die,per,extra};}
+ return {total:Math.max(1,total+extra+(window.DND2014?.healthExtra?.(state.fields,l,state.fields.className)||0)),first,values,die:cl.die,per,extra};}
 function spellSlots(){const l=level(),cl=state.fields.castClass||state.fields.className;if(!l)return {totals:Array(9).fill(0),mode:'none'};
  let mode=state.fields.spellProgression;if(mode==='auto')mode=['Bardo','Clérigo','Druida','Feiticeiro','Mago'].includes(cl)?'full':cl==='Bruxo'?'pact':['Paladino','Patrulheiro'].includes(cl)?'half':'none';
  let slots=Array(9).fill(0);
@@ -142,7 +142,7 @@ function renderDerived(){const l=level(),p=pb(),cl=CLASSES[state.fields.classNam
  $('spellNote').textContent=slots.mode==='pact'?'Bruxo: espaços de pacto voltam após descanso curto. Arcanos Místicos são separados.':'Espaços calculados conforme a classe ou progressão selecionada. Multiclasse exige cálculo próprio.';
  $('manaLeft').textContent=blank(state.fields.manaMax)?'—':Math.max(0,n(state.fields.manaMax)-n(state.fields.manaUsed));$('resourceRemaining').textContent=blank(state.fields.resourceMax)?'—':Math.max(0,n(state.fields.resourceMax)-n(state.fields.resourceUsed));
  const totalWeight=state.items.reduce((s,x)=>s+Math.max(0,n(x.qty))*Math.max(0,n(x.weight)),0);const carry=score('str');$('weightSummary').textContent=totalWeight.toLocaleString('pt-BR',{maximumFractionDigits:2})+' kg';$('carrySummary').textContent=carry===null?'—':(carry*7.5).toLocaleString('pt-BR')+' kg';$('coinSummary').textContent=(n(state.currency.pc)*.01+n(state.currency.pp)*.1+n(state.currency.pe)*.5+n(state.currency.po)+n(state.currency.pl)*10).toLocaleString('pt-BR',{maximumFractionDigits:2})+' PO';
- renderPointSummary();
+ renderPointSummary();window.DND2014?.refresh?.();
 }
 function renderAttacks(){$('attacksBody').innerHTML=state.attacks.map(a=>`<tr data-id="${escaped(a.id)}"><td><input data-attack="name" value="${escaped(a.name)}" aria-label="Nome do ataque"></td><td><select data-attack="type"><option value="str" ${a.type==='str'?'selected':''}>FOR</option><option value="dex" ${a.type==='dex'?'selected':''}>DES</option><option value="spell" ${a.type==='spell'?'selected':''}>MAG</option></select></td><td><output>—</output><label title="Proficiente" class="checkbox-label"><input data-attack="prof" type="checkbox" ${a.prof?'checked':''}>Prof.</label></td><td><input data-attack="damage" value="${escaped(a.damage)}" aria-label="Expressão do dano"></td><td><button data-remove-attack="${escaped(a.id)}" title="Remover ataque">×</button></td></tr>`).join('')}
 function renderItems(){$('itemsBody').innerHTML=state.items.map(a=>`<tr data-id="${escaped(a.id)}"><td><input data-item="name" value="${escaped(a.name)}" aria-label="Nome do item"></td><td><input data-item="qty" type="number" min="0" value="${escaped(a.qty)}" aria-label="Quantidade"></td><td><input data-item="weight" type="number" step="0.01" min="0" value="${escaped(a.weight)}" aria-label="Peso em quilogramas"></td><td><button data-remove-item="${escaped(a.id)}" title="Remover item">×</button></td></tr>`).join('')}
@@ -227,5 +227,5 @@ function bindEvents(){
  $('resetCurrent').onclick=()=>{if(!confirm('Limpar campos da ficha ativa? Essa ação não pode ser desfeita sem backup.'))return;const id=active;state=fresh();state.id=id;library[id]=state;renderFields();save();msg('Ficha limpa.')};
 }
 makeUI();firstLoad();bindEvents();renderFields();
-window.DNDDebug={getState:()=>structuredClone(state),getHP:calcHP,getAC:derivedAC,getSlots:spellSlots,rollExpression};
+window.DNDDebug={getState:()=>structuredClone(state),getMutableState:()=>state,recalc:()=>{renderFields();queueSave()},getHP:calcHP,getAC:derivedAC,getSlots:spellSlots,rollExpression};window.DND2014?.mount?.();
 })();
