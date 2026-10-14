@@ -10,6 +10,7 @@
 @media(max-width:750px){.sheet-page{padding:12px 10px}.sheet-grid,.story-grid{grid-template-columns:1fr}.sheet-grid>.sheet-col:last-child{grid-column:auto;display:flex}.identity{grid-template-columns:repeat(2,minmax(0,1fr))}.spell-info{grid-template-columns:repeat(2,minmax(0,1fr))}.spells-grid{grid-template-columns:1fr}.sheet-heading{gap:10px}.sheet-heading h1{font-size:21px}.emblem{min-width:68px;font-size:30px}.emblem span{font-size:18px}.serial{display:none}.story-grid .wide{grid-column:auto}.workspace-tip{width:100%}.topbar .toolbar{width:100%}}
 @media(max-width:400px){.identity{grid-template-columns:1fr}.brand{min-width:auto}.combat-top{gap:4px}.panel{padding:10px}.ability-row{grid-template-columns:minmax(73px,1fr) 44px 47px 38px}.pointbuy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media print{@page{size:A4 portrait;margin:8mm}html,body{margin:0;background:#fff;color:#111;font-family:Arial,sans-serif}.no-print,.topbar,.workspace,.toast,button,.mini-tools,.results,.helper,.hint{display:none!important}.sheet-page,.sheet-page.active{display:block!important;max-width:none;margin:0;padding:0;border:0;box-shadow:none;min-height:0;break-after:page;page-break-after:always}.sheet-page:last-of-type{display:none!important}.sheet-heading{margin:0 0 8px;padding:0 0 8px;min-height:55px}.sheet-heading h1{font-size:20px}.sheet-heading p{font-size:8px}.emblem{font-size:30px;min-width:80px}.serial{display:block;font-size:8px}.identity{gap:4px;padding:5px;margin-bottom:6px}.identity label{font-size:8px}.identity input,.identity select{font-size:9px;padding:4px;border:0;border-bottom:1px solid #ccc}.sheet-grid{grid-template-columns:1fr 1.15fr .93fr;gap:5px}.sheet-grid>.sheet-col:last-child{display:flex;grid-column:auto}.sheet-col{gap:5px}.panel{padding:6px;border:1.4px solid #333;break-inside:avoid;box-shadow:none}.panel h2{font-size:8px;margin:0 0 4px;padding-bottom:4px}.panel h3{font-size:7px}.ability-row{grid-template-columns:1fr 30px 27px;gap:2px;padding:1px}.ability-row button{display:none}.ability-row label{font-size:8px}.ability-row input{font-size:10px;padding:2px}.ability-mod{font-size:11px;padding:3px}.list-row{grid-template-columns:12px 1fr 18px 0;gap:3px;padding:1px}.list-row.skill-row{grid-template-columns:12px 12px 1fr 18px 0}.list-row span{font-size:7px}.list-row span small{font-size:6px}.list-row output{font-size:9px}.combat-top small{font-size:7px}.hex-val{font-size:16px}.hp-grid small{font-size:7px}.big-num{font-size:16px}.big-input{font-size:14px}.panel input,.panel select,.panel textarea,.panel label{font-size:8px;padding:2px}.panel textarea{line-height:1.4}.sheet-grid .panel textarea{min-height:60px;max-height:95px}.checkbox-label{font-size:7px}.death-wrap{font-size:8px}.death-wrap input{width:10px;height:10px}.data-table th,.data-table td,.data-table input{font-size:7px;padding:2px}.currency-grid{gap:1px}.currency-grid label{font-size:7px}.metric-line{padding:3px;font-size:8px}.metric-line strong{font-size:9px}.conditions{gap:2px}.conditions label{font-size:7px}.spell-info{grid-template-columns:repeat(5,1fr)}.spells-grid{grid-template-columns:repeat(3,1fr);gap:5px;margin:7px 0}.spell-level{min-height:180px;padding:4px;break-inside:avoid}.spell-level h2{font-size:9px}.spell-level textarea{min-height:115px}.spell-level .slot-row{grid-template-columns:1fr 27px 27px;gap:2px;font-size:7px}.story-grid{grid-template-columns:repeat(2,1fr);gap:5px}.story-grid .wide{grid-column:1/-1}.story-grid textarea{min-height:170px}.story-grid .wide textarea{min-height:210px}.pointbuy-grid{display:none}#hpFormula,#hpBreakdown,#hpActionInfo{display:none!important}#tools{display:none!important}}
+
 .ability-row{grid-template-columns:minmax(76px,1fr) 49px 36px 49px 39px}.ability-score{border-radius:5px;background:#fff8e8;padding:7px 1px;text-align:center;font:bold 13px Georgia,serif;color:#493a1f}.combat-top .helper{margin:0;font-size:9px}@media(max-width:400px){.ability-row{grid-template-columns:minmax(68px,1fr) 41px 30px 43px 35px}}@media print{.ability-row{grid-template-columns:1fr 24px 20px 27px}.ability-score{font-size:9px;padding:2px}.combat-top .helper{display:none}}
 
 </style>
@@ -82,168 +83,108 @@
 </main>
 <div class="toast" id="toast" aria-live="polite"></div>
 <script>
-/* Complemento 5e/2014 fundamentado no Livro do Jogador fornecido pelo usuário.
-   Não substitui escolhas do Mestre, multiclasse, talentos ou variantes. */
+/* Regras complementares do Livro do Jogador 2014.
+   Recursos de subclasse, talentos e regras do mestre podem exigir revisão manual. */
 (function(){
-"use strict";
-const A=["str","dex","con","int","wis","cha"];
-const N={str:"Força",dex:"Destreza",con:"Constituição",int:"Inteligência",wis:"Sabedoria",cha:"Carisma"};
-const R={
-"Anão":{base:{con:2},sub:{"Colina":{wis:1},"Montanha":{str:2}}},
-"Elfo":{base:{dex:2},sub:{"Alto Elfo":{int:1},"Floresta":{wis:1},"Drow":{cha:1}}},
-"Halfling":{base:{dex:2},sub:{"Pés Leves":{cha:1},"Robusto":{con:1}}},
-"Humano":{base:{str:1,dex:1,con:1,int:1,wis:1,cha:1},sub:{"Padrão":{},"Variante":{}}},
-"Draconato":{base:{str:2,cha:1},sub:{"Padrão":{}}},
-"Gnomo":{base:{int:2},sub:{"Floresta":{dex:1},"Rochas":{con:1}}},
-"Meio-Elfo":{base:{cha:2},sub:{"Padrão":{}}},
-"Meio-Orc":{base:{str:2,con:1},sub:{"Padrão":{}}},
-"Tiefling":{base:{int:1,cha:2},sub:{"Padrão":{}}}
+'use strict';
+const AB=['str','dex','con','int','wis','cha'],NAMES=['Força','Destreza','Constituição','Inteligência','Sabedoria','Carisma'];
+const RACES={
+ 'Anão':[{con:2},{Colina:{wis:1},Montanha:{str:2}}],
+ 'Elfo':[{dex:2},{'Alto Elfo':{int:1},Floresta:{wis:1},Drow:{cha:1}}],
+ 'Halfling':[{dex:2},{'Pés Leves':{cha:1},Robusto:{con:1}}],
+ 'Humano':[{str:1,dex:1,con:1,int:1,wis:1,cha:1},{Padrão:{},Variante:{}}],
+ 'Draconato':[{str:2,cha:1},{Padrão:{}}],
+ 'Gnomo':[{int:2},{Floresta:{dex:1},Rochas:{con:1}}],
+ 'Meio-Elfo':[{cha:2},{Padrão:{}}],
+ 'Meio-Orc':[{str:2,con:1},{Padrão:{}}],
+ 'Tiefling':[{int:1,cha:2},{Padrão:{}}]
 };
-const KNOWN={
-"Bardo":[4,5,6,7,8,9,10,11,12,14,15,15,16,18,19,19,20,22,22,22],
-"Bruxo":[2,3,4,5,6,7,8,9,10,10,11,11,12,12,13,13,14,14,15,15],
-"Feiticeiro":[2,3,4,5,6,7,8,9,10,11,12,12,13,13,14,14,15,15,15,15],
-"Patrulheiro":[0,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11]
-};
-const CANTRIPS={
-"Bardo":[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],
-"Bruxo":[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],
-"Clérigo":[3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5],
-"Druida":[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],
-"Feiticeiro":[4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6],
-"Mago":[3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5]
-};
-function raceBonus(f,a){
- if(!f||f.raceAuto===false)return 0;
- const r=R[f.race];if(!r)return 0;
- let v=(r.base[a]||0)+(r.sub[f.subrace||Object.keys(r.sub)[0]]?.[a]||0);
- if(f.race==="Meio-Elfo"&&(a===f.raceExtra1||a===f.raceExtra2))v++;
- if(f.race==="Humano"&&f.subrace==="Variante"){
-   v=0;if(a===f.raceExtra1||a===f.raceExtra2)v++;
- }
+const KNOWN={Bardo:[4,5,6,7,8,9,10,11,12,14,15,15,16,18,19,19,20,22,22,22],Bruxo:[2,3,4,5,6,7,8,9,10,10,11,11,12,12,13,13,14,14,15,15],Feiticeiro:[2,3,4,5,6,7,8,9,10,11,12,12,13,13,14,14,15,15,15,15],Patrulheiro:[0,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11]};
+const TRICKS={Bardo:[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],Bruxo:[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],Clérigo:[3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5],Druida:[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],Feiticeiro:[4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6],Mago:[3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5]};
+const el=id=>document.getElementById(id), sheet=()=>window.DNDDebug?.getMutableState?.();
+function raceBonus(f,a){if(!f||f.raceAuto===false)return 0;const r=RACES[f.race];if(!r)return 0;const sub=f.subrace||Object.keys(r[1])[0];let v=(r[0][a]||0)+(r[1][sub]?.[a]||0);
+ if(f.race==='Meio-Elfo'&&(a===f.raceExtra1||a===f.raceExtra2))v++;
+ if(f.race==='Humano'&&sub==='Variante')v=(a===f.raceExtra1||a===f.raceExtra2)?1:0;
  return v;
 }
-function healthExtra(f,lv,cl){
- let v=0;
- if(f?.raceAuto!==false&&f?.race==="Anão"&&f?.subrace==="Colina")v+=lv;
- if(f?.featTough)v+=2*lv;
- if(f?.draconicSoul&&cl==="Feiticeiro")v+=lv;
- return v;
-}
-function guide(cl,lv,stat){
- if(!cl||!lv)return "Selecione classe, nível e o atributo de conjuração.";
- const mod=stat===null?null:Math.floor((stat-10)/2);
- const caster=["Clérigo","Druida","Mago","Paladino"].includes(cl);
- let lines=[];
- if(CANTRIPS[cl])lines.push("Truques conhecidos pela classe: "+CANTRIPS[cl][lv-1]+".");
- if(KNOWN[cl])lines.push("Magias conhecidas pela classe: "+KNOWN[cl][lv-1]+".");
- if(caster&&(cl!=="Paladino"||lv>=2)){
-   const base=cl==="Paladino"?Math.floor(lv/2):lv;
-   lines.push("Magias que pode preparar: "+(mod===null?"preencha o atributo de conjuração":Math.max(1,base+mod))+".");
+function healthExtra(f,lv,cl){return (f.raceAuto!==false&&f.race==='Anão'&&f.subrace==='Colina'?lv:0)+(f.featTough?2*lv:0)+(f.draconicSoul&&cl==='Feiticeiro'?lv:0)}
+function magicGuide(cl,lv,castScore){if(!cl||!lv)return 'Selecione classe, nível e atributo de conjuração.';let lines=[];
+ if(TRICKS[cl])lines.push('Truques conhecidos: '+TRICKS[cl][lv-1]+'.');
+ if(KNOWN[cl])lines.push('Magias conhecidas (pela classe): '+KNOWN[cl][lv-1]+'.');
+ if(['Clérigo','Druida','Mago','Paladino'].includes(cl)&&(cl!=='Paladino'||lv>=2)){
+  let base=cl==='Paladino'?Math.floor(lv/2):lv;
+  lines.push('Magias preparadas: '+(castScore===null?'preencha o atributo':Math.max(1,base+Math.floor((castScore-10)/2)))+'.');
  }
- if(cl==="Bruxo"&&lv>=11)lines.push("Arcanos Místicos: nível 6 aos 11, 7 aos 13, 8 aos 15 e 9 aos 17 (1 conjuração por descanso longo para cada arcano disponível).");
- if(["Guerreiro","Ladino"].includes(cl))lines.push("Conjuração depende da subclasse; configure o modo de 1/3 conjurador quando aplicável.");
- if(!lines.length)lines.push("Esta classe não recebe conjuração pela classe básica neste nível.");
- lines.push("Talentos, domínios, círculos e outras características podem alterar o total.");
- return lines.join(" ");
+ if(cl==='Bruxo'&&lv>=11)lines.push('Arcanos Místicos: um por nível de magia 6 aos 11, 7 aos 13, 8 aos 15, 9 aos 17.');
+ if(['Guerreiro','Ladino'].includes(cl))lines.push('Magia da subclasse exige progressão manual de 1/3 conjurador.');
+ if(!lines.length)lines.push('Sem magias da classe básica neste nível.');
+ lines.push('Subclasses, talentos e multiclasse podem alterar os limites.');return lines.join(' ');
 }
-const $=id=>document.getElementById(id);
-const el=(tag,html)=>{const a=document.createElement(tag);a.innerHTML=html;return a};
+const XP_LEVELS=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
+const RAGES=[2,2,3,3,3,4,4,4,4,4,4,5,5,5,5,5,6,6,6,Infinity];
+function classResourceGuide(cl,lv,cha){
+ if(!cl||!Number.isInteger(lv)||lv<1||lv>20)return 'Selecione uma classe e um nível válido.';
+ const parts=[];
+ switch(cl){
+  case 'Bárbaro':parts.push('Fúrias por descanso longo: '+(lv===20?'ilimitadas':RAGES[lv-1]));parts.push('Dano adicional da fúria: +'+(lv<9?2:lv<16?3:4));break;
+  case 'Bardo':parts.push('Inspiração de Bardo: '+(cha===null?'modificador de Carisma (mín. 1)':Math.max(1,Math.floor((cha-10)/2)))+' usos, dado d'+(lv<5?6:lv<10?8:lv<15?10:12));parts.push('Recuperação em descanso '+(lv>=5?'curto ou longo':'longo'));break;
+  case 'Clérigo':parts.push('Canalizar Divindade: '+(lv<2?0:lv<6?1:lv<18?2:3)+' uso(s) por descanso curto ou longo');break;
+  case 'Druida':parts.push('Forma Selvagem: '+(lv>=2?'2 usos por descanso curto ou longo':'liberada no nível 2'));break;
+  case 'Feiticeiro':parts.push('Pontos de feitiçaria: '+(lv<2?0:lv)+' (a partir do 2º nível)');break;
+  case 'Guerreiro':parts.push('Retomar Fôlego: 1 uso por descanso curto ou longo');parts.push('Surto de Ação: '+(lv<2?0:lv<17?1:2)+' uso(s) por descanso curto ou longo');parts.push('Ataques por ação de Ataque: '+(lv<5?1:lv<11?2:lv<20?3:4));break;
+  case 'Ladino':parts.push('Ataque Furtivo: '+Math.ceil(lv/2)+'d6');break;
+  case 'Mago':parts.push('Recuperação Arcana: soma de níveis de espaços até '+Math.ceil(lv/2)+' (nenhum acima do 5º nível; 1 vez/dia)');break;
+  case 'Monge':parts.push('Pontos de Ki: '+(lv<2?0:lv));parts.push('Dado de Artes Marciais: d'+(lv<5?4:lv<11?6:lv<17?8:10));break;
+  case 'Paladino':parts.push('Reserva de Cura pelas Mãos: '+lv*5+' PV');parts.push('Canalizar Divindade disponível após escolher Juramento no nível 3');break;
+  case 'Patrulheiro':parts.push('Inimigo Favorito e Explorador Natural: escolhas manuais dependem de nível e campanha');break;
+  case 'Bruxo':parts.push('Espaços de Pacto: recuperados em descanso curto; Arcanos Místicos registrados separadamente');break;
+ }
+ parts.push('Recursos adicionais de arquétipos, talentos e subclasses devem ser escolhidos e registrados à parte.');
+ return parts.join(' • ');
+}
+function levelByXP(xp){let n=1;for(let i=0;i<XP_LEVELS.length;i++)if(xp>=XP_LEVELS[i])n=i+1;return n}
+
 let mounted=false;
-function state(){return window.DNDDebug?.getMutableState?.()}
-function renderSubrace(f){
- const s=$("ruleSubrace");if(!s)return;
- const r=R[f.race],all=r?Object.keys(r.sub):[];
- const current=f.subrace||all[0]||"";
- s.innerHTML=all.map(x=>'<option value="'+x+'">'+x+'</option>').join("");
- if(all.includes(current))s.value=current;
- if(!all.includes(f.subrace))f.subrace=current;
+function renderSub(f){const dest=el('subrace');const variants=RACES[f.race]?Object.keys(RACES[f.race][1]):[];let cur=variants.includes(f.subrace)?f.subrace:(variants[0]||'');if(f.subrace!==cur)f.subrace=cur;
+ dest.innerHTML=variants.map(x=>'<option value="'+x+'">'+x+'</option>').join('');dest.value=cur;}
+function refresh(){if(!mounted)return;const s=sheet();if(!s)return;const f=s.fields;renderSub(f);
+ const auto=el('raceAuto');auto.checked=f.raceAuto!==false;
+ ['featTough','draconicSoul','mageArmor'].forEach(k=>{const x=el('rule-'+k);if(x)x.checked=!!f[k]});
+ for(let i=1;i<=2;i++)el('raceExtra'+i).value=f['raceExtra'+i]||['','dex','con'][i];
+ el('raceChoices').hidden=!(f.race==='Meio-Elfo'||(f.race==='Humano'&&f.subrace==='Variante'));
+ const bonuses=AB.map((a,i)=>({name:NAMES[i],v:raceBonus(f,a)})).filter(a=>a.v);
+ el('racePreview').textContent=auto.checked?(bonuses.map(a=>a.name+' +'+a.v).join(' · ')||'Sem bônus aplicado.'):'Bônus raciais desligados. Evita duplicá-los em fichas antigas.';
+ el('raceSpecial').textContent=f.race==='Anão'&&f.subrace==='Colina'?'Tenacidade anã: +1 PV por nível.':f.race==='Elfo'&&f.subrace==='Drow'?'Sensibilidade à luz solar: consulte as condições.':f.race==='Humano'&&f.subrace==='Variante'?'Humano variante: escolher 1 perícia e 1 talento manualmente.':'';
+ const cl=f.className,lv=Number(f.level);const cas=f.castAbility||({Mago:'int',Clérigo:'wis',Druida:'wis',Paladino:'cha',Patrulheiro:'wis',Bardo:'cha',Bruxo:'cha',Feiticeiro:'cha'}[cl]);
+ const base=s.abilities[cas];const score=cas&&base!==''&&base!=null?Number(base)+raceBonus(f,cas):null;
+ el('magicGuide').textContent=magicGuide(cl,Number.isInteger(lv)&&lv>=1&&lv<=20?lv:null,score);
+ el('classResourceGuide').textContent=classResourceGuide(cl,lv,s.abilities.cha===""?null:Number(s.abilities.cha)+raceBonus(f,'cha'));
+ let hp=window.DNDDebug?.getHP?.();el('racialHPNote').textContent=hp?'PV máximos '+hp.total+' (incluindo bônus raciais e talentos configurados).':'Configure classe, nível e Constituição para calcular a vida.';
 }
-function refresh(){
- const s=state();if(!s||!mounted)return;
- const f=s.fields;
- renderSubrace(f);
- ["raceAuto","featTough","draconicSoul"].forEach(k=>{const node=$("rule-"+k);if(node)node.checked=f[k]!==false&&(k==="raceAuto"||!!f[k])});
- ["raceExtra1","raceExtra2"].forEach((k,i)=>{const node=$("rule-"+k);if(node)node.value=f[k]||["dex","con"][i]});
- const extra=$("raceChoices");if(extra)extra.hidden=!(f.race==="Meio-Elfo"||(f.race==="Humano"&&f.subrace==="Variante"));
- const bonuses=A.map(a=>N[a]+" "+(raceBonus(f,a)>=0?"+":"")+raceBonus(f,a)).filter(x=>!x.endsWith("+0"));
- $("racePreview").textContent=f.raceAuto===false?"Bônus raciais automáticos desligados (para evitar duplicação em fichas importadas).":bonuses.join(" · ")||"Sem bônus racial.";
- $("racialNotes").textContent=f.race==="Elfo"&&f.subrace==="Drow"?"Drow: sensibilidade à luz solar.":f.race==="Anão"&&f.subrace==="Colina"?"Anão da colina: +1 PV máximo por nível.":f.race==="Humano"&&f.subrace==="Variante"?"Humano variante: além dos 2 aumentos, escolha uma perícia e um talento (registrados manualmente).":"";
- const lvl=Number(f.level),cl=f.className;
- const casting=f.castAbility||({Mago:"int",Clérigo:"wis",Druida:"wis",Paladino:"cha",Patrulheiro:"wis",Bardo:"cha",Bruxo:"cha",Feiticeiro:"cha"}[cl]);
- const score=casting?s.abilities[casting]:null;
- const effective=casting&&score!==""&&score!==undefined&&score!==null?Number(score)+raceBonus(f,casting):null;
- $("preparedGuide").textContent=guide(cl,Number.isInteger(lvl)&&lvl>=1&&lvl<=20?lvl:null,effective);
- let hpCalc=window.DNDDebug?.getHP?.();
- $("racialHpBonus").textContent=hpCalc?"PV calculados: "+hpCalc.total+". Inclui ajustes raciais/talentos selecionados.":"PV pendentes: informe classe, nível e Constituição.";
+function mount(){if(mounted||!el('race')||!el('hpFormula')||!el('spellNote'))return;mounted=true;
+ const box=document.createElement('article');box.id='rulesOrigin';box.className='panel rules-origin';box.innerHTML='<h2>Raça, sub-raça e bônus oficiais (2014)</h2><div class="rules-grid"><label>Sub-raça<select id="subrace"></select></label><label class="rule-check"><input type="checkbox" id="raceAuto">Somar bônus raciais à pontuação base</label></div><div class="rules-grid" id="raceChoices"><label>Escolha bônus +1 nº 1<select id="raceExtra1">'+AB.map((a,i)=>'<option value="'+a+'">'+NAMES[i]+'</option>').join('')+'</select></label><label>Escolha bônus +1 nº 2<select id="raceExtra2">'+AB.map((a,i)=>'<option value="'+a+'">'+NAMES[i]+'</option>').join('')+'</select></label></div><p class="rule-info" id="racePreview"></p><p class="rule-info" id="raceSpecial"></p><small>Os campos dos seis atributos guardam o valor base; o cálculo mostra o total com bônus raciais. Ajustes antigos ficam desligados para evitar contagem duplicada.</small>';
+ el('race').closest('.identity').insertAdjacentElement('afterend',box);
+ const hp=document.createElement('div');hp.className='rules-detail';hp.innerHTML='<b>PV especiais</b><label class="rule-check"><input id="rule-featTough" type="checkbox">Talento Robusto: +2 PV por nível</label><label class="rule-check"><input id="rule-draconicSoul" type="checkbox">Feiticeiro: Linhagem Dracônica +1 PV por nível</label><p class="rule-info" id="racialHPNote"></p>';el('hpFormula').insertAdjacentElement('afterend',hp);
+ const magic=document.createElement('div');magic.className='rules-detail';magic.innerHTML='<b>Preparação e conhecimento de magias</b><p class="rule-info" id="magicGuide"></p>';el('spellNote').insertAdjacentElement('afterend',magic);
+ const death=document.createElement('div');death.className='rules-detail';death.innerHTML='<button id="deathRoll" type="button">🎲 Rolagem de resistência à morte</button><p class="rule-info" id="deathResult"></p>';el('deathFailure').closest('.death-wrap').insertAdjacentElement('afterend',death);
+ const conc=document.createElement('article');conc.className='panel';conc.innerHTML='<h2>Concentração de magia</h2><p class="helper">Teste de resistência de Constituição com CD 10 ou metade do dano, o maior.</p><label>Dano sofrido<input type="number" min="1" id="concDamage" value="12"></label><button id="concRoll" type="button">🎲 Testar concentração</button><p id="concResult" class="results">Aguardando teste.</p>';el('tools').querySelector('.story-grid').appendChild(conc);
+ const resource=document.createElement('article');resource.className='panel';resource.innerHTML='<h2>Recursos por classe e nível (2014)</h2><p class="rule-info" id="classResourceGuide"></p>';el('tools').querySelector('.story-grid').appendChild(resource);
+ const xp=document.createElement('button');xp.id='xpLevelBtn';xp.type='button';xp.textContent='Atualizar nível pelo XP';xp.className='tiny';xp.title='Atualiza o nível numérico, não as escolhas de arquétipo e melhorias de atributo';el('xpNext').parentElement.appendChild(xp);
+ xp.addEventListener('click',()=>{const f=sheet().fields,v=Number(f.xp);if(!Number.isFinite(v)||v<0){el('raceSpecial').textContent='XP inválido.';return}const target=levelByXP(v);const field=el('level');field.value=target;field.dispatchEvent(new Event('input',{bubbles:true}));el('raceSpecial').textContent='Nível atualizado para '+target+'. Revise escolhas de classe, talentos e melhorias de atributos.'});
+ const css=document.createElement('style');css.textContent='.rules-origin{margin-bottom:14px}.rules-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.rule-check{display:flex!important;align-items:center;flex-direction:row!important;gap:6px;font-size:11px!important}.rule-check input{width:17px;height:17px;flex:none}.rule-info{font-size:11px;color:#63746a;line-height:1.6}.rules-detail{border:1px solid #cbd4cb;background:#f7faf6;padding:9px;border-radius:6px;margin:8px 0}.rules-detail b{font-size:11px}.rules-detail p{margin:7px 0}@media(max-width:650px){.rules-grid{grid-template-columns:1fr}}@media print{#rulesOrigin{display:none}.rules-detail button{display:none}}';document.head.appendChild(css);
+ el('subrace').addEventListener('change',()=>{const f=sheet().fields;f.subrace=el('subrace').value;if(f.race==='Elfo'&&f.subrace==='Floresta')setSpeed(10.5);else if(f.race==='Elfo')setSpeed(9);window.DNDDebug.recalc()});
+ el('raceAuto').addEventListener('change',()=>{sheet().fields.raceAuto=el('raceAuto').checked;window.DNDDebug.recalc()});
+ for(const k of ['featTough','draconicSoul'])el('rule-'+k).addEventListener('change',()=>{sheet().fields[k]=el('rule-'+k).checked;window.DNDDebug.recalc()});
+ for(const k of ['raceExtra1','raceExtra2'])el(k).addEventListener('change',()=>{const f=sheet().fields,other=k==='raceExtra1'?'raceExtra2':'raceExtra1',newVal=el(k).value;if(newVal===f[other]||(f.race==='Meio-Elfo'&&newVal==='cha')){el(k).value=f[k]||'';return}f[k]=newVal;window.DNDDebug.recalc()});
+ el('race').addEventListener('change',()=>{sheet().fields.subrace='';window.DNDDebug.recalc()});
+ el('deathRoll').addEventListener('click',rollDeath);el('concRoll').addEventListener('click',rollConcentration);refresh();
 }
-function emitField(id,value){
- const node=$(id);if(!node)return;
- if(node.type==="checkbox")node.checked=!!value;else node.value=value;
- node.dispatchEvent(new Event("input",{bubbles:true}));
- node.dispatchEvent(new Event("change",{bubbles:true}));
-}
-function rollSaving(){
- const s=state(),f=s?.fields;
- if(!s)return;
- if(f.hpCurrent!==""&&Number(f.hpCurrent)>0){$("deathRollResult").textContent="Resistências contra a morte só são roladas com 0 PV.";return}
- const d=1+Math.floor(Math.random()*20);
- let result="";
- if(d===20){f.hpCurrent=1;s.deathSuccess=0;s.deathFailure=0;result="20 natural: recupera 1 PV e volta à consciência."}
- else{if(d===1){s.deathFailure=Math.min(3,s.deathFailure+2);result="1 natural: duas falhas."}
- else if(d>=10){s.deathSuccess=Math.min(3,s.deathSuccess+1);result="Sucesso."}
- else{s.deathFailure=Math.min(3,s.deathFailure+1);result="Falha."}
- if(s.deathSuccess>=3){s.deathSuccess=0;s.deathFailure=0;result+=" Estabilizado."}
- if(s.deathFailure>=3)result+=" Três falhas: morte (segundo regras gerais).";
- }
- $("deathRollResult").textContent="Dado d20: "+d+". "+result;
- window.DNDDebug?.recalc?.();
-}
-function rollConcentration(){
- const s=state(),f=s?.fields;if(!s)return;
- const dmg=Number($("concDamage").value);
- if(!Number.isFinite(dmg)||dmg<=0){$("concResult").textContent="Insira o dano sofrido.";return}
- const score=s.abilities.con;
- if(score===""||score===undefined){$("concResult").textContent="Preencha Constituição.";return}
- const mod=Math.floor((Number(score)+raceBonus(f,"con")-10)/2);
- const prof=(s.saves||[]).includes("con")?(2+Math.floor((Math.max(1,Number(f.level)||1)-1)/4)):0;
- const dc=Math.max(10,Math.floor(dmg/2)),die=1+Math.floor(Math.random()*20),total=die+mod+prof;
- $("concResult").textContent="Concentração: CD "+dc+"; d20 ["+die+"] + "+(mod+prof)+" = "+total+" → "+(total>=dc?"mantida":"perdida")+".";
-}
-function mount(){
- if(mounted||!$("race")||!$("spellNote"))return;mounted=true;
- const racial=el("section",'<h2>Origem e sub-raça · Livro do Jogador 2014</h2><div class="rule-grid">'+
- '<label>Sub-raça<select id="ruleSubrace"></select></label>'+
- '<label class="rule-check"><input id="rule-raceAuto" type="checkbox"> Somar bônus raciais automaticamente</label>'+
- '<div id="raceChoices" class="rule-grid"><label>1º atributo adicional<select id="rule-raceExtra1">'+A.map(a=>'<option value="'+a+'">'+N[a]+'</option>').join("")+'</select></label>'+
- '<label>2º atributo adicional<select id="rule-raceExtra2">'+A.map(a=>'<option value="'+a+'">'+N[a]+'</option>').join("")+'</select></label></div></div>'+
- '<p class="rule-meta" id="racePreview"></p><p class="rule-meta" id="racialNotes"></p>'+
- '<p class="rule-meta">Os valores digitados na coluna de atributos são <b>valores base</b>; a ficha soma os bônus de raça/sub-raça ao modificador.</p>');
- racial.id="racialRules";racial.className="panel rule-panel";
- $("race").closest(".identity")?.insertAdjacentElement("afterend",racial);
- const hp=el("div",'<h3>Exceções de PV</h3><label class="rule-check"><input id="rule-featTough" type="checkbox"> Talento Resistente (Durão): +2 PV por nível</label>'+
- '<label class="rule-check"><input id="rule-draconicSoul" type="checkbox"> Feiticeiro: Linhagem Dracônica (+1 PV por nível)</label>'+
- '<p id="racialHpBonus" class="rule-meta"></p>');
- hp.className="rule-extras";$("hpFormula").insertAdjacentElement("afterend",hp);
- const spell=el("div",'<h3>Limites de conjuração (2014)</h3><p id="preparedGuide" class="rule-meta"></p>');spell.className="rule-extras";$("spellNote").insertAdjacentElement("afterend",spell);
- const death=el("div",'<button id="rollDeathSave" type="button">🎲 Rolar resistência contra a morte</button><p id="deathRollResult" class="rule-meta"></p>');
- death.className="rule-extras";$("deathFailure").closest(".death-wrap").insertAdjacentElement("afterend",death);
- const conc=el("article",'<h2>Concentração e resistência de Constituição</h2><p class="rule-meta">Após sofrer dano mantendo concentração, faça um teste de resistência de Constituição contra CD 10 ou metade do dano, o maior.</p>'+
- '<label>Dano sofrido<input id="concDamage" type="number" min="1" value="12"></label><button id="rollConcentration" type="button">🎲 Testar concentração</button>'+
- '<p id="concResult" class="rule-meta"></p>');
- conc.className="panel";$("tools").querySelector(".story-grid")?.appendChild(conc);
- const css=document.createElement("style");css.textContent='.rule-panel{margin:12px 0;padding:14px}.rule-panel h2,.rule-extras h3{font:bold 13px Arial;letter-spacing:.04em}.rule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.rule-check{display:flex!important;align-items:center;gap:8px;font:12px Arial!important}.rule-check input{width:17px;height:17px}.rule-meta{font-size:12px;color:#52605b;line-height:1.6}.rule-extras{margin:10px 0;padding:11px;background:#f5f7f4;border:1px solid #cbd3ce;border-radius:7px}@media(max-width:620px){.rule-grid{grid-template-columns:1fr}}@media print{.rule-panel{break-inside:avoid}.rule-extras button,.rule-extras input{display:none!important}}';
- document.head.appendChild(css);
- $("ruleSubrace").addEventListener("change",e=>{const s=state();s.fields.subrace=e.target.value;if(s.fields.race==="Elfo"&&s.fields.subrace==="Floresta")emitField("speed",10.5);else if(s.fields.race&&["Elfo","Humano","Meio-Elfo","Meio-Orc","Tiefling","Draconato"].includes(s.fields.race))emitField("speed",9);window.DNDDebug?.recalc?.()});
- ["raceAuto","featTough","draconicSoul"].forEach(k=>$("rule-"+k).addEventListener("change",e=>{state().fields[k]=e.target.checked;window.DNDDebug?.recalc?.()}));
- ["raceExtra1","raceExtra2"].forEach(k=>$("rule-"+k).addEventListener("change",e=>{const f=state().fields;const other=k==="raceExtra1"?"raceExtra2":"raceExtra1";if(e.target.value===f[other]){e.target.value=f[k]||"";return}if(f.race==="Meio-Elfo"&&e.target.value==="cha"){e.target.value=f[k]||"";return}f[k]=e.target.value;window.DNDDebug?.recalc?.()}));
- $("rollDeathSave").addEventListener("click",rollSaving);
- $("rollConcentration").addEventListener("click",rollConcentration);
- document.getElementById("race").addEventListener("change",()=>{const f=state()?.fields;if(!f)return;f.subrace="";refresh();window.DNDDebug?.recalc?.()});
- refresh();
-}
-window.DND2014={raceBonus,healthExtra,guide,mount,refresh};
+function setSpeed(v){const e=el('speed');e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))}
+function rollDeath(){const s=sheet();if(!s)return;const f=s.fields;if(f.hpCurrent!==''&&Number(f.hpCurrent)>0){el('deathResult').textContent='A rolagem só ocorre com 0 PV.';return}const d=1+Math.floor(Math.random()*20);let x='';if(d===20){f.hpCurrent=1;s.deathSuccess=0;s.deathFailure=0;x='20 natural: recupera 1 PV.'}else{if(d===1){s.deathFailure=Math.min(3,s.deathFailure+2);x='1 natural: duas falhas.'}else if(d>=10){s.deathSuccess=Math.min(3,s.deathSuccess+1);x='Um sucesso.'}else{s.deathFailure=Math.min(3,s.deathFailure+1);x='Uma falha.'}if(s.deathSuccess===3){s.deathSuccess=0;s.deathFailure=0;x+=' Personagem estabilizado.'}if(s.deathFailure===3)x+=' Três falhas: personagem morreu.'}el('deathResult').textContent='d20: '+d+'. '+x;window.DNDDebug.recalc()}
+function rollConcentration(){const s=sheet(),f=s?.fields;if(!s)return;const dmg=Number(el('concDamage').value);if(!Number.isFinite(dmg)||dmg<=0){el('concResult').textContent='Insira dano válido.';return}const val=s.abilities.con;if(val===''||val==null){el('concResult').textContent='Preencha Constituição.';return}const md=Math.floor((Number(val)+raceBonus(f,'con')-10)/2);const lv=Number(f.level)||1,prof=s.saves.includes('con')?2+Math.floor((lv-1)/4):0,dc=Math.max(10,Math.floor(dmg/2)),d=1+Math.floor(Math.random()*20),total=d+md+prof;el('concResult').textContent='CD '+dc+' · d20 ['+d+'] + '+(md+prof)+' = '+total+' · '+(total>=dc?'Concentração mantida.':'Concentração perdida.')}
+window.DND2014={raceBonus,healthExtra,magicGuide,classResourceGuide,levelByXP,mount,refresh};
 })();
+
 </script>
 <script>
 /* D&D 5e (2014) · Ficha digital autônoma · nenhuma biblioteca externa */
@@ -279,7 +220,7 @@ const SLOT_FULL=[
 ];
 const XP=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
 const COST={8:0,9:1,10:2,11:3,12:4,13:5,14:7,15:9};
-const FIELDS={name:'',className:'',level:'',race:'',subrace:'',raceAuto:true,raceExtra1:'dex',raceExtra2:'con',featTough:false,draconicSoul:false,background:'',player:'',alignment:'',xp:'',speed:'',inspiration:false,initiativeExtra:'',mageArmor:false,armor:'Sem armadura',acExtra:'',shield:false,acOverride:'',hpCurrent:'',hpTemp:'',hpMethod:'average',hpPerLevel:'',hpExtra:'',hitDiceSpent:'',personality:'',ideals:'',bonds:'',flaws:'',traits:'',otherProfs:'',age:'',height:'',weight:'',eyes:'',skin:'',hair:'',appearance:'',allies:'',history:'',features:'',treasure:'',castClass:'',castAbility:'',spellProgression:'auto',manaMax:'',manaUsed:'',exhaustion:'',resourceName:'',resourceMax:'',resourceUsed:''};
+const FIELDS={name:'',className:'',level:'',race:'',subrace:'',raceAuto:true,raceExtra1:'dex',raceExtra2:'con',featTough:false,draconicSoul:false,initiativeExtra:'',mageArmor:false,background:'',player:'',alignment:'',xp:'',speed:'',inspiration:false,armor:'Sem armadura',acExtra:'',shield:false,acOverride:'',hpCurrent:'',hpTemp:'',hpMethod:'average',hpPerLevel:'',hpExtra:'',hitDiceSpent:'',personality:'',ideals:'',bonds:'',flaws:'',traits:'',otherProfs:'',age:'',height:'',weight:'',eyes:'',skin:'',hair:'',appearance:'',allies:'',history:'',features:'',treasure:'',castClass:'',castAbility:'',spellProgression:'auto',manaMax:'',manaUsed:'',exhaustion:'',resourceName:'',resourceMax:'',resourceUsed:''};
 const uid=()=>{try{return crypto.randomUUID()}catch(e){return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9)}};
 const fresh=()=>({version:3,id:uid(),fields:{...FIELDS},abilities:Object.fromEntries(A.map(x=>[x[0],''])),saves:[],skillProfs:[],expertise:[],autoSkills:[],hpRolls:[],hpRollDie:null,hpLastMax:null,attacks:[{id:uid(),name:'',type:'str',damage:'1d8',prof:true}],items:[],currency:{pc:0,pp:0,pe:0,po:0,pl:0},conditions:[],deathSuccess:0,deathFailure:0,spells:Object.fromEntries(Array.from({length:10},(_,i)=>[i,''])),slotsUsed:Array(9).fill(0),pointBuy:Object.fromEntries(A.map(x=>[x[0],8])),rollLog:[]});
 let library={},active='',state,saveTimer,rolls=[],restoring=false;
@@ -364,10 +305,10 @@ function derivedAC(){const override=state.fields.acOverride;if(!blank(override)&
  const dex=mod('dex');if(dex===null)return null;
  const armor=state.fields.armor,base=ARMOR[armor]||ARMOR['Sem armadura'];let val=base[0]+Math.min(dex,base[1]);
  if(armor==='Sem armadura'){
-  if(state.fields.mageArmor)val=Math.max(val,13+dex);
-  if(state.fields.draconicSoul&&state.fields.className==='Feiticeiro')val=Math.max(val,13+dex);
-  if(state.fields.className==='Bárbaro'&&mod('con')!==null)val=Math.max(val,10+dex+mod('con'));
-  if(state.fields.className==='Monge'&&!state.fields.shield&&mod('wis')!==null)val=Math.max(val,10+dex+mod('wis'));
+ if(state.fields.mageArmor)val=Math.max(val,13+dex);
+ if(state.fields.draconicSoul&&state.fields.className==='Feiticeiro')val=Math.max(val,13+dex);
+ if(state.fields.className==='Bárbaro'&&mod('con')!==null)val=Math.max(val,10+dex+mod('con'));
+ if(state.fields.className==='Monge'&&!state.fields.shield&&mod('wis')!==null)val=Math.max(val,10+dex+mod('wis'));
  }
  return val+(state.fields.shield?2:0)+n(state.fields.acExtra);
 }
