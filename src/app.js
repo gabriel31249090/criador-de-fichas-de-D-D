@@ -121,9 +121,9 @@ function derivedAC(){const override=state.fields.acOverride;if(!blank(override)&
  if(state.fields.className==='Bárbaro'&&mod('con')!==null)val=Math.max(val,10+dex+mod('con'));
  if(state.fields.className==='Monge'&&!state.fields.shield&&mod('wis')!==null)val=Math.max(val,10+dex+mod('wis'));
  }
- return val+(state.fields.shield?2:0)+n(state.fields.acExtra);
+ return val+(state.fields.shield?2:0)+n(state.fields.acExtra)+(window.DNDV6?.armorBonus?.(state)||0);
 }
-function deriveAttack(row){const p=pb(),a=row.type==='spell'?(state.fields.castAbility||CLASSES[state.fields.className]?.cast):row.type;const bonus=a?mod(a):null;return bonus===null?null:bonus+(row.prof?(p??0):0)}
+function deriveAttack(row){const p=pb(),a=row.type==='spell'?(state.fields.castAbility||CLASSES[state.fields.className]?.cast):row.type;const bonus=a?mod(a):null;return bonus===null?null:bonus+(row.prof?(p??0):0)+(window.DNDV6?.attackBonus?.(row)||0)}
 function renderDerived(){const l=level(),p=pb(),cl=CLASSES[state.fields.className];$('profBonus').textContent=signed(p);
  for(const [key] of A){$('final-'+key).textContent=score(key)===null?'—':score(key);$('mod-'+key).textContent=signed(mod(key));const save=mod(key);$('save-'+key).textContent=signed(save===null?null:save+(state.saves.includes(key)?p||0:0))}
  for(const [key] of SK)$('skill-'+key).textContent=signed(derivedSkill(key));
