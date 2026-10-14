@@ -1,35 +1,40 @@
-# Ficha D&D 5e 2014 — revisão das regras e calculadora V4
+# Ficha D&D 5e — V5 · Construtor de Heróis (Livro do Jogador 2014)
 
-Aplicação **offline**, em português, baseada no **Livro do Jogador de D&D 5e (2014)** enviado como referência. Os campos desenhados nas três páginas finais da ficha são representados por áreas específicas do site. Os dados anotados a lápis no PDF não foram usados como valores iniciais.
+## Iniciar
 
-## Abrir o site
+Abra **`site.html`** no Chrome, Edge ou Firefox. É o arquivo independente e offline; nenhuma instalação, chave de API ou cadastro é necessária.
 
-- **Mais fácil:** abra `site.html` no Chrome, Firefox ou Edge. É um arquivo único, com CSS e JavaScript embutidos, sem internet.
-- **Para editar:** mantenha `src/index.html`, `src/style.css`, `src/rules2014.js` e `src/app.js` na mesma pasta e abra `src/index.html` num servidor estático. `index.html` na raiz também funciona offline.
-- **Backup:** exporte JSON e guarde-o antes de limpar os dados do navegador ou mudar de aparelho. O armazenamento depende do navegador.
+Para editar o código, use `src/index.html`, `src/style.css`, `src/rules2014.js`, `src/app.js` e `src/v5.js` em um servidor estático (ou diretamente no navegador se permitir recursos locais). `index.html` na raiz é outra cópia offline.
 
-## Sistemas calculados
+## Compatibilidade
 
-- Bônus de proficiência por nível, valores e modificadores dos seis atributos, bônus raciais base e de sub-raças, além das duas escolhas de bônus racial do meio-elfo (ou humano variante).
-- Resistências, todas as 18 perícias, proficiência, especialização, testes d20 e percepção/investigação/intuição passivas.
-- Criação de atributos por 4d6 descartando o menor, matriz 15/14/13/12/10/8 e compra de 27 pontos.
-- Distribuição automática sugerida de perícias por classe e antecedentes, permitindo revisão manual.
-- CA pela armadura, Destreza, escudo, defesa sem armadura, Armadura Arcana e Linhagem Dracônica; iniciativa (incluindo bônus extra) e deslocamento racial.
-- Vida máxima/atual: Dado de Vida da classe, nível, Constituição, ganho por média fixa ou rolagens persistidas, tenacidade do Anão da Colina, talento **Robusto** e Linhagem Dracônica do Feiticeiro. Inclui PV temporários, ferimentos, cura, Dados de Vida e descansos.
-- Espaços de magia, truques conhecidos, magias conhecidas ou preparadas conforme classe quando pertinente. Magias em níveis 0–9, ataque mágico e CD.
-- Testes de morte (incluindo 1 e 20 naturais) e concentração (CD 10 ou metade do dano, a maior).
-- Inventário por peso e quantidade, moedas com conversão para ouro, capacidade de carga, condições e exaustão.
-- Recursos típicos de classe como número de fúrias, dados de Inspiração de Bardo, Ki, Cura pelas Mãos, Ataque Furtivo, Canalizar Divindade e Recuperação Arcana — exibidos em guia de referência por nível.
-- Progressão de experiência, botão para ajustar o nível pelos pontos de XP, armazenamento local, importação/exportação JSON e impressão.
+A ficha original da V4 foi preservada, incluindo suas três páginas, rolagens, atributo/CA/PV, espaços, histórico, histórico de personagem, importação/exportação JSON e salvamento local. A V5 adiciona a aba **V · Construtor V5**. Os novos dados são armazenados dentro de `state.v5` no mesmo JSON do personagem, sem apagar o legado. Fichas antigas continuam disponíveis quando o mesmo navegador conserva seu `localStorage` (`dnd-v3-library`). Recomenda-se exportar JSON antes de substituir a V4.
 
-## Limites importantes
+## Dez funcionalidades da V5
 
-D&D 5e **não é inteiramente calculável só com classe, raça e nível**. A ficha permite registrar opções do jogador e do mestre, mas não tenta escolher automaticamente subclasse, talentos, magias de um grimório, efeitos de todas as magias, decisões de equipamento, resistências circunstanciais, multiclasse ou todas as exceções de cada característica. Esses itens continuam editáveis e devem seguir a regra específica adotada na campanha. Em especial, **mana** e **defesa ativa** são controles opcionais, não regras gerais do Livro do Jogador 2014.
+1. Criação guiada: etapas para identidade, raça/classe, atributos, perícias, equipamento e revisão.
+2. Evolução de nível: nível 1–20, escolha de classe, aumento de atributo e seleção de talento em avanços pertinentes (multiclasse até duas classes).
+3. Subclasses: opções das doze classes do Livro do Jogador 2014; apresentação de requisitos e recursos relevantes, inclusive Cavaleiro Arcano e Trapaceiro Arcano.
+4. Grimório pesquisável: índice curado de magias dos níveis 0–9, busca por nome/escola, filtro de classe/nível/concentração, preparação na ficha e cadastro de magia personalizada. **Não é uma transcrição integral das magias do livro**; resumos são autorais e não substituem a descrição completa.
+5. Validador de personagem: campos ausentes, multiclasse sem pré-requisitos, subclassificação pendente, perícias, gastos de espaços e excesso de talentos.
+6. Equipamentos automáticos: catálogo inicial de armas, armaduras, escudos e alguns itens; ajuste de CA, ataque e peso ao equipar. Alterações manuais continuam possíveis.
+7. Talentos: catálogo inicial com seleção, efeitos diretos seguros como Alerta, Robusto, Observador e Resiliente; efeitos situacionais exigem avaliação do Mestre.
+8. Multiclasse: duas classes, pré-requisitos, Dados de Vida de classes distintas, progressão combinada de espaços, pacto separado e progressões de 1/3 conjugadas quando aplicável. Consulte o livro para particularidades de proficiência e características específicas.
+9. Recursos de classe: contadores para recursos selecionados, recuperação em descansos e indicação de recursos passivos por nível.
+10. Exportação PDF: guia para impressão via navegador (Ctrl+P → Salvar como PDF), com estilos A4 das três folhas básicas; exportação JSON continua sendo backup editável.
 
-Para fichas importadas das versões anteriores, os bônus raciais automáticos **começam desligados** para não duplicar valores que tenham sido somados à mão; marque a opção se os atributos importados forem valores base.
+## O que não fica 100% automatizado
 
-Veja `AUDITORIA_LIVRO_2014.md` para o mapeamento de sistemas e páginas consultadas.
+A V5 **não implementa automaticamente todos os textos e efeitos** de cada subclasse, de todas as magias, talentos e equipamentos do Livro do Jogador. Concentração, resistências especiais, rolagens passadas de PV, componentes materiais, proficiências específicas de multiclasse e escolhas de jogador/Mestre podem exigir revisão. O grimório vem com uma biblioteca inicial extensível, não com todos os encantamentos do livro. Regras da edição 2024 e variantes da campanha não são aplicadas automaticamente.
 
-## Testar
+**Licenciamento de conteúdo:** nomes, tabelas necessárias e metadados resumidos são usados como referência para a ferramenta; nenhuma descrição integral de magia do livro comercial foi copiada.
 
-O projeto inclui `test_v4.py` (requer Python, `playwright` e Chromium). Testa cálculos de PV com raças, classe e nível, salvamento de alterações na ficha, CA, perícias, magias e navegação móvel. Sintaxe: `node --check src/app.js` e `node --check src/rules2014.js`.
+## Rodar testes
+
+`pip install playwright pymupdf` e execute `python test_v5.py` e `python test_extended_v5.py` na pasta raiz. Necessário Chromium disponível no sistema. Para validar sintaxe: `node --check src/app.js` e `node --check src/v5.js`.
+
+Os testes usam navegador headless, injetando scripts como texto porque ambientes isolados podem bloquear navegação local. A exportação PDF foi verificada em três páginas A4.
+
+## Origem das regras
+
+Livro do Jogador de D&D 5e (2014), PDF disponibilizado pelo solicitante. Ver `AUDITORIA_V5.md` para referências e limites.
