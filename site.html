@@ -1,1367 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ficha D&D 5e + Ferramentas do Mestre (Tema D&D • sem valores iniciais)</title>
-
-  <!-- Fonte temática D&D -->
-  <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
-
-  <style>
-    /* ===== Tema D&D (aplicado sem remover funcionalidades) ===== */
-    :root{
-      --bordo:#7b3e19;
-      --dourado:#c9a35e;
-      --vinho:#6d0000;
-      --texto:#2c1a0f;
-      --papel: rgba(255,245,230,.95);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body {
-      font-family: 'Georgia', serif;
-      background: url('https://www.transparenttextures.com/patterns/parchment.png') repeat;
-      color: var(--texto);
-      margin:0;
-      padding:24px;
-    }
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      background: var(--papel);
-      border: 4px solid var(--bordo);
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.3);
-      padding: 20px;
-    }
-    h1, h2, h3 {
-      font-family: 'Uncial Antiqua', cursive !important;
-      color: var(--vinho) !important;
-      text-shadow: 1px 1px #00000055;
-      border-bottom: 3px solid var(--dourado);
-      padding-bottom: 6px;
-      margin-top: 0;
-    }
-    h1{ text-align:center; font-size:2.4rem; margin-bottom:20px; }
-    .grid { display:grid; gap:16px; }
-    .cols-2{ grid-template-columns: repeat(2,1fr); }
-    .cols-3{ grid-template-columns: repeat(3,1fr); }
-    .cols-4{ grid-template-columns: repeat(4,1fr); }
-    .section, .card {
-      padding: 14px;
-      border: 2px solid var(--dourado);
-      border-radius: 10px;
-      background: rgba(255,255,255,.85);
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
-    }
-    label{ font-weight:600; display:block; margin:8px 0 6px; font-family:'Uncial Antiqua', cursive;}
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      border: 2px solid var(--bordo);
-      border-radius: 8px;
-      background: #fff8f0;
-      font: inherit;
-    }
-    textarea{ min-height: 80px; resize: vertical; }
-    .row{ display:flex; gap:10px; align-items:center; }
-    .row > *{ flex:1; }
-    .mini{ width:90px; }
-    .small{ width:120px; }
-    .tight{ width:70px; }
-    .center{ text-align:center; }
-    .muted{ opacity:.8; font-style:italic; font-size:.95rem; }
-    .out {
-      display:inline-block; min-width: 48px; padding: 8px 10px;
-      border:2px dashed var(--dourado); border-radius:8px; background:#fffaf2; text-align:center;
-      font-weight:700;
-    }
-    .pill{ padding:6px 10px; border:1px solid var(--bordo); border-radius:999px; background:#fff8f0; display:inline-block; }
-    .k{ font-family: 'Uncial Antiqua', cursive; }
-    button {
-      font-family: 'Uncial Antiqua', cursive;
-      background: var(--bordo);
-      color: #fff;
-      border: 2px solid var(--dourado);
-      border-radius: 8px;
-      padding: 10px 16px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-top: 6px;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.35);
-      transition: transform .12s ease, filter .12s ease;
-    }
-    button:hover { transform: translateY(-1px) scale(1.02); filter: brightness(1.06); }
-    .button-bar{ display:flex; flex-wrap:wrap; gap:10px; }
-    hr { border: 0; height: 2px; background: linear-gradient(90deg, var(--vinho), var(--dourado), var(--vinho)); margin:14px 0; }
-
-    .dm-toggle { width: 100%; border-radius: 10px 10px 0 0; margin-top:16px;}
-    .dm-area {
-      display: none;
-      background: linear-gradient(135deg, #2b1d0f, #1a0f07);
-      border: 3px solid var(--dourado);
-      color: #fff;
-      border-radius: 0 0 12px 12px;
-      padding: 20px;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
-    }
-    .dm-area.visible{ display:block; }
-    .dm-area h2, .dm-area h3{ color:#ffd9a1; border-color:#e5c27b; text-shadow:1px 1px #000; }
-
-    .skill-row, .save-row { display:grid; grid-template-columns: 1.2fr .6fr .6fr .6fr; gap:8px; align-items:center; }
-    .skill-row label, .save-row label{ margin:0; }
-    .right{ text-align:right; }
-    .nowrap{ white-space:nowrap; }
-
-    .table { width:100%; border-collapse: collapse; }
-    .table th, .table td{ border:1px solid var(--dourado); padding:6px 8px; background:#fffaf2; }
-    .table th{ background:#f6ead3; }
-
-    .notice{ padding:10px; border:2px dashed var(--dourado); border-radius:8px; background:#fff8e0;}
-  
-/* D&D 5e – adaptação visual da ficha impressa nas 3 últimas páginas do PHB */
-:root {--bordo:#222;--dourado:#74716a;--vinho:#272727;--texto:#252321;--papel:#fff}
-body {background:#d5d3cd;background-image:repeating-linear-gradient(90deg,transparent 0,transparent 34px,#ffffff16 34px,#ffffff16 35px);padding:18px 12px;color:#202020}
-.container{max-width:1450px;background:transparent;border:0;box-shadow:none;padding:0}
-h1,h2,h3{font-family:Georgia,'Times New Roman',serif!important;color:#242424!important;text-shadow:none;border:0;font-weight:800}
-h1{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.5rem,3vw,2.5rem);text-align:left;margin:5px 0 16px}
-h3{text-transform:uppercase;font-family:Arial,Helvetica,sans-serif!important;letter-spacing:.065em;font-size:.86rem;border-bottom:2px solid #333!important;padding-bottom:8px;margin-bottom:13px}
-label{font-family:Arial,Helvetica,sans-serif!important;font-size:.75rem;letter-spacing:.025em;margin:7px 0 4px}
-input,select,textarea{border:0;border-bottom:1px solid #bababa;background:transparent;border-radius:0;padding:8px 5px;color:#1a1a1a;min-width:0}
-textarea{line-height:1.85;background-image:repeating-linear-gradient(transparent 0,transparent 29px,#dfdfdf 30px);min-height:106px}
-input[type=checkbox]{width:17px!important;height:17px!important;min-width:17px;margin:0;accent-color:#292929}
-input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid #a66b2c;outline-offset:2px}
-button{font-family:Arial,Helvetica,sans-serif;font-size:.83rem;background:#292928;color:white;border:1px solid #323232;border-radius:5px;padding:9px 12px;box-shadow:none}
-button:hover{filter:brightness(1.2);transform:translateY(-1px)}
-button:active{transform:scale(.98)}
-.out{font:800 1rem Arial,sans-serif;border:0;border-bottom:1px solid #bbb;background:transparent;padding:5px 4px;min-width:35px;min-height:26px}
-.notice{border:1px solid #c4c4c4;background:#f4f4f4;border-radius:4px;font:12px Arial,sans-serif;padding:8px}
-.pill{border:1px solid #888;background:#fff}
-.muted{font-family:Arial,sans-serif;font-size:11px;color:#666}
-.sheet-page{background:white;padding:24px;box-shadow:0 6px 35px #0002;margin:0 0 24px;min-width:0}
-.sheet-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;margin-bottom:14px;background:#252525;color:white;border-radius:8px}
-.sheet-toolbar strong{font:700 .95rem Arial,sans-serif;letter-spacing:.03em}
-.sheet-nav{display:flex;flex-wrap:wrap;gap:6px}
-.sheet-nav button{background:#555;border-color:#666}
-.sheet-nav button.active{background:#f3f3f3;color:#111}
-.save-indicator{font:12px Arial,sans-serif;color:#e8e8e8}
-.sheet-page[hidden]{display:none!important}
-.sheet-page-head{display:flex;align-items:center;gap:12px;padding:5px 8px 14px;margin-bottom:15px;border-bottom:4px double #333;background:linear-gradient(164deg,#f7f7f7 0%,#fff 50%)}
-.sheet-page-head .seal{font:900 2.5rem Georgia,serif;color:#222;letter-spacing:-.08em;white-space:nowrap}
-.sheet-page-head .heading-lines{flex:1}
-.sheet-page-head .heading-lines b{display:block;font:800 19px Georgia,serif;text-transform:uppercase;letter-spacing:.065em}
-.sheet-page-head .heading-lines small{font:11px Arial,sans-serif;text-transform:uppercase}
-.sheet-page> .grid.cols-3.section{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px!important;padding:13px!important;margin-bottom:14px!important}
-.sheet-page>.section,.sheet-page>.grid.section{border-color:#222}
-.sheet-page .section,.sheet-page .card{background:#fff;border:2px solid #323232;border-radius:9px;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 3px #dedede;padding:12px}
-.sheet-page .section .card{border-color:#aaa}
-.sheet-page .grid{gap:9px}
-.sheet-columns{display:grid;grid-template-columns: minmax(0,.97fr) minmax(0,1.11fr) minmax(0,.98fr);gap:14px;align-items:start}
-.sheet-column{display:flex;flex-direction:column;gap:14px;min-width:0}
-.sheet-column > .card,.sheet-column > .section{margin:0;min-width:0}
-.sheet-column .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.sheet-column .row{flex-wrap:wrap}
-.sheet-column .row>*{flex:1 1 75px}
-.sheet-column .save-row{grid-template-columns:1.5fr 24px 36px 52px;gap:6px}
-.sheet-column .skill-row{grid-template-columns:1.7fr 20px 20px 42px;gap:3px;font-size:12px}
-.sheet-column .skill-row label{font:12px Arial,sans-serif!important}
-.sheet-column .skill-row .center{font-size:0}
-.sheet-column .skill-row input{display:inline-block}
-.sheet-column #skills{display:flex;flex-direction:column;gap:7px!important}
-.sheet-column #skills .out{font-size:12px;min-width:25px;padding:0}
-.sheet-column #attacksTable{font-size:11px;table-layout:fixed}
-.sheet-column #attacksTable input,.sheet-column #attacksTable select{font-size:12px;width:100%;padding:6px 2px}
-.sheet-column #attacksTable th,.sheet-column #attacksTable td{padding:4px 2px;word-break:break-word}
-.sheet-column #attacksTable th:nth-child(2),.sheet-column #attacksTable th:last-child{width:43px}
-.sheet-column #attacksTable th:nth-child(4){width:64px}
-.sheet-column #attacksTable th:nth-child(5){width:38px}
-.sheet-column #attacksTable th:nth-child(6){width:38px}
-.sheet-column #attacksTable input[type=checkbox]{width:16px!important;min-width:16px}
-.sheet-column #attacksTable .out{font-size:12px;min-width:22px}
-.sheet-page .card>h3:first-child{border-bottom:3px double #555!important}
-.sheet-page .xp-meter{height:7px;background:#e7e7e7;border-radius:5px;overflow:hidden;margin:8px 0}
-.sheet-page .xp-meter>span{display:block;background:#525252;height:100%;width:0}
-.sheet-extra,.sheet-magic{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.sheet-extra .card,.sheet-magic .card{min-width:0}
-.sheet-extra .wide,.sheet-magic .wide{grid-column:1/-1}
-.sheet-extra textarea{min-height:210px}
-.sheet-extra .portrait{min-height:220px}
-.sheet-extra .history-area{min-height:280px}
-.sheet-subgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.sheet-stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.sheet-stats-row .out{text-align:center;width:100%;font-size:1.08rem;border:2px solid #222;border-radius:6px;background:#f8f8f8}
-.sheet-extra-fields{border:2px solid #2d2d2d;border-radius:8px;padding:12px;background:#fafafa}
-.sheet-extra-fields label{display:block}
-.sheet-death{display:flex;flex-wrap:wrap;gap:7px;align-items:center;font:11px Arial,sans-serif}
-.sheet-death label{display:inline-flex;align-items:center;gap:3px;margin:0}
-.sheet-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.sheet-slot{border:2px double #292929;border-radius:6px;padding:8px;display:grid;grid-template-columns:auto 1fr 65px;gap:5px;align-items:center}
-.sheet-slot b{font:700 11px Arial,sans-serif}
-.sheet-slot output{font:800 17px Arial,sans-serif;text-align:center}
-.sheet-slot input{width:100%;text-align:center}
-.sheet-slot small{grid-column:1/-1;font:10px Arial,sans-serif;color:#666}
-.sheet-magic textarea{min-height:120px}
-.sheet-page .table th,.sheet-page .table td{background:#fff;border-color:#bababa}
-.sheet-page .table th{background:#eee}
-.sheet-utilities{background:#fdfdfd;border:2px solid #272727;padding:16px;margin:0 0 20px;border-radius:7px}
-.sheet-utilities>.grid.cols-3{gap:12px}
-.sheet-utilities .card{border:1px solid #aaa;border-radius:7px;background:#fff;box-shadow:none}
-.dm-toggle{border-radius:7px}
-.dm-area{background:#262522;border-color:#111}
-.dm-area h2,.dm-area h3{color:white!important}
-#hpMax[readonly],#ac[readonly],#hitDie[readonly]{background:#f0f0f0}
-@media(max-width:1150px){.sheet-columns{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.sheet-column:last-child{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.sheet-column:last-child .card{min-width:0}}
-@media(max-width:720px){body{padding:8px}.sheet-page{padding:10px}.sheet-columns,.sheet-extra,.sheet-magic,.sheet-subgrid{grid-template-columns:1fr}.sheet-column:last-child{grid-column:auto;display:flex}.sheet-page>.grid.cols-3.section{grid-template-columns:repeat(2,minmax(0,1fr))}.sheet-page-head .seal{font-size:1.55rem}.sheet-page-head .heading-lines b{font-size:15px}.sheet-slots{grid-template-columns:repeat(2,minmax(0,1fr))}.sheet-utilities>.grid.cols-3{grid-template-columns:1fr}.sheet-extra .wide,.sheet-magic .wide{grid-column:auto}}
-@media(max-width:410px){.sheet-page>.grid.cols-3.section{grid-template-columns:1fr}.sheet-slots{grid-template-columns:1fr}.sheet-stats-row{grid-template-columns:repeat(3,minmax(0,1fr))}.sheet-page{padding:8px}}
-@media print{@page{size:A4 portrait;margin:8mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:white;padding:0}.sheet-toolbar,.sheet-utilities,.dm-toggle,.dm-area,.button-bar,#rollDice,.save-indicator{display:none!important}.container{max-width:none}.sheet-page,.sheet-page[hidden]{display:block!important;box-shadow:none;border:0;page-break-after:always;break-after:page;padding:0;margin:0;min-height:0}.sheet-page:last-of-type{break-after:auto}.sheet-columns{grid-template-columns: 0.96fr 1.08fr .95fr;gap:6px}.sheet-column{gap:7px}.sheet-page .section,.sheet-page .card{padding:6px;border-width:1.5px}.sheet-page h3{font-size:9px;margin:0 0 6px;padding-bottom:4px}.sheet-page label,.sheet-page input,.sheet-page textarea,.sheet-page select{font-size:9px;padding:3px 1px;margin:1px}.sheet-page textarea{min-height:55px}.sheet-page .muted,.sheet-page .notice{display:none}.sheet-page .grid{gap:4px}.sheet-page .skill-row{gap:1px}.sheet-page .skill-row label{font-size:8px!important}.sheet-page .skill-row .out{font-size:9px}.sheet-page>.grid.cols-3.section{gap:4px;margin-bottom:6px!important;padding:7px!important}.sheet-page-head{padding:0 0 7px;margin-bottom:6px}.sheet-page .button-bar{display:none!important}.sheet-extra textarea{min-height:130px}.sheet-extra .history-area{min-height:200px}.sheet-magic textarea{min-height:100px}.sheet-slots{grid-template-columns:repeat(3,1fr)}.sheet-slot{padding:3px}.sheet-page .xp-meter{height:3px;margin:3px 0}input,textarea,select{border-color:#bbb}.sheet-page .out{font-size:10px}}
-
-  
-/* Rolagens visíveis e distribuição automática de perícias */
-.sheet-rollbox{border:2px solid #232323;background:#fafafa;border-radius:8px;padding:12px;margin:10px 0;font-family:Arial,Helvetica,sans-serif;}
-.sheet-rollbox h4{font:bold 12px Arial,sans-serif;letter-spacing:.04em;text-transform:uppercase;margin:0 0 7px;}
-.sheet-rollbox p{font:12px/1.5 Arial,sans-serif;margin:6px 0;color:#464646;}
-.sheet-rollbox .roll-controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
-.sheet-rollbox button{margin:3px 0;font:700 11px Arial,sans-serif;padding:8px 9px;}
-.sheet-rollbox input,.sheet-rollbox select{font-size:13px;margin:3px 0;flex:1 1 125px;min-width:0;}
-.sheet-rollbox .roll-output{border:1px solid #b1b1b1;border-radius:5px;padding:9px;margin-top:8px;background:#fff;font:12px/1.6 Arial,sans-serif;white-space:normal;word-wrap:break-word;min-height:33px;}
-.sheet-rollbox .roll-output strong{font-weight:800}
-.sheet-rollbox .roll-chip{display:inline-block;border:1px solid #999;border-radius:4px;margin:3px 4px 3px 0;padding:3px 7px;font:700 13px Arial,sans-serif;background:#fff;}
-.sheet-rollbox .roll-chip em{display:block;font:9px Arial,sans-serif;color:#666}
-.sheet-rollbox .roll-chip.low{background:#eaeaea;color:#737373}
-.roll-attr-actions{display:flex;gap:5px;align-items:center;margin-top:4px}
-.roll-attr-actions button{font:700 10px Arial,sans-serif;border-radius:5px;padding:5px 7px;margin:0}
-.roll-attr-actions button+button{background:#666}
-.sheet-column .skill-row{grid-template-columns:minmax(100px,1fr) 19px 19px 35px 33px!important;gap:3px!important}
-.sheet-column .skill-row .roll-skill{font:700 10px Arial,sans-serif;min-height:27px;padding:3px 4px;border-radius:4px;margin:0}
-.sheet-column .save-row{grid-template-columns:minmax(60px,1fr) 22px 34px 43px 34px!important;gap:3px!important}
-.sheet-column .save-row .roll-save{font:700 10px Arial,sans-serif;min-height:27px;padding:3px 3px;border-radius:4px;margin:0}
-#skillAutoPanel{margin-bottom:11px;}
-#skillAutoPanel select{width:100%;max-width:100%;}
-#skillAutoFeedback{font:12px/1.6 Arial,sans-serif;}
-.sheet-rollbox label{font:700 11px Arial,sans-serif;}
-.sheet-rollbox .dice-line{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
-.sheet-rollbox .dice-line output{min-width:30px}
-@media(max-width:440px){.sheet-rollbox{padding:7px}.sheet-column .skill-row{grid-template-columns:minmax(80px,1fr) 18px 18px 30px 29px!important}.sheet-column .skill-row label{font-size:10px!important}.sheet-rollbox button{padding:6px}}
-@media print{.sheet-rollbox{border:1px solid #333;padding:4px;margin:3px 0}.sheet-rollbox h4{font-size:8px}.sheet-rollbox p,.roll-attr-actions,.roll-skill,.roll-save,.roll-controls,.sheet-rollbox .roll-output,#skillAutoFeedback{display:none!important}.sheet-rollbox button{display:none}.sheet-column .skill-row{grid-template-columns:minmax(75px,1fr) 13px 13px 32px!important}.sheet-column .save-row{grid-template-columns:minmax(60px,1fr) 13px 24px 32px!important}.sheet-rollbox select,.sheet-rollbox input{display:none}.sheet-rollbox:empty{display:none}}
-
-
-#hpAutoPanel{margin-top:12px}
-#hpAutoPanel .roll-controls{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
-#hpAutoPanel .roll-controls input{max-width:110px;flex:1}
-#hpAutoPanel button:disabled{opacity:.4;cursor:not-allowed}
-#hpAutoPanel #hpBreakdown{line-height:1.7}
-@media print{#hpAutoPanel .roll-controls,#hpAutoPanel label,#hpAutoPanel p,#hpActionInfo{display:none!important}#hpAutoPanel #hpBreakdown{display:block!important;font:9px Arial,sans-serif;border:0}}
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ficha de Personagem • D&D 5e | Edição Revisada</title>
+<style>
+:root{--paper:#fff;--ink:#282722;--muted:#77746e;--line:#aaa69d;--cream:#f7f5ef;--dark:#29251f;--gold:#d7c3a0;--danger:#952f30}*{box-sizing:border-box}body{margin:0;background:#ddd9d1;color:var(--ink);font:14px/1.45 Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid #484139;color:var(--ink);background:#fff;border-radius:5px;padding:9px 11px;transition:background .12s,transform .12s}button:hover{background:#ece9e3}button:active{transform:scale(.98)}button.primary{background:#29251f;color:#fff}button.primary:hover{background:#484036}button.warn{color:var(--danger);border-color:#ad8780}button:disabled{opacity:.45;cursor:default}input,select,textarea{background:transparent;border:1px solid #aaa59b;border-radius:4px;padding:7px;color:inherit;width:100%;min-width:0}input[type=checkbox]{width:16px;height:16px;accent-color:#35302b}input[readonly]{background:#f0eee9}textarea{min-height:95px;resize:vertical;line-height:1.65}label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.035em;color:#56514b;display:grid;gap:4px}.bar{background:#211f1c;color:#fff;padding:13px max(15px,calc((100vw - 1400px)/2));display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}.brand{font:700 23px Georgia,serif;letter-spacing:.035em}.brand small{font:11px Arial;display:block;letter-spacing:.15em;color:#d7cfc0}.bar button{background:#34312c;color:#f2eee8;border-color:#686158}.bar button.active{background:#f3f1e9;color:#211e1a}.bar select{max-width:200px;background:#34312c;color:white;border-color:#6a625a}.actions,.nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.page{max-width:1390px;margin:16px auto;background:var(--paper);padding:24px;box-shadow:0 12px 42px #34312c24;min-height:400px}.page[hidden]{display:none!important}.page-title{display:flex;gap:12px;align-items:center;border-bottom:4px double var(--ink);padding-bottom:15px;margin-bottom:17px}.emblem{font:800 39px Georgia,serif;border:3px solid #302c28;border-radius:45% 45% 35% 35%;width:80px;height:72px;display:grid;place-items:center}.page-title h1{font:700 23px Georgia,serif;text-transform:uppercase;letter-spacing:.075em;margin:0}.page-title p{margin:4px 0 0;color:#77746e;font-size:12px}.identity{border:2px solid #403a34;border-radius:5px;padding:12px;margin:14px 0 18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.three{display:grid;grid-template-columns:0.98fr 1.05fr .98fr;gap:14px;align-items:start}.stack{min-width:0;display:grid;gap:13px}.panel{border:2px solid #3c3730;border-radius:7px;padding:13px;box-shadow:inset 0 0 0 3px #f5f3f0;min-width:0;background:#fff}.panel h2{font:800 12px Arial;text-transform:uppercase;letter-spacing:.085em;text-align:center;margin:0 0 12px;padding:0 0 7px;border-bottom:2px solid #3e3932}.panel h3{font:700 12px Arial;margin:10px 0 8px}.muted{font-size:12px;color:#77736d}.fieldrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.fieldrow.threefield{grid-template-columns:repeat(3,minmax(0,1fr))}.score-row{display:grid;grid-template-columns:minmax(0,1fr) 62px 37px 45px;gap:6px;align-items:center;border-bottom:1px solid #e2dfd8;padding:5px 0}.score-row span{font-weight:700;font-size:12px;text-transform:uppercase}.score-row input{text-align:center;font-size:16px;font-weight:700}.score-row output,.number{background:#f7f6f2;border:1px solid #aaa69e;border-radius:5px;text-align:center;padding:7px;font-weight:800}.tiny{padding:5px 3px;font-size:11px}.choice-row{display:grid;grid-template-columns:20px minmax(0,1fr) 37px 40px;gap:5px;align-items:center;padding:4px 0;border-bottom:1px solid #e7e4df;font-size:12px}.choice-row .skill-flags{display:flex;gap:4px;justify-content:flex-end;align-items:center}.choice-row .skill-flags label{font-size:9px;font-weight:400;display:flex;gap:1px;align-items:center}.choice-row output{text-align:right;font-weight:800}.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.metric{border:2px solid #332e28;border-radius:6px;padding:7px;text-align:center;min-height:70px}.metric b{font:800 26px Georgia,serif;display:block}.metric small{font-size:10px;text-transform:uppercase;font-weight:700}.grow{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.grow>*{flex:1 1 100px}.grow button{flex:0 0 auto}.dice-result,.message{background:#f7f6f2;border:1px solid #d2cfc8;border-radius:5px;padding:9px;white-space:pre-wrap;font-size:12px;line-height:1.6;margin-top:9px;min-height:32px}.pill{display:inline-block;background:#eeeae3;padding:2px 7px;border-radius:10px;font-size:11px}.check{display:flex;gap:5px;align-items:center;font-size:12px}.check label{display:flex;gap:4px;align-items:center;font-weight:400;font-size:12px;text-transform:none}.divided{border-top:1px solid #d3cfc8;margin:10px 0;padding-top:10px}.outlabel{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:6px 0}.outlabel output{font-weight:800}.slim{width:83px!important}.table{width:100%;border-collapse:collapse;font-size:12px}.table th{text-transform:uppercase;background:#eeeae3;font-size:10px}.table th,.table td{border:1px solid #c9c5be;padding:5px}.table input,.table select{padding:5px;font-size:11px}.paper-lines{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 28px,#e4e1da 29px);border:0;border-radius:0;min-height:120px}.other-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.wide{grid-column:1/-1}.slot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.slot{border:1px solid #b4b0a6;padding:9px;border-radius:6px}.slot strong{font-size:12px}.slot input{width:65px;float:right}.condition-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.condition-list label{border:1px solid #d2cdc4;padding:7px;display:flex;gap:7px;align-items:center;border-radius:5px;font-size:11px}.log{max-height:210px;overflow:auto;font:12px/1.6 ui-monospace,monospace;white-space:pre-wrap;background:#f4f2ed;padding:10px;border:1px solid #c7c2b9}.stat{display:inline-flex;align-items:center;gap:8px;font-size:12px}.ok{color:#216e43}.error{color:#a33535}#toast{position:fixed;right:15px;bottom:15px;max-width:360px;background:#24211e;color:white;padding:12px 16px;border-radius:8px;box-shadow:0 6px 25px #0004;display:none;z-index:30}#toast.show{display:block}.foot{text-align:center;font-size:11px;color:#79756d;margin:12px 0 30px}@media(max-width:1150px){.three{grid-template-columns:repeat(2,minmax(0,1fr))}.three>.stack:last-child{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:740px){.page{margin:7px;padding:12px}.identity,.three,.other-grid,.three>.stack:last-child{grid-template-columns:1fr}.three>.stack:last-child{grid-column:auto}.identity{grid-template-columns:repeat(2,minmax(0,1fr))}.page-title h1{font-size:18px}.emblem{font-size:25px;width:56px;height:56px}.metrics{gap:5px}.metric b{font-size:19px}.slot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bar{padding:10px}.bar .brand{font-size:19px}}@media(max-width:410px){.identity,.slot-grid{grid-template-columns:1fr}.score-row{grid-template-columns:minmax(0,1fr) 50px 35px 40px}.panel{padding:9px}}@media print{@page{size:A4;margin:8mm}.bar,.foot,#toast,.no-print,.roll,button{display:none!important}body{background:white}.page,.page[hidden]{display:block!important;box-shadow:none;margin:0;padding:0;break-after:page;min-height:0}.page:last-of-type{break-after:auto}.page-title{margin:0 0 6px;padding-bottom:7px}.page-title h1{font-size:16px}.emblem{width:45px;height:45px;font-size:20px}.identity{gap:4px;margin:4px 0;padding:6px;grid-template-columns:repeat(4,1fr)}.three{grid-template-columns:.97fr 1.08fr .95fr;gap:6px}.stack{gap:6px}.panel{padding:6px;border-width:1px;break-inside:avoid}.panel h2{font-size:9px;margin-bottom:5px;padding-bottom:4px}.score-row,.choice-row{padding:2px 0}.choice-row{font-size:9px;grid-template-columns:13px minmax(0,1fr) 24px 27px}.score-row span{font-size:9px}.score-row input{font-size:11px}.metric{min-height:50px;padding:4px}.metric b{font-size:16px}.metric small{font-size:8px}input,select,textarea{padding:3px;font-size:9px}.muted,.dice-result,.message,.log{display:none}.other-grid{grid-template-columns:1fr 1fr;gap:5px}.paper-lines{min-height:120px}.slot-grid{grid-template-columns:repeat(3,1fr)}.page .no-print{display:none!important}}
 </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Ficha de Personagem D&D 5e</h1>
-
-    <!-- TOPO -->
-    <div class="grid cols-3 section">
-      <div>
-        <label>Nome do Personagem</label>
-        <input id="charName" placeholder="Nome do personagem">
-      </div>
-      <div>
-        <label>Jogador</label>
-        <input id="playerName" placeholder="Seu nome">
-      </div>
-      <div>
-        <label>Alinhamento</label>
-        <select id="alignment">
-          <option value="">Selecione...</option>
-          <option>Leal e Bom</option><option>Neutro e Bom</option><option>Caótico e Bom</option>
-          <option>Leal e Neutro</option><option>Neutro</option><option>Caótico e Neutro</option>
-          <option>Leal e Mau</option><option>Neutro e Mau</option><option>Caótico e Mau</option>
-        </select>
-      </div>
-      <div>
-        <label>Raça</label>
-        <select id="race"></select>
-      </div>
-      <div>
-        <label>Classe</label>
-        <select id="classe"></select>
-      </div>
-      <div>
-        <label>Nível</label>
-        <input id="level" type="number" min="1" placeholder="Nível" />
-      </div>
-      <div>
-        <label>Antecedente</label>
-        <input id="background" placeholder="Antecedente">
-      </div>
-      <div>
-        <label>Experiência (XP)</label>
-        <input id="xp" type="number" min="0" placeholder="XP atual">
-      </div>
-      <div class="center">
-        <label>Bônus de Proficiência</label>
-        <div id="profBonus" class="out"> </div>
-        <div class="muted">Calculado pelo nível</div>
-      </div>
-    </div>
-
-    <!-- ATRIBUTOS -->
-    <div class="grid cols-3 section">
-      <div class="card">
-        <h3>Atributos</h3>
-        <div class="grid cols-2">
-          <div>
-            <label>Força</label>
-            <input id="str" type="number" placeholder="Força">
-          </div>
-          <div class="center">
-            <label>Mod FOR</label>
-            <div id="mod-str" class="out"> </div>
-          </div>
-          <div>
-            <label>Destreza</label>
-            <input id="dex" type="number" placeholder="Destreza">
-          </div>
-          <div class="center">
-            <label>Mod DES</label>
-            <div id="mod-dex" class="out"> </div>
-          </div>
-          <div>
-            <label>Constituição</label>
-            <input id="con" type="number" placeholder="Constituição">
-          </div>
-          <div class="center">
-            <label>Mod CON</label>
-            <div id="mod-con" class="out"> </div>
-          </div>
-          <div>
-            <label>Inteligência</label>
-            <input id="int" type="number" placeholder="Inteligência">
-          </div>
-          <div class="center">
-            <label>Mod INT</label>
-            <div id="mod-int" class="out"> </div>
-          </div>
-          <div>
-            <label>Sabedoria</label>
-            <input id="wis" type="number" placeholder="Sabedoria">
-          </div>
-          <div class="center">
-            <label>Mod SAB</label>
-            <div id="mod-wis" class="out"> </div>
-          </div>
-          <div>
-            <label>Carisma</label>
-            <input id="cha" type="number" placeholder="Carisma">
-          </div>
-          <div class="center">
-            <label>Mod CAR</label>
-            <div id="mod-cha" class="out"> </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Combate</h3>
-        <div class="grid">
-          <div class="row">
-            <div>
-              <label>CA</label>
-              <input id="ac" type="number" placeholder="Classe de Armadura">
-            </div>
-            <div>
-              <label>Iniciativa</label>
-              <div id="initiative" class="out"> </div>
-              <div class="muted">= Mod DES + outros</div>
-              <input id="initMisc" class="mini" type="number" placeholder="Outros">
-            </div>
-            <div>
-              <label>Deslocamento (m)</label>
-              <input id="speed" type="number" placeholder="Ex.: 9 (30 ft)">
-            </div>
-          </div>
-          <div class="row">
-            <div>
-              <label>PV Máx.</label>
-              <input id="hpMax" type="number" placeholder="Pontos de Vida máximos">
-            </div>
-            <div>
-              <label>PV Atual</label>
-              <input id="hpCur" type="number" placeholder="Pontos de Vida atuais">
-            </div>
-            <div>
-              <label>Dado de Vida</label>
-              <input id="hitDie" placeholder="Ex.: d8, d10">
-            </div>
-          </div>
-          <div>
-            <label>Percepção Passiva</label>
-            <div id="passivePerception" class="out"> </div>
-            <div class="muted">= 10 + bônus de Percepção</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Proeficiências de Salvaguarda</h3>
-        <div class="grid">
-          <div class="save-row">
-            <label>Força</label>
-            <input type="checkbox" id="profSave-str"><span class="nowrap">Proef.</span>
-            <div id="save-str" class="out"> </div>
-          </div>
-          <div class="save-row">
-            <label>Destreza</label>
-            <input type="checkbox" id="profSave-dex"><span class="nowrap">Proef.</span>
-            <div id="save-dex" class="out"> </div>
-          </div>
-          <div class="save-row">
-            <label>Constituição</label>
-            <input type="checkbox" id="profSave-con"><span class="nowrap">Proef.</span>
-            <div id="save-con" class="out"> </div>
-          </div>
-          <div class="save-row">
-            <label>Inteligência</label>
-            <input type="checkbox" id="profSave-int"><span class="nowrap">Proef.</span>
-            <div id="save-int" class="out"> </div>
-          </div>
-          <div class="save-row">
-            <label>Sabedoria</label>
-            <input type="checkbox" id="profSave-wis"><span class="nowrap">Proef.</span>
-            <div id="save-wis" class="out"> </div>
-          </div>
-          <div class="save-row">
-            <label>Carisma</label>
-            <input type="checkbox" id="profSave-cha"><span class="nowrap">Proef.</span>
-            <div id="save-cha" class="out"> </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PERÍCIAS -->
-    <div class="section">
-      <h3>Perícias</h3>
-      <div class="notice">Marque <span class="pill k">Proef.</span> se possuir proficiência; marque <span class="pill k">Esp.</span> se possuir expertise (proeficiência dobrada). Campos ficam vazios até você preencher atributos/nível.</div>
-      <div id="skills" class="grid cols-3" style="margin-top:12px"></div>
-    </div>
-
-    <!-- ATAQUES & MAGIAS -->
-    <div class="grid cols-2 section">
-      <div class="card">
-        <h3>Ataques</h3>
-        <table class="table" id="attacksTable">
-          <thead>
-            <tr><th>Nome</th><th>Bônus</th><th>Dano/Tipo</th><th>Atributo</th><th>Proef.</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><input placeholder="Ataque"/></td>
-              <td class="center"><div class="out atk-bonus"> </div></td>
-              <td><input placeholder="Ex.: 1d8 cortante"/></td>
-              <td>
-                <select class="atk-abil">
-                  <option value="">—</option>
-                  <option value="str">FOR</option>
-                  <option value="dex">DES</option>
-                  <option value="con">CON</option>
-                  <option value="int">INT</option>
-                  <option value="wis">SAB</option>
-                  <option value="cha">CAR</option>
-                </select>
-              </td>
-              <td class="center"><input type="checkbox" class="atk-prof"></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="button-bar">
-          <button id="addAttack">+ Adicionar Ataque</button>
-          <button id="rmAttack">– Remover Último</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Magias</h3>
-        <div class="grid cols-2">
-          <div>
-            <label>CD de Magia</label>
-            <div id="spellDC" class="out"> </div>
-            <div class="muted">= 8 + bônus de proef. + mod do atributo de conjuração</div>
-          </div>
-          <div>
-            <label>Bônus de Ataque Mágico</label>
-            <div id="spellAtk" class="out"> </div>
-            <div class="muted">= bônus de proef. + mod do atributo de conjuração</div>
-          </div>
-        </div>
-        <label>Atributo de Conjuração</label>
-        <select id="castingStat">
-          <option value="">Selecione...</option>
-          <option value="int">INT</option>
-          <option value="wis">SAB</option>
-          <option value="cha">CAR</option>
-        </select>
-        <div class="grid cols-2" style="margin-top:10px">
-          <div>
-            <label>Truques (nível 0)</label>
-            <textarea id="spells0" placeholder="Lista de truques"></textarea>
-          </div>
-          <div>
-            <label>Magias Nível 1</label>
-            <textarea id="spells1" placeholder="Magias de 1º nível"></textarea>
-          </div>
-          <div>
-            <label>Magias Nível 2</label>
-            <textarea id="spells2" placeholder="Magias de 2º nível"></textarea>
-          </div>
-          <div>
-            <label>Magias Nível 3</label>
-            <textarea id="spells3" placeholder="Magias de 3º nível"></textarea>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- INVENTÁRIO / TRAÇOS -->
-    <div class="grid cols-2 section">
-      <div class="card">
-        <h3>Equipamentos & Tesouros</h3>
-        <textarea id="inventory" placeholder="Anote equipamentos, poções, tesouros, moedas..."></textarea>
-      </div>
-      <div class="card">
-        <h3>Traços, Características e Anotações</h3>
-        <textarea id="traits" placeholder="Traços raciais, talentos, características de classe, anotações..."></textarea>
-      </div>
-    </div>
-
-    <!-- CONTROLES -->
-    <div class="section">
-      <h3>Utilidades</h3>
-      <div class="grid cols-3">
-        <div class="card">
-          <h3>Rolador de Dados</h3>
-          <div class="row">
-            <input id="diceExpr" placeholder="Ex.: 1d20+5, 4d6kh3, 2d8+mod DES"/>
-            <button id="rollDice">Rolar</button>
-          </div>
-          <div id="diceResult" class="notice" style="margin-top:10px">Sem rolagem ainda.</div>
-        </div>
-        <div class="card">
-          <h3>Exportar / Importar</h3>
-          <div class="button-bar">
-            <button id="btnExport">Exportar JSON</button>
-            <button id="btnImport">Importar JSON</button>
-            <button id="btnPrint">Imprimir</button>
-            <button id="btnReset">Resetar Ficha</button>
-          </div>
-          <div class="muted" style="margin-top:8px">A exportação salva todos os campos desta página.</div>
-        </div>
-        <div class="card">
-          <h3>Outros</h3>
-          <label>Idiomas</label>
-          <input id="languages" placeholder="Ex.: Comum, Élfico, Anão...">
-          <label>Proficiências (ferramentas, armas, armaduras)</label>
-          <textarea id="proficiencies" placeholder="Ferramentas, kits de artesão, armas, armaduras..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- DM -->
-    <button class="dm-toggle">⚔️ Abrir Ferramentas do Mestre ⚔️</button>
-    <div class="dm-area" id="dmArea">
-      <h2>Ferramentas do Mestre</h2>
-      <div class="grid cols-2">
-        <div class="card" style="background:rgba(255,255,255,.1)">
-          <h3>Construtor Rápido de Encontros</h3>
-          <div class="grid">
-            <label>Nível Médio do Grupo</label>
-            <input id="partyLvl" type="number" placeholder="Nível médio">
-            <label>Nº de Personagens</label>
-            <input id="partySize" type="number" placeholder="Tamanho do grupo">
-            <label>XP do Encontro (total)</label>
-            <input id="encXP" type="number" placeholder="Soma de XP dos monstros">
-            <button id="calcEncounter">Calcular Dificuldade</button>
-            <div id="encDiff" class="notice" style="margin-top:8px; color:#111">Sem cálculo ainda.</div>
-          </div>
-        </div>
-        <div class="card" style="background:rgba(255,255,255,.1)">
-          <h3>Gerador Simples de NPC</h3>
-          <div class="button-bar">
-            <button id="genNPC">Gerar NPC</button>
-          </div>
-          <div id="npcBox" class="notice" style="margin-top:8px; color:#111">Clique em “Gerar NPC”.</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    // ========= Dados Base (listas) =========
-    const RACAS = [
-      {nome:"Anão", speed:7.5}, {nome:"Elfo", speed:9}, {nome:"Halfling", speed:7.5},
-      {nome:"Humano", speed:9}, {nome:"Draconato", speed:9}, {nome:"Gnomo", speed:7.5},
-      {nome:"Meio-Elfo", speed:9}, {nome:"Meio-Orc", speed:9}, {nome:"Tiefling", speed:9}
-    ];
-    const CLASSES = ["Bárbaro","Bardo","Bruxo","Clérigo","Druida","Feiticeiro","Guerreiro","Ladino","Mago","Monge","Paladino","Patrulheiro"];
-
-    const SKILLS = [
-      {id:"acrobatics",    nome:"Acrobacia",       abil:"dex"},
-      {id:"animal",        nome:"Adestrar Animais",abil:"wis"},
-      {id:"arcana",        nome:"Arcanismo",       abil:"int"},
-      {id:"athletics",     nome:"Atletismo",       abil:"str"},
-      {id:"deception",     nome:"Enganação",       abil:"cha"},
-      {id:"history",       nome:"História",        abil:"int"},
-      {id:"insight",       nome:"Intuição",        abil:"wis"},
-      {id:"intimidation",  nome:"Intimidação",     abil:"cha"},
-      {id:"investigation", nome:"Investigação",    abil:"int"},
-      {id:"medicine",      nome:"Medicina",        abil:"wis"},
-      {id:"nature",        nome:"Natureza",        abil:"int"},
-      {id:"perception",    nome:"Percepção",       abil:"wis"},
-      {id:"performance",   nome:"Atuação",         abil:"cha"},
-      {id:"persuasion",    nome:"Persuasão",       abil:"cha"},
-      {id:"religion",      nome:"Religião",        abil:"int"},
-      {id:"sleight",       nome:"Furtividade de Mão", abil:"dex"},
-      {id:"stealth",       nome:"Furtividade",     abil:"dex"},
-      {id:"survival",      nome:"Sobrevivência",   abil:"wis"},
-    ];
-
-    // ========= Helpers =========
-    const el = id => document.getElementById(id);
-    const txt = (n) => (n===null || n===undefined || Number.isNaN(n)) ? "" : (n>=0?`+${n}`:`${n}`);
-    const onlyNum = (v)=> (v===null||v===undefined||v==="") ? null : (isNaN(parseInt(v)) ? null : parseInt(v));
-    const mod = (score)=> {
-      const n = onlyNum(score);
-      if(n===null) return "";
-      return Math.floor((n - 10)/2);
-    };
-    const profFromLevel = (lvl) => {
-      const n = onlyNum(lvl);
-      if(n===null || n<1) return "";
-      return 2 + Math.floor((n-1)/4);
-    };
-
-    const abilityIds = ["str","dex","con","int","wis","cha"];
-
-    // ========= Popular selects =========
-    (function fillStatic(){
-      const raceSel = el("race");
-      raceSel.appendChild(new Option("Selecione...",""));
-      RACAS.forEach(r => raceSel.appendChild(new Option(r.nome, r.nome)));
-      const classSel = el("classe");
-      classSel.appendChild(new Option("Selecione...",""));
-      CLASSES.forEach(c => classSel.appendChild(new Option(c,c)));
-    })();
-
-    // ========= Construir UI de Perícias =========
-    (function buildSkills(){
-      const wrap = el("skills");
-      SKILLS.forEach(s=>{
-        const row = document.createElement("div");
-        row.className = "skill-row";
-        row.innerHTML = `
-          <label>${s.nome} <span class="muted">(${s.abil.toUpperCase()})</span></label>
-          <span class="center"><input type="checkbox" id="prof-${s.id}"> Proef.</span>
-          <span class="center"><input type="checkbox" id="exp-${s.id}"> Esp.</span>
-          <div id="sk-${s.id}" class="out"> </div>
-        `;
-        wrap.appendChild(row);
-      });
-    })();
-
-    // ========= Atualizações / Cálculos =========
-    function updateAll(){
-      // Modificadores de atributos
-      abilityIds.forEach(a=>{
-        const val = el(a).value;
-        const m = mod(val);
-        el('mod-'+a).textContent = txt(m===""? "": m).trim();
-      });
-
-      // Proficiência
-      const pb = profFromLevel(el("level").value);
-      el("profBonus").textContent = txt(pb===""? "": pb).trim();
-
-      // Iniciativa = Mod DES + misc (se houver)
-      const mdex = mod(el("dex").value);
-      const miscInit = onlyNum(el("initMisc").value) ?? 0;
-      let init = "";
-      if(mdex !== "" || el("initMisc").value !== ""){
-        init = ( (mdex===""?0:mdex) + miscInit );
-      }
-      el("initiative").textContent = txt(init===""? "": init).trim();
-
-      // Salvaguardas
-      const saveMap = {str:"Força", dex:"Destreza", con:"Constituição", int:"Inteligência", wis:"Sabedoria", cha:"Carisma"};
-      Object.keys(saveMap).forEach(a=>{
-        const m = mod(el(a).value);
-        let val = "";
-        const prof = el("profSave-"+a).checked;
-        if(m !== "" || prof){
-          const bonus = (m===""?0:m) + (prof && pb!=="" ? pb : 0);
-          val = bonus;
-        }
-        el("save-"+a).textContent = txt(val===""? "": val).trim();
-      });
-
-      // Perícias
-      SKILLS.forEach(s=>{
-        const m = mod(el(s.abil).value);
-        const hasProf = el("prof-"+s.id).checked;
-        const hasExp  = el("exp-"+s.id).checked;
-        let val = "";
-        if(m !== "" || hasProf || hasExp){
-          const pbVal = (pb===""?0:pb);
-          const profBonus = hasExp ? (pbVal*2) : (hasProf ? pbVal : 0);
-          val = (m===""?0:m) + profBonus;
-        }
-        el("sk-"+s.id).textContent = txt(val===""? "": val).trim();
-      });
-
-      // Percepção Passiva = 10 + bônus de Percepção
-      let pp = "";
-      const skPercTxt = el("sk-perception").textContent.trim();
-      if(skPercTxt){
-        const n = parseInt(skPercTxt);
-        if(!isNaN(n)) pp = 10 + n;
-      } else {
-        // fallback: 10 + mod SAB se houver
-        const mw = mod(el("wis").value);
-        if(mw !== "") pp = 10 + mw;
-      }
-      el("passivePerception").textContent = pp===""? "" : `${pp}`;
-
-      // Spell DC / Ataque Mágico
-      const cast = el("castingStat").value;
-      let spellMod = "";
-      if(cast){
-        const m = mod(el(cast).value);
-        if(m !== "") spellMod = m;
-      }
-      const spellDC = (pb!=="" && spellMod!=="") ? (8 + pb + spellMod) : "";
-      const spellAtk = (pb!=="" && spellMod!=="") ? (pb + spellMod) : "";
-      el("spellDC").textContent  = spellDC===""? "" : `${spellDC}`;
-      el("spellAtk").textContent = spellAtk===""? "" : txt(spellAtk);
-
-      // Ataques: bônus por linha
-      document.querySelectorAll("#attacksTable tbody tr").forEach(tr=>{
-        const abilSel = tr.querySelector(".atk-abil").value;
-        const profChk = tr.querySelector(".atk-prof").checked;
-        let res = "";
-        const m = abilSel ? mod(el(abilSel).value) : "";
-        if(m!=="" || profChk){
-          const addedPB = (profChk && pb!=="") ? pb : 0;
-          res = ( (m===""?0:m) + addedPB );
-        }
-        tr.querySelector(".atk-bonus").textContent = res===""? "": txt(res);
-      });
-    }
-
-    // ========= Eventos =========
-    // Inputs que afetam quase tudo
-    [
-      "level","str","dex","con","int","wis","cha","initMisc","castingStat",
-      "race","classe"
-    ].forEach(id=>{
-      el(id).addEventListener("input", updateAll);
-      el(id).addEventListener("change", updateAll);
-    });
-
-    // Salvaguardas / Perícias toggles
-    function hookSkillSaveToggles(){
-      document.querySelectorAll('[id^="profSave-"]').forEach(chk=>chk.addEventListener("change", updateAll));
-      SKILLS.forEach(s=>{
-        el("prof-"+s.id).addEventListener("change", updateAll);
-        el("exp-"+s.id).addEventListener("change", updateAll);
-      });
-    }
-    hookSkillSaveToggles();
-
-    // Race muda deslocamento (somente após seleção; não há valor inicial)
-    el("race").addEventListener("change", ()=>{
-      const r = RACAS.find(x=>x.nome===el("race").value);
-      if(r){
-        // só define se o campo estiver vazio (não sobreescrever manual)
-        if(!el("speed").value) el("speed").value = r.speed;
-      }
-      updateAll();
-    });
-
-    // Ataques: adicionar/remover
-    el("addAttack").addEventListener("click", ()=>{
-      const tb = el("attacksTable").querySelector("tbody");
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><input placeholder="Ataque"/></td>
-        <td class="center"><div class="out atk-bonus"> </div></td>
-        <td><input placeholder="Ex.: 1d8 cortante"/></td>
-        <td>
-          <select class="atk-abil">
-            <option value="">—</option>
-            <option value="str">FOR</option>
-            <option value="dex">DES</option>
-            <option value="con">CON</option>
-            <option value="int">INT</option>
-            <option value="wis">SAB</option>
-            <option value="cha">CAR</option>
-          </select>
-        </td>
-        <td class="center"><input type="checkbox" class="atk-prof"></td>
-      `;
-      tb.appendChild(tr);
-      tr.querySelectorAll("input,select").forEach(i=>{
-        i.addEventListener("input", updateAll);
-        i.addEventListener("change", updateAll);
-      });
-      updateAll();
-    });
-    el("rmAttack").addEventListener("click", ()=>{
-      const tb = el("attacksTable").querySelector("tbody");
-      if(tb.rows.length>1) tb.deleteRow(tb.rows.length-1);
-      updateAll();
-    });
-
-    // Inicia listeners de ataques existentes
-    document.querySelectorAll("#attacksTable input, #attacksTable select").forEach(i=>{
-      i.addEventListener("input", updateAll);
-      i.addEventListener("change", updateAll);
-    });
-
-    // ========= DM AREA =========
-    document.querySelector(".dm-toggle").addEventListener("click", ()=>{
-      el("dmArea").classList.toggle("visible");
-    });
-
-    // Encontro (estimativa MUITO simples; ajuste conforme sua mesa)
-    el("calcEncounter").addEventListener("click", ()=>{
-      const lvl  = onlyNum(el("partyLvl").value);
-      const size = onlyNum(el("partySize").value);
-      const xp   = onlyNum(el("encXP").value);
-      if(lvl===null || size===null || xp===null){
-        el("encDiff").textContent = "Preencha nível médio, tamanho do grupo e XP total.";
-        return;
-      }
-      // Limiar aproximado por personagem (bem simplificado!)
-      // Fácil ~ 25*lvl  | Médio ~ 50*lvl | Difícil ~ 75*lvl | Mortal ~ 100*lvl
-      const easy = 25*lvl*size, med = 50*lvl*size, hard = 75*lvl*size, dead = 100*lvl*size;
-      let diff = "Trivial";
-      if(xp >= dead) diff = "Mortal";
-      else if(xp >= hard) diff = "Difícil";
-      else if(xp >= med) diff = "Médio";
-      else if(xp >= easy) diff = "Fácil";
-      el("encDiff").innerHTML = `
-        <div><b>Dificuldade:</b> ${diff}</div>
-        <div class="muted">Limiares ~ Fácil ${easy}, Médio ${med}, Difícil ${hard}, Mortal ${dead}</div>
-      `;
-    });
-
-    // NPC simples
-    const NAMES = ["Aelar","Bryn","Calia","Dorn","Elaith","Finn","Garruk","Helga","Iriel","Jasper","Kael","Lyra","Marek","Neris","Orin","Pike","Quinn","Rurik","Syl","Theren","Ulric","Veya","Wren","Yara","Zane"];
-    const JOBS  = ["Ferreiro","Taberneiro","Guarda","Mercador","Caçador","Curandeiro","Sacerdote","Mago","Ladino","Bardo","Agricultor","Pescador","Minerador"];
-    const QUIRKS= ["fala baixo demais","ri em momentos tensos","coleciona botões","tem medo de gatos","sempre mastiga ervas","sussurra segredos","odeia chuva","aprecia poesia","tem cicatriz notável","admira aventureiros"];
-    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-    el("genNPC").addEventListener("click", ()=>{
-      const npc = `${pick(NAMES)} — ${pick(JOBS)}; ${pick(QUIRKS)}.`;
-      el("npcBox").textContent = npc;
-    });
-
-    // ========= Exportar / Importar / Print / Reset =========
-    function collectData(){
-      const data = {};
-      // inputs, selects, textareas
-      document.querySelectorAll("input, select, textarea").forEach(inp=>{
-        if(inp.type==="checkbox"){
-          data[inp.id||inp.name||Math.random()] = inp.checked;
-        } else {
-          data[inp.id||inp.name||Math.random()] = inp.value;
-        }
-      });
-      // salvar tabelas, se necessário no futuro
-      return data;
-    }
-    function applyData(data){
-      if(!data) return;
-      document.querySelectorAll("input, select, textarea").forEach(inp=>{
-        const key = inp.id||inp.name;
-        if(!(key in data)) return;
-        if(inp.type==="checkbox"){
-          inp.checked = !!data[key];
-        } else {
-          inp.value = data[key];
-        }
-      });
-      updateAll();
-    }
-    el("btnExport").addEventListener("click", ()=>{
-      const blob = new Blob([JSON.stringify(collectData(), null, 2)], {type:"application/json"});
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = (el("charName").value || "ficha") + ".json";
-      a.click();
-      URL.revokeObjectURL(a.href);
-    });
-    el("btnImport").addEventListener("click", ()=>{
-      const i = document.createElement("input");
-      i.type="file"; i.accept="application/json";
-      i.onchange = ()=>{
-        const f = i.files[0];
-        if(!f) return;
-        const r = new FileReader();
-        r.onload = ()=> {
-          try{
-            const data = JSON.parse(r.result);
-            applyData(data);
-          }catch(e){ alert("JSON inválido."); }
-        };
-        r.readAsText(f);
-      };
-      i.click();
-    });
-    el("btnPrint").addEventListener("click", ()=> window.print());
-    el("btnReset").addEventListener("click", ()=>{
-      if(!confirm("Limpar todos os campos?")) return;
-      document.querySelectorAll("input, select, textarea").forEach(inp=>{
-        if(inp.type==="checkbox"){ inp.checked = false; }
-        else { inp.value = ""; }
-      });
-      updateAll();
-    });
-
-    // ========= Dice Roller =========
-    // Suporta expressões simples tipo: 1d20+5, 4d6kh3 (keep highest 3), 3d8-1
-    function rollDiceExpr(expr){
-      if(!expr) return "Informe a expressão.";
-      let e = expr.toLowerCase().replace(/\s+/g,"");
-      const m = e.match(/^(\d+)d(\d+)(kh(\d+))?(kl(\d+))?([+-]\d+)?$/);
-      if(!m){
-        // fallback: tentar 1d20+X padrão
-        const m2 = e.match(/^(\d+)d(\d+)([+-]\d+)?$/);
-        if(!m2) return "Formato não reconhecido.";
-      }
-      const dice = parseInt(m?.[1] ?? RegExp.$1);
-      const faces = parseInt(m?.[2] ?? RegExp.$2);
-      const kh = m?.[4] ? parseInt(m[4]) : null;
-      const kl = m?.[6] ? parseInt(m[6]) : null;
-      const modFlat = m?.[7] ? parseInt(m[7]) : 0;
-
-      const rolls = [];
-      for(let i=0;i<dice;i++){
-        rolls.push(1 + Math.floor(Math.random()*faces));
-      }
-      let used = [...rolls];
-      if(kh!==null){
-        used.sort((a,b)=>b-a);
-        used = used.slice(0,kh);
-      } else if(kl!==null){
-        used.sort((a,b)=>a-b);
-        used = used.slice(0,kl);
-      }
-      const sum = used.reduce((a,b)=>a+b,0) + modFlat;
-      return `Rolagem: [${rolls.join(", ")}]  Usados: [${used.join(", ")}]  Mod: ${txt(modFlat)}  = Total: ${sum}`;
-    }
-    el("rollDice").addEventListener("click", ()=>{
-      const out = rollDiceExpr(el("diceExpr").value);
-      el("diceResult").textContent = out;
-    });
-
-    // ========= Gatilhos iniciais =========
-    // Nada de presets: apenas conectar eventos e deixar tudo em branco
-    document.querySelectorAll("input, select, textarea").forEach(i=>{
-      i.addEventListener("input", updateAll);
-      i.addEventListener("change", updateAll);
-    });
-
-    // Primeira atualização apenas para limpar dependências (mantém outputs vazios)
-    updateAll();
-  </script>
-  <script>
-
-(function(){
- "use strict";
- var root=document.querySelector(".container");
- if(!root||document.getElementById("sheetNav"))return;
- var heading=root.querySelector("h1");
- var top=heading.nextElementSibling;
- var stats=top.nextElementSibling;
- var skills=stats.nextElementSibling;
- var attackGrid=skills.nextElementSibling;
- var infoGrid=attackGrid.nextElementSibling;
- var utilities=infoGrid.nextElementSibling;
- var statCards=Array.from(stats.children);
- var combatCards=Array.from(attackGrid.children);
- var infoCards=Array.from(infoGrid.children);
- var q=function(id){return document.getElementById(id)};
- var create=function(tag,cls,html){var n=document.createElement(tag);if(cls)n.className=cls;if(html!==undefined)n.innerHTML=html;return n};
- var page1=create("section","sheet-page"),page2=create("section","sheet-page"),page3=create("section","sheet-page");
- page1.id="sheetPage1";page2.id="sheetPage2";page3.id="sheetPage3";
- page2.hidden=true;page3.hidden=true;
- function head(title,sub){return create("div","sheet-page-head",'<div class="seal">D&amp;D</div><div class="heading-lines"><b>'+title+'</b><small>'+sub+'</small></div>')};
- var nav=create("nav","sheet-toolbar",'<strong>FICHA DE PERSONAGEM · 5ª EDIÇÃO</strong><div id="sheetNav" class="sheet-nav"><button type="button" data-sheet="1" class="active">01 · Personagem</button><button type="button" data-sheet="2">02 · História</button><button type="button" data-sheet="3">03 · Magias</button></div><span id="saveIndicator" class="save-indicator">Dados armazenados neste navegador</span>');
- root.insertBefore(nav,heading);
- root.insertBefore(page1,heading);
- root.insertBefore(page2,heading);
- root.insertBefore(page3,heading);
- page1.appendChild(head("Ficha do personagem","Aventureiro • atributos • combate • proficiências"));
- page1.appendChild(heading);
- page1.appendChild(top);
- heading.textContent="Dungeons & Dragons · Ficha 5e";
- var cols=create("div","sheet-columns");
- var left=create("div","sheet-column"),middle=create("div","sheet-column"),right=create("div","sheet-column");
- cols.append(left,middle,right);page1.appendChild(cols);
- left.appendChild(statCards[0]);left.appendChild(statCards[2]);left.appendChild(skills);
- middle.appendChild(statCards[1]);middle.appendChild(combatCards[0]);middle.appendChild(infoCards[0]);
- right.appendChild(create("div","card",'<h3>Personalidade</h3><label>Traços de personalidade</label><textarea id="personality"></textarea><label>Ideais</label><textarea id="ideals"></textarea><label>Vínculos</label><textarea id="bonds"></textarea><label>Defeitos</label><textarea id="flaws"></textarea>'));
- right.appendChild(infoCards[1]);
- var combat=statCards[1];
- combat.insertAdjacentHTML("beforeend",'<div class="sheet-extra-fields"><h3>Defesa e pontos de vida automáticos</h3><label for="armorType">Armadura</label><select id="armorType"><option value="none">Sem armadura</option><option value="padded">Acolchoada (11 + DES)</option><option value="leather">Couro (11 + DES)</option><option value="studded">Couro batido (12 + DES)</option><option value="hide">Peles (12 + DES, máx. +2)</option><option value="chainshirt">Camisão de malha (13 + DES, máx. +2)</option><option value="scale">Brunea (14 + DES, máx. +2)</option><option value="breastplate">Peitoral (14 + DES, máx. +2)</option><option value="halfplate">Meia armadura (15 + DES, máx. +2)</option><option value="ring">Cota de anéis (14)</option><option value="chain">Cota de malha (16)</option><option value="splint">Cota de talas (17)</option><option value="plate">Placas (18)</option></select><div class="sheet-subgrid"><label><input id="shieldEquipped" type="checkbox"> Escudo (+2)</label><label>Outros bônus na CA <input id="acMisc" type="number" placeholder="0"></label><label>Modo de CA<select id="acMode"><option value="auto">Automático</option><option value="manual">Manual / especial</option></select></label><label><input id="autoHp" type="checkbox" checked> PV máximo automático</label><label>PV bônus por nível<input id="hpPerLevelBonus" type="number" placeholder="Ex.: talento"></label><label>PV adicional total<input id="hpMisc" type="number" placeholder="0"></label><label>Dados de Vida gastos<input id="hitDiceSpent" type="number" min="0" placeholder="0"></label><label>PV temporários<input id="hpTemp" type="number" min="0" placeholder="0"></label></div><div class="sheet-death"><b>Resistência à morte:</b><span>Sucessos</span><label><input type="checkbox" id="deathS1" aria-label="Sucesso 1"></label><label><input type="checkbox" id="deathS2" aria-label="Sucesso 2"></label><label><input type="checkbox" id="deathS3" aria-label="Sucesso 3"></label><span>Falhas</span><label><input type="checkbox" id="deathF1" aria-label="Falha 1"></label><label><input type="checkbox" id="deathF2" aria-label="Falha 2"></label><label><input type="checkbox" id="deathF3" aria-label="Falha 3"></label></div></div>');
- var proficiency=statCards[0];
- proficiency.insertAdjacentHTML("beforeend",'<div class="sheet-extra-fields"><h3>Medidas e passivas</h3><div class="sheet-subgrid"><div><label>Carga máxima (kg)</label><output id="carryCapacity" class="out"></output></div><div><label>Empurrar / arrastar (kg)</label><output id="pushCapacity" class="out"></output></div><div><label>Investigação passiva</label><output id="passiveInvestigation" class="out"></output></div><div><label>Intuição passiva</label><output id="passiveInsight" class="out"></output></div></div><div id="xpProgressText" class="muted"></div><div class="xp-meter"><span id="xpProgressFill"></span></div></div>');
- var table=q("attacksTable");table.querySelector("thead tr").insertAdjacentHTML("beforeend","<th>Dano +</th>");
- function enhanceAttacks(){Array.from(table.tBodies[0].rows).forEach(function(tr){if(!tr.querySelector(".damage-bonus"))tr.insertAdjacentHTML("beforeend",'<td class="center"><output class="out damage-bonus"></output></td>')})}
- enhanceAttacks();
- page2.appendChild(head("História & aparência","Segunda página da ficha de personagem"));
- page2.appendChild(create("div","section sheet-extra",'<div class="card wide"><h3>Descrição do personagem</h3><div class="sheet-stats-row"><label>Idade<input id="age"></label><label>Altura<input id="heightText"></label><label>Peso<input id="weightText"></label><label>Olhos<input id="eyes"></label><label>Pele<input id="skin"></label><label>Cabelo<input id="hair"></label></div></div><div class="card"><h3>Aparência do personagem</h3><textarea id="appearance" class="portrait" placeholder="Aparência, vestes e marcas"></textarea></div><div class="card"><h3>Aliados e organizações</h3><textarea id="allies" placeholder="Grupos, aliados e patronos"></textarea><label>Símbolo</label><textarea id="symbol" placeholder="Descreva seu símbolo"></textarea></div><div class="card"><h3>Histórico do personagem</h3><textarea id="historyText" class="history-area"></textarea></div><div class="card"><h3>Características e traços adicionais</h3><textarea id="featuresExtra" class="history-area"></textarea></div><div class="card wide"><h3>Tesouro e recompensas</h3><textarea id="treasure"></textarea></div></div>'));
- page3.appendChild(head("Ficha de conjuração","Terceira página • magias de nível 0 a 9"));
- var mage=create("div","sheet-magic");
- page3.appendChild(mage);
- mage.appendChild(combatCards[1]);
- mage.appendChild(create("div","card",'<h3>Espaços de magia e recursos</h3><label>Progressão de espaços</label><select id="slotsMode"><option value="auto">Automático pela classe</option><option value="full">Conjurador completo</option><option value="half">Meio conjurador</option><option value="third">Um terço de conjurador</option><option value="pact">Pacto do bruxo</option><option value="none">Sem espaços</option></select><div id="spellSlots" class="sheet-slots"></div><p id="pactNote" class="muted"></p><h3>Mana opcional / regra da mesa</h3><p class="muted">D&D 5e padrão usa espaços de magia, não mana. Use este painel apenas se a mesa adotar uma variante.</p><label>Sistema de mana</label><select id="manaMode"><option value="off">Desligado (regras padrão)</option><option value="points">Pontos de magia (variante)</option><option value="custom">Total manual da mesa</option></select><div class="sheet-subgrid"><label>Mana máxima<input id="manaMax" type="number" min="0" placeholder="Total" disabled></label><label>Mana gasta<input id="manaUsed" type="number" min="0" placeholder="0"></label></div><output id="manaRemaining" class="out"></output><p class="muted" id="manaInfo"></p></div>'));
- mage.appendChild(create("div","card wide",'<h3>Magias adicionais de níveis 4 a 9</h3><div class="sheet-extra" id="additionalSpells"></div></div>'));
- for(var j=4;j<=9;j++){q("additionalSpells").insertAdjacentHTML("beforeend",'<div><label for="spells'+j+'">Magias de nível '+j+'</label><textarea id="spells'+j+'" placeholder="Magias conhecidas / preparadas"></textarea></div>')}
- for(var i=1;i<=9;i++){q("spellSlots").insertAdjacentHTML("beforeend",'<div class="sheet-slot"><b>N'+i+'</b><output id="slotTotal'+i+'">—</output><input type="number" id="slotUsed'+i+'" min="0" placeholder="Usados" aria-label="Espaços de magia de nível '+i+' usados"><small>Espaços restantes: <output id="slotRemaining'+i+'">—</output></small></div>')}
- utilities.classList.remove("section");utilities.classList.add("sheet-utilities");
- var b=document.querySelector(".dm-toggle");
- root.insertBefore(utilities,b);
- Array.from(q("sheetNav").querySelectorAll("button")).forEach(function(btn){btn.addEventListener("click",function(){selectPage(Number(btn.dataset.sheet))})});
- function selectPage(n){[page1,page2,page3].forEach(function(p,idx){p.hidden=(idx+1!==n)});q("sheetNav").querySelectorAll("button").forEach(function(b){var active=Number(b.dataset.sheet)===n;b.classList.toggle("active",active);b.setAttribute("aria-current",active?"page":"false")});window.scrollTo({top:0,behavior:"smooth"})}
- var hitDice={Bárbaro:12,Bardo:8,Bruxo:8,"Clérigo":8,Druida:8,Feiticeiro:6,Guerreiro:10,Ladino:8,Mago:6,Monge:8,Paladino:10,Patrulheiro:10};
- var castClass={Bardo:"cha",Bruxo:"cha","Clérigo":"wis",Druida:"wis",Feiticeiro:"cha",Mago:"int",Paladino:"cha",Patrulheiro:"wis"};
- var saveProf={Bárbaro:["str","con"],Bardo:["dex","cha"],Bruxo:["wis","cha"],"Clérigo":["wis","cha"],Druida:["int","wis"],Feiticeiro:["con","cha"],Guerreiro:["str","con"],Ladino:["dex","int"],Mago:["int","wis"],Monge:["str","dex"],Paladino:["wis","cha"],Patrulheiro:["str","dex"]};
- var fullSlots=[
- [0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[3,0,0,0,0,0,0,0,0],[4,2,0,0,0,0,0,0,0],[4,3,0,0,0,0,0,0,0],[4,3,2,0,0,0,0,0,0],[4,3,3,0,0,0,0,0,0],[4,3,3,1,0,0,0,0,0],[4,3,3,2,0,0,0,0,0],[4,3,3,3,1,0,0,0,0],[4,3,3,3,2,0,0,0,0],[4,3,3,3,2,1,0,0,0],[4,3,3,3,2,1,0,0,0],[4,3,3,3,2,1,1,0,0],[4,3,3,3,2,1,1,0,0],[4,3,3,3,2,1,1,1,0],[4,3,3,3,2,1,1,1,0],[4,3,3,3,2,1,1,1,1],[4,3,3,3,3,1,1,1,1],[4,3,3,3,3,2,1,1,1],[4,3,3,3,3,2,2,1,1]
- ];
- var xpLevels=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
- var spellPoints=[0,4,6,14,17,27,32,38,44,57,64,73,73,83,83,94,94,107,114,123,133];
- var armor={none:[10,99],padded:[11,99],leather:[11,99],studded:[12,99],hide:[12,2],chainshirt:[13,2],scale:[14,2],breastplate:[14,2],halfplate:[15,2],ring:[14,0],chain:[16,0],splint:[17,0],plate:[18,0]};
- function num(id,fallback){var v=q(id)&&q(id).value;return v===""||v===undefined||!Number.isFinite(Number(v))?fallback:Number(v)}
- function format(v){return Number.isFinite(v)?(v>=0?"+":"")+v:"—"}
- function isReal(v){return v!==""&&v!==null&&v!==undefined&&Number.isFinite(Number(v))}
- var rememberedClass=q("classe").value;
- q("classe").addEventListener("change",function(){var cl=q("classe").value;if(!cl||cl===rememberedClass)return;rememberedClass=cl;abilityIds.forEach(function(a){q("profSave-"+a).checked=(saveProf[cl]||[]).includes(a)});if(castClass[cl])q("castingStat").value=castClass[cl];recalculate()});
- var oldUpdate=updateAll;
- updateAll=function(){oldUpdate();recalculate()};
- function effectiveLevel(level,mode,cl){if(mode==="auto"){mode=(["Bardo","Clérigo","Druida","Feiticeiro","Mago"].includes(cl)?"full":cl==="Bruxo"?"pact":["Paladino","Patrulheiro"].includes(cl)?"half":"none")}return {mode:mode,lev:mode==="full"?level:mode==="half"?Math.floor(level/2):mode==="third"?Math.floor(level/3):0}}
-
- var hpExtra=document.createElement("div");
- hpExtra.className="sheet-rollbox";hpExtra.id="hpAutoPanel";
- hpExtra.innerHTML='<h4>Vida calculada automaticamente</h4>'+
- '<p>1º nível: dado máximo + CON. Do 2º ao 20º: média do dado ou resultado rolado + CON. Mínimo de 1 PV por nível.</p>'+
- '<label for="hpGrowthMode">Como ganhar PV ao subir de nível?</label><select id="hpGrowthMode"><option value="average">Valor fixo (média arredondada para cima)</option><option value="rolled">Rolar Dado de Vida automaticamente</option></select>'+
- '<div class="roll-controls"><button type="button" id="hpReroll">🎲 Rolar PV novamente</button><button type="button" id="hpFull">♥ Restaurar vida</button></div>'+
- '<div class="roll-output" id="hpBreakdown" role="status" aria-live="polite">Preencha classe, nível e Constituição.</div>'+
- '<label for="hpDelta">Dano ou cura</label><div class="roll-controls"><input id="hpDelta" type="number" min="1" step="1" placeholder="PV" aria-label="Quantidade de dano ou cura"><button type="button" id="hpDamage">− Dano</button><button type="button" id="hpHeal">+ Cura</button></div>'+
- '<div id="hpActionInfo" class="muted">PV atuais iniciam automaticamente no máximo e depois mantêm seus ferimentos.</div>'+
- '<input type="hidden" id="hpLastMax"><input type="hidden" id="hpRolls">';
- q("autoHp").closest(".sheet-extra-fields").appendChild(hpExtra);
- function diceHP(faces){if(window.crypto&&crypto.getRandomValues){var a=new Uint32Array(1),lim=Math.floor(4294967296/faces)*faces;do{crypto.getRandomValues(a)}while(a[0]>=lim);return 1+a[0]%faces}return 1+Math.floor(Math.random()*faces)}
- function calcHP(level,con,die,cl){
-   var enabled=q("autoHp").checked;
-   q("hpMax").readOnly=enabled;
-   q("hpReroll").disabled=!enabled||q("hpGrowthMode").value!=="rolled";
-   if(!enabled){q("hpBreakdown").textContent="Modo manual ativo. Informe os PV na ficha.";return}
-   if(!Number.isInteger(level)||level<1||level>20||!die||con===""){
-     q("hpMax").value="";q("hpBreakdown").textContent="Selecione classe, nível de 1 a 20 e informe Constituição.";return
-   }
-   var bonus=num("hpPerLevelBonus",0),extra=num("hpMisc",0),mode=q("hpGrowthMode").value;
-   var history={c:cl,d:die,r:[]};
-   if(mode==="rolled"){try{var past=JSON.parse(q("hpRolls").value||"null");if(past&&past.c===cl&&past.d===die&&Array.isArray(past.r))history=past}catch(e){}}
-   var vals=[],rolls=[];
-   var first=Math.max(1,die+con+bonus);
-   for(var l=2;l<=level;l++){
-     var base=mode==="average"?Math.floor(die/2)+1:history.r[l-2];
-     if(mode==="rolled"&&(!Number.isInteger(base)||base<1||base>die)){base=diceHP(die);history.r[l-2]=base}
-     vals.push(Math.max(1,base+con+bonus));if(mode==="rolled")rolls.push(base);
-   }
-   if(mode==="rolled")q("hpRolls").value=JSON.stringify(history);
-   var max=Math.max(1,first+vals.reduce(function(a,b){return a+b},0)+extra);
-   var oldMax=q("hpLastMax").value===""?Number(q("hpMax").value):Number(q("hpLastMax").value);
-   if(q("hpLastMax").value===""&&q("hpMax").value==="")oldMax=NaN;
-   var oldCur=q("hpCur").value===""?NaN:Number(q("hpCur").value);
-   q("hpMax").value=String(max);
-   if(!Number.isFinite(oldCur))q("hpCur").value=String(max);
-   else if(Number.isFinite(oldMax)&&oldMax!==max)q("hpCur").value=String(oldCur<=0?0:Math.max(0,Math.min(max,oldCur+(max-oldMax))));
-   else if(oldCur>max)q("hpCur").value=String(max);
-   q("hpLastMax").value=String(max);
-   var detail=mode==="rolled"?"Dados rolados nos níveis 2–"+level+": ["+rolls.join(", ")+"]":"Ganho fixo por nível após o primeiro: "+(Math.floor(die/2)+1)+" + CON ("+con+")";
-   q("hpBreakdown").innerHTML="Nível 1: "+first+" PV · "+(level>1?detail:"apenas o 1º nível")+
-     (bonus?" · bônus por nível: "+bonus:"")+(extra?" · adicional total: "+extra:"")+
-     "<br><strong>Máximo: "+max+" PV · Atual: "+q("hpCur").value+" PV</strong>";
- }
- function publishHP(){
-  q("hpCur").dispatchEvent(new Event("input",{bubbles:true}));
-  q("hpTemp").dispatchEvent(new Event("input",{bubbles:true}));
- }
- q("hpReroll").addEventListener("click",function(){if(q("hpGrowthMode").value!=="rolled")return;q("hpRolls").value="";recalculate();q("hpRolls").dispatchEvent(new Event("input",{bubbles:true}))});
- q("hpFull").addEventListener("click",function(){var max=Number(q("hpMax").value);if(q("hpMax").value==="")return;q("hpCur").value=String(max);q("hpActionInfo").textContent="Vida restaurada para "+max+" PV.";publishHP()});
- function changeHP(isDamage){
-  var amount=Number(q("hpDelta").value),cur=Number(q("hpCur").value),max=Number(q("hpMax").value);
-  if(!Number.isInteger(amount)||amount<1){q("hpActionInfo").textContent="Informe uma quantidade inteira positiva.";return}
-  if(q("hpCur").value===""||q("hpMax").value===""){q("hpActionInfo").textContent="Preencha classe, nível e Constituição primeiro.";return}
-  if(isDamage){
-    var temp=Math.max(0,num("hpTemp",0)),absorbed=Math.min(temp,amount);
-    q("hpTemp").value=String(temp-absorbed);q("hpCur").value=String(Math.max(0,cur-amount+absorbed));
-    q("hpActionInfo").textContent="Dano: "+amount+" (PV temporários absorveram "+absorbed+").";
-  }else{q("hpCur").value=String(Math.min(max,cur+amount));q("hpActionInfo").textContent="Cura: "+amount+" (limitada ao máximo)."}
-  publishHP();
- }
- q("hpDamage").addEventListener("click",function(){changeHP(true)});
- q("hpHeal").addEventListener("click",function(){changeHP(false)});
- q("hpGrowthMode").addEventListener("change",recalculate);
-
- function recalculate(){
-   var level=num("level",NaN),con=mod(q("con").value),dex=mod(q("dex").value),str=num("str",NaN),wis=mod(q("wis").value),cl=q("classe").value;
-   var die=hitDice[cl];enhanceAttacks();
-   calcHP(level,con,die,cl);
-   if(die&&Number.isFinite(level)&&level>=1)q("hitDie").value=level+"d"+die;else if(!cl)q("hitDie").value="";
-   q("hitDie").readOnly=true;
-   if(q("acMode").value==="auto"){
-     var selected=q("armorType").value,base=armor[selected]||armor.none;
-     var ca=base[0]+Math.min(base[1],Number.isFinite(dex)?dex:0);
-     if(selected==="none"&&cl==="Bárbaro")ca=10+(Number.isFinite(dex)?dex:0)+(con===""?0:con);
-     if(selected==="none"&&cl==="Monge")ca=10+(Number.isFinite(dex)?dex:0)+(wis===""?0:wis);
-     ca+=(q("shieldEquipped").checked?2:0)+num("acMisc",0);
-     q("ac").value=ca;
-   }
-   q("ac").readOnly=q("acMode").value==="auto";
-   q("carryCapacity").textContent=Number.isFinite(str)?(str*7.5).toLocaleString("pt-BR"):"—";
-   q("pushCapacity").textContent=Number.isFinite(str)?(str*15).toLocaleString("pt-BR"):"—";
-   [["investigation","passiveInvestigation"],["insight","passiveInsight"]].forEach(function(pair){var text=q("sk-"+pair[0]).textContent.trim();q(pair[1]).textContent=text&&Number.isFinite(Number(text))?10+Number(text):"—"});
-   var exp=num("xp",NaN),n=Number.isFinite(level)?Math.max(1,Math.min(20,Math.floor(level))):NaN;
-   if(Number.isFinite(n)&&Number.isFinite(exp)){
-      var low=xpLevels[n-1],high=n<20?xpLevels[n]:low,percent=n<20?Math.max(0,Math.min(100,100*(exp-low)/(high-low))):100;
-      q("xpProgressFill").style.width=percent+"%";
-      q("xpProgressText").textContent=n>=20?"Nível máximo":Math.max(0,high-exp).toLocaleString("pt-BR")+" XP até o nível "+(n+1);
-   }else{q("xpProgressFill").style.width="0";q("xpProgressText").textContent=""}
-   Array.from(table.tBodies[0].rows).forEach(function(tr){var a=tr.querySelector(".atk-abil"),o=tr.querySelector(".damage-bonus");var d=a&&a.value?mod(q(a.value).value):"";if(o)o.textContent=d===""?"—":format(d)});
-   var slotMode=q("slotsMode").value,eff=effectiveLevel(Number.isFinite(level)?Math.max(0,Math.min(20,Math.floor(level))):0,slotMode,cl),slots=new Array(9).fill(0),note="";
-   if(eff.mode==="pact"&&level>=1){
-     var pactLevel=level<3?1:Math.min(5,Math.ceil(level/2));
-     slots[pactLevel-1]=level===1?1:level<11?2:level<17?3:4;
-     note="Bruxo: espaços de pacto recuperados em descanso curto. Arcanos Místicos de níveis 6–9 são recursos separados.";
-   }else if(eff.mode!=="none"&&eff.lev>=1){
-     slots=(fullSlots[Math.min(20,eff.lev)]||slots).slice();
-   }
-   q("pactNote").textContent=note;
-   for(var z=1;z<=9;z++){
-     q("slotTotal"+z).textContent=slots[z-1];
-     var used=num("slotUsed"+z,0);
-     q("slotRemaining"+z).textContent=Math.max(0,slots[z-1]-used);
-     q("slotUsed"+z).max=slots[z-1];
-   }
-   var manaMode=q("manaMode").value,points=(eff.mode==="full"||eff.mode==="half"||eff.mode==="third")?spellPoints[eff.lev]||0:0;
-   q("manaMax").disabled=manaMode==="off"||manaMode==="points";
-   if(manaMode==="points")q("manaMax").value=points;
-   if(manaMode==="off"){q("manaRemaining").textContent="Mana desativada";q("manaInfo").textContent=""}
-   else {var total=num("manaMax",0),usedM=num("manaUsed",0);q("manaRemaining").textContent="Mana restante: "+Math.max(0,total-usedM)+" / "+total;q("manaInfo").textContent=manaMode==="points"?"Variante opcional; exige aprovação do Mestre.": "Total de mana determinado pela sua mesa."}
- }
- ["level","xp","classe","str","dex","con","wis","ac","armorType","shieldEquipped","acMisc","acMode","autoHp","hpPerLevelBonus","hpMisc","slotsMode","manaMode","manaMax","manaUsed"].forEach(function(id){if(q(id)){q(id).addEventListener("input",recalculate);q(id).addEventListener("change",recalculate)}});
- Array.from(q("spellSlots").querySelectorAll("input")).forEach(function(inp){inp.addEventListener("input",recalculate)});
- var observer=new MutationObserver(function(){enhanceAttacks();recalculate()});observer.observe(table.tBodies[0],{childList:true});
- var storageKey="dnd-sheet-2014-autosave-v2";
- var saveTimer=null;
- function pack(){var form={};root.querySelectorAll("input[id],select[id],textarea[id]").forEach(function(inp){if(!inp.closest("#attacksTable"))form[inp.id]=inp.type==="checkbox"?inp.checked:inp.value});
-   var attacks=Array.from(table.tBodies[0].rows).map(function(tr){return {name:tr.cells[0].querySelector("input").value,damage:tr.cells[2].querySelector("input").value,stat:tr.querySelector(".atk-abil").value,prof:tr.querySelector(".atk-prof").checked}});
-   return {version:2,form:form,attacks:attacks};
- }
- function unpack(payload){if(!payload||typeof payload!=="object")throw Error("Dados inválidos");
-   var data=payload.form&&typeof payload.form==="object"?payload.form:payload;
-   Object.keys(data).forEach(function(id){var node=q(id);if(!node||node.closest("#attacksTable"))return;if(node.type==="checkbox")node.checked=!!data[id];else if(typeof data[id]==="string"||typeof data[id]==="number")node.value=data[id]});
-   if(Array.isArray(payload.attacks)){
-     while(table.tBodies[0].rows.length>1)table.tBodies[0].deleteRow(1);
-     payload.attacks.slice(0,60).forEach(function(item,idx){if(idx)q("addAttack").click();var tr=table.tBodies[0].rows[idx];tr.cells[0].querySelector("input").value=item.name||"";tr.cells[2].querySelector("input").value=item.damage||"";tr.querySelector(".atk-abil").value=item.stat||"";tr.querySelector(".atk-prof").checked=!!item.prof});
-   }
-   rememberedClass=q("classe").value;
-   updateAll();
- }
- function save(){try{localStorage.setItem(storageKey,JSON.stringify(pack()));q("saveIndicator").textContent="Salvo automaticamente • neste navegador"}catch(e){q("saveIndicator").textContent="Armazenamento indisponível: exporte JSON"}}
- function debounce(){clearTimeout(saveTimer);saveTimer=setTimeout(save,450)}
- root.addEventListener("input",debounce,true);
- root.addEventListener("change",debounce,true);
- function fileDownload(content,name){var blob=new Blob([content],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000)}
- q("btnExport").addEventListener("click",function(e){e.stopImmediatePropagation();e.preventDefault();fileDownload(JSON.stringify(pack(),null,2),(q("charName").value||"ficha-dnd").replace(/[^\w\-\u00C0-\u00FF ]/g,"_")+".json")},true);
- q("btnImport").addEventListener("click",function(e){e.stopImmediatePropagation();e.preventDefault();var f=document.createElement("input");f.type="file";f.accept=".json,application/json";f.onchange=function(){if(!f.files[0])return;var reader=new FileReader();reader.onload=function(){try{unpack(JSON.parse(reader.result));save();alert("Ficha importada com sucesso.")}catch(err){alert("Não foi possível ler esta ficha JSON.")}};reader.readAsText(f.files[0])};f.click()},true);
- q("btnReset").addEventListener("click",function(e){e.stopImmediatePropagation();e.preventDefault();if(!confirm("Apagar todos os campos e a cópia salva neste navegador?"))return;root.querySelectorAll("input,select,textarea").forEach(function(inp){if(inp.type==="checkbox")inp.checked=false;else inp.value=""});while(table.tBodies[0].rows.length>1)table.tBodies[0].deleteRow(1);["autoHp"].forEach(function(id){q(id).checked=true});q("armorType").value="none";q("acMode").value="auto";q("slotsMode").value="auto";q("manaMode").value="off";rememberedClass="";try{localStorage.removeItem(storageKey)}catch(err){};updateAll();q("saveIndicator").textContent="Ficha reiniciada";selectPage(1)},true);
- try{var stored=localStorage.getItem(storageKey);if(stored)unpack(JSON.parse(stored))}catch(e){q("saveIndicator").textContent="Dados anteriores não puderam ser lidos"}
- updateAll();
-})();
-
-  </script>
+<header class="bar">
+<div class="brand">D&amp;D <small>FICHA DIGITAL · 5ª EDIÇÃO 2014</small></div>
+<nav class="nav" aria-label="Páginas"><button data-tab="personagem" class="active">Personagem</button><button data-tab="magias">Magias</button><button data-tab="historia">História</button><button data-tab="ferramentas">Ferramentas</button></nav>
+<div class="actions"><select id="profiles" aria-label="Personagem salvo"></select><button data-action="new">+ Novo</button><button data-action="copy">Duplicar</button><button data-action="delete" class="warn">Excluir</button></div>
+</header>
+<div id="root"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<p class="foot">Ficha compatível com D&amp;D 5e (2014). Regras da casa e opções de 2024 devem ser ajustadas pelo Mestre. Dados salvos localmente neste navegador.</p>
 <script>
-
 (function(){
- "use strict";
- var $=function(id){return document.getElementById(id)};
- if(!$("sheetPage1") || $("rollAbilities6"))return;
- var attrs=["str","dex","con","int","wis","cha"];
- var names={str:"Força",dex:"Destreza",con:"Constituição",int:"Inteligência",wis:"Sabedoria",cha:"Carisma"};
- var skills=[
- ["acrobatics","dex"],["animal","wis"],["arcana","int"],["athletics","str"],["deception","cha"],
- ["history","int"],["insight","wis"],["intimidation","cha"],["investigation","int"],
- ["medicine","wis"],["nature","int"],["perception","wis"],["performance","cha"],
- ["persuasion","cha"],["religion","int"],["sleight","dex"],["stealth","dex"],["survival","wis"]
- ];
- var classSkills={
- "Bárbaro":[2,["animal","athletics","intimidation","nature","perception","survival"]],
- "Bardo":[3,skills.map(function(s){return s[0]})],
- "Bruxo":[2,["arcana","deception","history","intimidation","investigation","nature","religion"]],
- "Clérigo":[2,["history","insight","medicine","persuasion","religion"]],
- "Druida":[2,["arcana","animal","insight","medicine","nature","perception","religion","survival"]],
- "Feiticeiro":[2,["arcana","deception","insight","intimidation","persuasion","religion"]],
- "Guerreiro":[2,["acrobatics","animal","athletics","history","insight","intimidation","perception","survival"]],
- "Ladino":[4,["acrobatics","athletics","performance","deception","stealth","intimidation","insight","investigation","perception","persuasion","sleight"]],
- "Mago":[2,["arcana","history","insight","investigation","medicine","religion"]],
- "Monge":[2,["acrobatics","athletics","stealth","history","insight","religion"]],
- "Paladino":[2,["athletics","insight","intimidation","medicine","persuasion","religion"]],
- "Patrulheiro":[3,["animal","athletics","stealth","insight","investigation","nature","perception","survival"]]
- };
- var priorities={
- "Bárbaro":["str","con","dex","wis","cha","int"],"Bardo":["cha","dex","con","wis","int","str"],
- "Bruxo":["cha","con","dex","wis","int","str"],"Clérigo":["wis","con","str","dex","cha","int"],
- "Druida":["wis","con","dex","int","cha","str"],"Feiticeiro":["cha","con","dex","wis","int","str"],
- "Guerreiro":["str","con","dex","wis","int","cha"],"Ladino":["dex","con","wis","cha","int","str"],
- "Mago":["int","con","dex","wis","cha","str"],"Monge":["dex","wis","con","str","int","cha"],
- "Paladino":["str","cha","con","wis","dex","int"],"Patrulheiro":["dex","wis","con","str","int","cha"]
- };
- var backgrounds={
- "acolito":["insight","religion"],"artesao de guilda":["insight","persuasion"],
- "artista":["acrobatics","performance"],"charlatao":["deception","sleight"],
- "criminoso":["deception","stealth"],"eremita":["medicine","religion"],
- "forasteiro":["athletics","survival"],"heroi do povo":["animal","survival"],
- "marinheiro":["athletics","perception"],"nobre":["history","persuasion"],
- "orfao":["sleight","stealth"],"sabio":["arcana","history"],"soldado":["athletics","intimidation"]
- };
- var skillNames={acrobatics:"Acrobacia",animal:"Adestrar Animais",arcana:"Arcanismo",athletics:"Atletismo",
- deception:"Enganação",history:"História",insight:"Intuição",intimidation:"Intimidação",
- investigation:"Investigação",medicine:"Medicina",nature:"Natureza",perception:"Percepção",
- performance:"Atuação",persuasion:"Persuasão",religion:"Religião",sleight:"Prestidigitação",
- stealth:"Furtividade",survival:"Sobrevivência"};
- var norm=function(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z ]/g," ").replace(/\s+/g," ").trim()};
- var rand=function(n){if(window.crypto&&window.crypto.getRandomValues){var buf=new Uint32Array(1),limit=Math.floor(4294967296/n)*n;do{window.crypto.getRandomValues(buf)}while(buf[0]>=limit);return 1+(buf[0]%n)}return 1+Math.floor(Math.random()*n)};
- var rolled=[];
- var attrCard=$("str").closest(".card");
- var firstGrid=attrCard.querySelector(".grid");
- var panel=document.createElement("div");
- panel.className="sheet-rollbox";
- panel.innerHTML='<h4>Gerador de atributos · D&amp;D 5e</h4>'+
- '<p>Role seis vezes 4d6, descarte o menor dado de cada grupo e distribua os seis resultados. Você também pode escolher os valores padrão.</p>'+
- '<div class="roll-controls"><button type="button" id="rollAbilities6">🎲 Rolar seis atributos</button><button type="button" id="useStandardArray">Valores padrão</button><button type="button" id="assignAbilities">Distribuir pela classe</button></div>'+
- '<div id="rollAbilityResult" class="roll-output" role="status" aria-live="polite">Nenhum atributo foi rolado. Os valores da ficha permanecem em branco.</div>'+
- '<label for="rollMode">Modo dos testes d20</label><select id="rollMode"><option value="normal">Normal</option><option value="advantage">Vantagem (2d20, maior)</option><option value="disadvantage">Desvantagem (2d20, menor)</option></select>'+
- '<div id="rollCheckResult" class="roll-output" role="status" aria-live="polite">Use os botões d20 para testar um atributo, uma perícia ou uma resistência.</div>';
- attrCard.insertBefore(panel,firstGrid);
- function rollAbility(){var arr=Array.from({length:4},function(){return rand(6)});return {dice:arr,value:arr.reduce(function(a,b){return a+b},0)-Math.min.apply(null,arr)}}
- function showRolls(){var out=$("rollAbilityResult");if(!rolled.length){out.textContent="Ainda não há resultados.";return}
- out.innerHTML=rolled.map(function(r,i){var low=Math.min.apply(null,r.dice),discarded=false;return '<div><b>'+(i+1)+'º valor: '+r.value+'</b> · '+r.dice.map(function(d){if(d===low&&!discarded){discarded=true;return '<span class="roll-chip low">'+d+'<em>descartado</em></span>'}return '<span class="roll-chip">'+d+'</span>'}).join("")+'</div>'}).join("")+
- '<p>Resultados: '+rolled.map(function(r){return r.value}).join(" · ")+'. Clique em <b>Distribuir pela classe</b> para aplicar.</p>'}
- $("rollAbilities6").addEventListener("click",function(){rolled=Array.from({length:6},rollAbility);showRolls()});
- $("useStandardArray").addEventListener("click",function(){rolled=[15,14,13,12,10,8].map(function(value){return {value:value,dice:[]}});$("rollAbilityResult").innerHTML='<b>Valores padrão selecionados:</b> 15 · 14 · 13 · 12 · 10 · 8. Clique em <b>Distribuir pela classe</b>.'});
- function notifyInputs(ids){ids.forEach(function(id){$(id).dispatchEvent(new Event("input",{bubbles:true}));$(id).dispatchEvent(new Event("change",{bubbles:true}))})}
- $("assignAbilities").addEventListener("click",function(){
-  if(rolled.length!==6){$("rollAbilityResult").textContent="Primeiro role os atributos ou escolha os valores padrão.";return}
-  var cl=$("classe").value;if(!priorities[cl]){$("rollAbilityResult").insertAdjacentText("beforeend"," Selecione uma classe para determinar a prioridade de distribuição.");return}
-  var vals=rolled.map(function(r){return r.value}).sort(function(a,b){return b-a});
-  priorities[cl].forEach(function(id,index){$(id).value=vals[index]});
-  notifyInputs(attrs);
-  $("rollAbilityResult").innerHTML="<b>Distribuição aplicada a "+cl+":</b> "+priorities[cl].map(function(a,i){return names[a]+" "+vals[i]}).join(" • ")+". <p>Os valores são anteriores aos ajustes raciais da edição 2014. Ajuste-os conforme sua raça/sub-raça.</p>";
- });
- function d20(bonus,label,kind){
-  if(!Number.isFinite(bonus)){$("rollCheckResult").textContent="Preencha primeiro o valor necessário para o teste.";return}
-  var mode=$("rollMode").value,raw=[rand(20)],chosen=raw[0];
-  if(mode!=="normal"){raw.push(rand(20));chosen=mode==="advantage"?Math.max.apply(null,raw):Math.min.apply(null,raw)}
-  var val=chosen+bonus;
-  $("rollCheckResult").innerHTML="<strong>"+label+" · "+(kind||"teste")+":</strong> d20 ["+raw.join(", ")+"] = "+chosen+
-  " "+(bonus>=0?"+":"−")+" "+Math.abs(bonus)+" → <strong>"+val+"</strong>"+(mode==="normal"?"":" ("+ (mode==="advantage"?"vantagem":"desvantagem")+")");
- }
- attrs.forEach(function(id){
-  var wrap=$(id).parentElement;var actions=document.createElement("div");actions.className="roll-attr-actions";
-  actions.innerHTML='<button type="button" data-roll4d6="'+id+'" aria-label="Rolar 4d6 para '+names[id]+'">4d6</button><button type="button" data-rolltest="'+id+'" aria-label="Teste d20 de '+names[id]+'">d20</button>';
-  wrap.appendChild(actions);
-  actions.querySelector("[data-roll4d6]").addEventListener("click",function(){var r=rollAbility();$(id).value=r.value;notifyInputs([id]);$("rollAbilityResult").textContent=names[id]+": ["+r.dice.join(", ")+"] → descarta "+Math.min.apply(null,r.dice)+" = "+r.value});
-  actions.querySelector("[data-rolltest]").addEventListener("click",function(){var m=mod($(id).value);d20(m===""?NaN:m,names[id],"atributo")});
- });
- var skillBlock=$("skills").closest(".section");
- var skillPanel=document.createElement("div");skillPanel.className="sheet-rollbox";skillPanel.id="skillAutoPanel";
- skillPanel.innerHTML='<h4>Distribuição automática de perícias</h4>'+
- '<p>Respeita as opções e quantidades da classe, proficiências raciais básicas e duas perícias do antecedente selecionado (Livro do Jogador 2014). Prioriza os atributos mais altos.</p>'+
- '<div class="roll-controls"><button type="button" id="assignSkillsAuto">⚙️ Distribuir perícias</button><button type="button" id="clearAutoSkills">Desfazer distribuição automática</button></div>'+
- '<input type="hidden" id="autoSkillIds" value="[]"><div id="skillAutoFeedback" class="roll-output" role="status" aria-live="polite">Selecione sua classe e, opcionalmente, raça e antecedente.</div>';
- skillBlock.insertBefore(skillPanel,$("skills"));
- var bg=$("background"),dl=document.createElement("datalist");dl.id="backgroundOptions";
- Object.keys(backgrounds).forEach(function(k){var op=document.createElement("option");op.value=k.replace(/\b[a-z]/g,function(c){return c.toUpperCase()});dl.appendChild(op)});
- bg.setAttribute("list","backgroundOptions");bg.insertAdjacentElement("afterend",dl);
- function managedGet(){try{var a=JSON.parse($("autoSkillIds").value||"[]");return new Set(Array.isArray(a)?a:[])}catch(e){return new Set()}}
- function managedSet(s){$("autoSkillIds").value=JSON.stringify(Array.from(s));$("autoSkillIds").dispatchEvent(new Event("input",{bubbles:true}))}
- function perk(id){return $("prof-"+id)}
- function mark(id,set){if(perk(id)&&!perk(id).checked){perk(id).checked=true;set.add(id)}}
- function unmarkSet(set){set.forEach(function(id){if(perk(id))perk(id).checked=false})}
- function weight(id){var skill=skills.find(function(item){return item[0]===id});if(!skill)return -50;var val=$(skill[1]).value;return val===""?0:(Math.floor((Number(val)-10)/2)+10)}
- function bestOptions(arr,limit,block){return arr.filter(function(id){return !perk(id).checked && !block.has(id)}).sort(function(a,b){return weight(b)-weight(a)||a.localeCompare(b)}).slice(0,limit)}
- function currentBackground(){
-  var text=norm(bg.value);
-  var aliases={"heroi popular":"heroi do povo","artesao":"artesao de guilda","membro de guilda":"artesao de guilda","urchin":"orfao","acolyte":"acolito","outlander":"forasteiro","sage":"sabio","criminal":"criminoso"};
-  return backgrounds[aliases[text]||text]||[];
- }
- function grant(){
-  var cl=$("classe").value,conf=classSkills[cl];if(!conf){$("skillAutoFeedback").textContent="Selecione uma classe válida antes de distribuir as perícias.";return}
-  var old=managedGet();unmarkSet(old);
-  var marked=new Set(),source={background:[],race:[],class:[]};
-  var backgroundSet=new Set(currentBackground());
-  backgroundSet.forEach(function(id){mark(id,marked);source.background.push(id)});
-  var race=$("race").value;
-  if(race==="Elfo"){mark("perception",marked);source.race.push("perception")}
-  if(race==="Meio-Orc"){mark("intimidation",marked);source.race.push("intimidation")}
-  if(race==="Meio-Elfo"){bestOptions(skills.map(function(s){return s[0]}),2,new Set()).forEach(function(id){mark(id,marked);source.race.push(id)})}
-  var pool=conf[1].filter(function(id){return !backgroundSet.has(id)&&!source.race.includes(id)});
-  var chosen=pool.filter(function(id){return perk(id).checked}).length;
-  var needed=Math.max(0,conf[0]-chosen);
-  bestOptions(pool,needed,new Set()).forEach(function(id){mark(id,marked);source.class.push(id)});
-  managedSet(marked);updateAll();
-  var print=function(ids){return ids.length?ids.map(function(id){return skillNames[id]}).join(", "):"nenhuma adicional"};
-  $("skillAutoFeedback").innerHTML="<b>Perícias distribuídas.</b><div>Classe "+cl+" ("+conf[0]+" escolhas): "+print(source.class)+"</div><div>Antecedente: "+print(source.background)+"</div><div>Raça: "+print(source.race)+"</div><small>Proficiências manuais foram mantidas. Revise qualquer escolha especial de origem/subclasse com o Mestre.</small>";
- }
- $("assignSkillsAuto").addEventListener("click",grant);
- $("clearAutoSkills").addEventListener("click",function(){var managed=managedGet();unmarkSet(managed);managedSet(new Set());updateAll();$("skillAutoFeedback").textContent="Removidas somente as perícias que a distribuição automática havia marcado. Suas escolhas manuais foram preservadas."});
- skills.forEach(function(item){
-  var id=item[0],node=perk(id);if(!node)return;
-  node.addEventListener("change",function(){var managed=managedGet();if(managed.has(id)){managed.delete(id);managedSet(managed)}});
-  var row=node.closest(".skill-row");if(!row||row.querySelector(".roll-skill"))return;
-  var btn=document.createElement("button");btn.type="button";btn.className="roll-skill";btn.textContent="🎲";btn.title="Rolar teste de "+skillNames[id];btn.setAttribute("aria-label","Rolar teste de "+skillNames[id]);row.appendChild(btn);
-  btn.addEventListener("click",function(){var out=$("sk-"+id).textContent.trim();d20(out===""?NaN:Number(out),skillNames[id],"perícia")});
- });
- attrs.forEach(function(a){
-  var row=$("profSave-"+a).closest(".save-row");if(!row||row.querySelector(".roll-save"))return;
-  var btn=document.createElement("button");btn.type="button";btn.className="roll-save";btn.textContent="🎲";btn.title="Rolar resistência de "+names[a];btn.setAttribute("aria-label","Rolar resistência de "+names[a]);row.appendChild(btn);
-  btn.addEventListener("click",function(){var out=$("save-"+a).textContent.trim();d20(out===""?NaN:Number(out),names[a],"resistência")});
- });
- var combatCard=$("ac").closest(".card"),armorBox=$("armorType").closest(".sheet-extra-fields");
- var combatPanel=document.createElement("div");combatPanel.className="sheet-rollbox";combatPanel.id="defenseRollPanel";
- combatPanel.innerHTML='<h4>CA · ataque recebido e defesa opcional</h4>'+
- '<p><b>Regra oficial:</b> a CA é fixa. O atacante rola d20 + bônus de ataque e compara com a CA.</p>'+
- '<label for="enemyAttackBonus">Bônus de ataque do inimigo</label>'+
- '<div class="roll-controls"><input id="enemyAttackBonus" type="number" value="0" step="1" aria-label="Bônus do inimigo"><button id="rollAgainstAC" type="button">🎲 Rolar ataque contra CA</button></div>'+
- '<p><b>Regra da casa (opcional):</b> teste de defesa ativa, d20 + modificador de Destreza + bônus informado abaixo. Não substitui a regra oficial.</p>'+
- '<div class="roll-controls"><input id="defenseExtra" type="number" value="0" step="1" aria-label="Bônus extra da defesa ativa"><button id="rollActiveDefense" type="button">🎲 Rolar defesa ativa</button></div>'+
- '<div id="defenseRollResult" class="roll-output" role="status" aria-live="polite">CA atual: preencha armadura e Destreza.</div>';
- combatCard.insertBefore(combatPanel,armorBox.nextSibling);
- $("rollAgainstAC").addEventListener("click",function(){var ac=Number($("ac").value),bonus=Number($("enemyAttackBonus").value)||0;if($("ac").value===""||!Number.isFinite(ac)){$("defenseRollResult").textContent="Informe uma Classe de Armadura antes do teste.";return}
- var d=rand(20),total=d+bonus,hit=d===20||d!==1&&total>=ac;
- $("defenseRollResult").innerHTML="<b>Ataque recebido:</b> d20 "+d+" "+(bonus>=0?"+ ":"− ")+Math.abs(bonus)+" = <b>"+total+"</b> contra <b>CA "+ac+"</b> → <b>"+(hit?(d===20?"ACERTO CRÍTICO":"ACERTOU"):"ERROU")+"</b>"+(d===1?" (1 natural)":d===20?" (20 natural)":"");
- });
- $("rollActiveDefense").addEventListener("click",function(){var d=mod($("dex").value);if(d===""){$("defenseRollResult").textContent="Preencha Destreza para usar a regra opcional de defesa ativa.";return}
- var roll=rand(20),extra=Number($("defenseExtra").value)||0,total=roll+d+extra;
- $("defenseRollResult").innerHTML="<b>Defesa ativa (regra da casa):</b> d20 <b>"+roll+"</b> + modificador DES ("+d+") + extra ("+extra+") = <b>"+total+"</b>. O Mestre decide como comparar este resultado.";
- });
+"use strict";
+var A=["str","dex","con","int","wis","cha"],AN=["Força","Destreza","Constituição","Inteligência","Sabedoria","Carisma"];
+var SK=[["Acrobacia","dex"],["Adestrar Animais","wis"],["Arcanismo","int"],["Atletismo","str"],["Atuação","cha"],["Enganação","cha"],["Furtividade","dex"],["História","int"],["Intimidação","cha"],["Intuição","wis"],["Investigação","int"],["Medicina","wis"],["Natureza","int"],["Percepção","wis"],["Persuasão","cha"],["Prestidigitação","dex"],["Religião","int"],["Sobrevivência","wis"]];
+var CL={"Bárbaro":{hd:12,saves:["str","con"],n:2,skills:[1,3,8,12,13,17],best:["str","con","dex","wis","cha","int"]},"Bardo":{hd:8,saves:["dex","cha"],n:3,skills:SK.map(function(_,i){return i}),best:["cha","dex","con","wis","int","str"],cast:"cha",magic:"full"},"Bruxo":{hd:8,saves:["wis","cha"],n:2,skills:[2,5,7,8,10,12,16],best:["cha","con","dex","wis","int","str"],cast:"cha",magic:"pact"},"Clérigo":{hd:8,saves:["wis","cha"],n:2,skills:[7,9,11,14,16],best:["wis","con","str","dex","cha","int"],cast:"wis",magic:"full"},"Druida":{hd:8,saves:["int","wis"],n:2,skills:[1,2,9,11,12,13,16,17],best:["wis","con","dex","int","cha","str"],cast:"wis",magic:"full"},"Feiticeiro":{hd:6,saves:["con","cha"],n:2,skills:[2,5,8,9,14,16],best:["cha","con","dex","wis","int","str"],cast:"cha",magic:"full"},"Guerreiro":{hd:10,saves:["str","con"],n:2,skills:[0,1,3,7,8,9,13,17],best:["str","con","dex","wis","int","cha"]},"Ladino":{hd:8,saves:["dex","int"],n:4,skills:[0,3,4,5,6,8,9,10,13,14,15],best:["dex","con","wis","cha","int","str"]},"Mago":{hd:6,saves:["int","wis"],n:2,skills:[2,7,9,10,11,16],best:["int","con","dex","wis","cha","str"],cast:"int",magic:"full"},"Monge":{hd:8,saves:["str","dex"],n:2,skills:[0,3,6,7,9,16],best:["dex","wis","con","str","int","cha"]},"Paladino":{hd:10,saves:["wis","cha"],n:2,skills:[3,8,9,11,14,16],best:["str","cha","con","wis","dex","int"],cast:"cha",magic:"half"},"Patrulheiro":{hd:10,saves:["str","dex"],n:3,skills:[1,3,6,9,10,12,13,17],best:["dex","wis","con","str","int","cha"],cast:"wis",magic:"half"}};
+var RACES=["Anão","Elfo","Halfling","Humano","Draconato","Gnomo","Meio-Elfo","Meio-Orc","Tiefling","Personalizada"];
+var BG={"Acólito":[9,16],"Artesão de Guilda":[9,14],"Artista":[0,4],"Charlatão":[5,15],"Criminoso":[5,6],"Eremita":[11,16],"Forasteiro":[3,17],"Herói do Povo":[1,17],"Marinheiro":[3,13],"Nobre":[7,14],"Órfão":[6,15],"Sábio":[2,7],"Soldado":[3,8]};
+var XP=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
+var SLOTS=[[0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[3,0,0,0,0,0,0,0,0],[4,2,0,0,0,0,0,0,0],[4,3,0,0,0,0,0,0,0],[4,3,2,0,0,0,0,0,0],[4,3,3,0,0,0,0,0,0],[4,3,3,1,0,0,0,0,0],[4,3,3,2,0,0,0,0,0],[4,3,3,3,1,0,0,0,0],[4,3,3,3,2,0,0,0,0],[4,3,3,3,2,1,0,0,0],[4,3,3,3,2,1,0,0,0],[4,3,3,3,2,1,1,0,0],[4,3,3,3,2,1,1,0,0],[4,3,3,3,2,1,1,1,0],[4,3,3,3,2,1,1,1,0],[4,3,3,3,2,1,1,1,1],[4,3,3,3,3,1,1,1,1],[4,3,3,3,3,2,1,1,1],[4,3,3,3,3,2,2,1,1]];
+var ARM={"none":[10,99],"leather":[11,99],"studded":[12,99],"hide":[12,2],"chainshirt":[13,2],"scale":[14,2],"breastplate":[14,2],"halfplate":[15,2],"ring":[14,0],"chain":[16,0],"splint":[17,0],"plate":[18,0]};
+var CONDITIONS=["Agarrado","Amedrontado","Atordoado","Caído","Cego","Enfeitiçado","Envenenado","Incapacitado","Inconsciente","Invisível","Paralisado","Petrificado","Restringido","Surdo"];
+var KEY="ficha5e-revisada-v3", state,book={},current="",activeTab="personagem",feedback="",abilityRolls=[],lastRoll="";
+var $=function(id){return document.getElementById(id)};
+var esc=function(v){return String(v===undefined||v===null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var n=function(v,def){return v===""||v===null||v===undefined||!Number.isFinite(Number(v))?def:Number(v)};
+var mod=function(v){return v===null||v===undefined||v===""?null:Math.floor((Number(v)-10)/2)};
+var signed=function(v){return v===null||v===undefined?"—":(v>=0?"+":"")+v};
+var clamp=function(x,a,b){return Math.max(a,Math.min(b,x))};
+var rand=function(sides){if(window.crypto&&crypto.getRandomValues){var x=new Uint32Array(1),limit=Math.floor(4294967296/sides)*sides;do{crypto.getRandomValues(x)}while(x[0]>=limit);return 1+x[0]%sides}return 1+Math.floor(Math.random()*sides)};
+var option=function(x){return '<option value="'+esc(x)+'">'+esc(x)+'</option>'};
+var alertUser=function(msg){var e=$("toast");e.textContent=msg;e.className="show";clearTimeout(alertUser.timer);alertUser.timer=setTimeout(function(){e.className=""},3200)};
+var blank=function(){return {id:"ch-"+Date.now()+"-"+rand(999999),name:"",player:"",race:"",background:"",classe:"",level:1,xp:0,alignment:"",inspiration:false,base:{str:null,dex:null,con:null,int:null,wis:null,cha:null},racial:{str:0,dex:0,con:0,int:0,wis:0,cha:0},skills:{},expertise:{},saves:{},armor:"none",shield:false,acMisc:0,acMode:"auto",acManual:10,speed:9,initMisc:0,hpMode:"average",hpManual:10,hpBonusLevel:0,hpExtra:0,hpRolls:[],hpMaxLast:null,hpCur:null,hpTemp:0,hitSpent:0,deathSuccess:0,deathFail:0,attacks:[{name:"",stat:"str",prof:true,dice:"1d8",type:"cortante"}],castStat:"",slotsUsed:Array(9).fill(0),spells:Array(10).fill(""),inventory:"",traits:"",languages:"",proficiencies:"",personality:"",ideals:"",bonds:"",flaws:"",age:"",height:"",weight:"",eyes:"",skin:"",hair:"",appearance:"",backstory:"",allies:"",treasure:"",notes:"",conditions:[],exhaustion:0,concentration:false,round:1,initiativeRoll:null,combatLog:[],manaMax:"",manaSpent:0}};
+var ability=function(a){var base=state.base[a];return base===null||base===""?null:n(base,0)+n(state.racial[a],0)};
+var prof=function(){return 2+Math.floor((clamp(n(state.level,1),1,20)-1)/4)};
+var smod=function(a){return mod(ability(a))};
+var skillBonus=function(i){var m=smod(SK[i][1]);return m===null?null:m+prof()*(state.expertise[i]?2:state.skills[i]?1:0)};
+var saveBonus=function(a){var m=smod(a);return m===null?null:m+(state.saves[a]?prof():0)};
+var hpMax=function(){var cl=CL[state.classe],lv=n(state.level,1),con=smod("con");if(!cl||con===null||lv<1||lv>20)return null;if(state.hpMode==="manual")return Math.max(1,n(state.hpManual,1));var die=cl.hd,b=n(state.hpBonusLevel,0);var total=Math.max(1,die+con+b);for(var k=1;k<lv;k++){var roll=state.hpMode==="roll"?state.hpRolls[k-1]:Math.floor(die/2)+1;if(state.hpMode==="roll"&&(!Number.isInteger(roll)||roll<1||roll>die)){roll=rand(die);state.hpRolls[k-1]=roll}total+=Math.max(1,roll+con+b)}return Math.max(1,total+n(state.hpExtra,0))};
+var ac=function(){if(state.acMode==="manual")return n(state.acManual,10);var dex=smod("dex"),con=smod("con"),wis=smod("wis"),d=dex===null?0:dex,item=ARM[state.armor]||ARM.none,base=item[0]+Math.min(item[1],d);if(state.armor==="none"&&state.classe==="Bárbaro")base=10+d+(con||0);if(state.armor==="none"&&state.classe==="Monge"&&!state.shield)base=10+d+(wis||0);return base+(state.shield?2:0)+n(state.acMisc,0)};
+var slots=function(){var lvl=clamp(n(state.level,1),1,20),cl=CL[state.classe];if(!cl||!cl.magic)return Array(9).fill(0);if(cl.magic==="pact"){var die=lvl<3?1:Math.min(5,Math.ceil(lvl/2)),amount=lvl===1?1:lvl<11?2:lvl<17?3:4,a=Array(9).fill(0);a[die-1]=amount;return a}var eff=cl.magic==="half"?(lvl<2?0:Math.ceil(lvl/2)):lvl;return SLOTS[eff].slice()};
+var hpSync=function(){var v=hpMax(),before=state.hpMaxLast;if(v===null){state.hpMaxLast=null;return}if(state.hpCur===null||state.hpCur==="")state.hpCur=v;else if(before!==null&&before!==v){state.hpCur=state.hpCur<=0?0:clamp(n(state.hpCur,v)+(v-before),0,v)}else state.hpCur=clamp(n(state.hpCur,v),0,v);state.hpMaxLast=v;state.hitSpent=clamp(n(state.hitSpent,0),0,n(state.level,1))};
+var save=function(){try{book[current]=JSON.parse(JSON.stringify(state));localStorage.setItem(KEY,JSON.stringify({current:current,book:book}));refreshProfiles()}catch(e){alertUser("Armazenamento indisponível. Exporte sua ficha em JSON.")}};
+var log=function(msg){state.combatLog.unshift(msg);state.combatLog=state.combatLog.slice(0,60);lastRoll=msg;save();renderDerived()};
+var field=function(key,label,type){return '<label>'+label+'<input data-field="'+key+'" type="'+(type||"text")+'" value="'+esc(state[key])+'"></label>'};
+var textArea=function(key,label){return '<label>'+label+'<textarea class="paper-lines" data-field="'+key+'">'+esc(state[key])+'</textarea></label>'};
+var title=function(name,sub){return '<div class="page-title"><div class="emblem">D&amp;D</div><div><h1>'+name+'</h1><p>'+sub+'</p></div></div>'};
+var choice=function(key,val,opts){return '<select data-field="'+key+'">'+opts.map(function(v){return '<option value="'+esc(v)+'"'+(state[key]===v?' selected':'')+'>'+esc(v||"Selecione...")+'</option>'}).join("")+'</select>'};
+function render(){
+hpSync();
+var lvl=clamp(n(state.level,1),1,20),cl=CL[state.classe],max=hpMax();
+var score=A.map(function(a,i){return '<div class="score-row"><span>'+AN[i]+'</span><input type="number" min="1" max="30" data-ability="'+a+'" value="'+(state.base[a]===null?"":state.base[a])+'" title="Valor base de '+AN[i]+'"><output id="ab-'+a+'">'+(ability(a)===null?"—":ability(a))+'</output><button class="tiny roll" data-action="ability-d20" data-id="'+a+'" title="Rolar teste de '+AN[i]+'">d20</button></div>'}).join("");
+var saves=A.map(function(a,i){return '<div class="choice-row"><input type="checkbox" data-save="'+a+'" '+(state.saves[a]?"checked":"")+'><span>'+AN[i]+'</span><output id="sv-'+a+'">'+signed(saveBonus(a))+'</output><button class="tiny roll" data-action="save-d20" data-id="'+a+'">d20</button></div>'}).join("");
+var skills=SK.map(function(sk,i){return '<div class="choice-row"><div class="skill-flags"><input type="checkbox" title="Proficiência" data-skill="'+i+'" '+(state.skills[i]?"checked":"")+'></div><div class="stat">'+sk[0]+' <small class="muted">('+sk[1].toUpperCase()+')</small> <label class="check" title="Expertise"><input type="checkbox" data-expert="'+i+'" '+(state.expertise[i]?"checked":"")+'><span style="font-size:9px">ESP</span></label></div><output id="sk-'+i+'">'+signed(skillBonus(i))+'</output><button class="tiny roll" data-action="skill-d20" data-id="'+i+'">d20</button></div>'}).join("");
+var races=[''].concat(RACES),classes=[''].concat(Object.keys(CL)),bg=[''].concat(Object.keys(BG));
+var identity='<div class="identity">'+field("name","Nome do personagem")+field("player","Jogador")+'<label>Classe '+choice("classe","",classes)+'</label><label>Raça '+choice("race","",races)+'</label>'+field("level","Nível (1 a 20)","number")+'<label>Antecedente '+choice("background","",bg)+'</label>'+field("xp","Experiência (XP)","number")+field("alignment","Tendência / alinhamento")+'</div>';
+var attacks=state.attacks.map(function(t,i){return '<tr><td><input data-attack="'+i+'" data-prop="name" value="'+esc(t.name)+'"></td><td><select data-attack="'+i+'" data-prop="stat">'+A.map(function(a){return '<option value="'+a+'"'+(t.stat===a?' selected':'')+'>'+a.toUpperCase()+'</option>'}).join("")+'</select></td><td><input type="checkbox" data-attack="'+i+'" data-prop="prof" '+(t.prof?"checked":"")+' title="Proficiente"></td><td><input data-attack="'+i+'" data-prop="dice" value="'+esc(t.dice)+'"></td><td><output id="atk-'+i+'"></output></td><td><button class="tiny" data-action="attack" data-id="'+i+'">🎲</button></td></tr>'}).join("");
+var persona='<div class="panel"><h2>Personalidade</h2>'+textArea("personality","Traços de personalidade")+textArea("ideals","Ideais")+textArea("bonds","Vínculos")+textArea("flaws","Defeitos")+'</div>';
+var main='<section class="page" id="page-personagem">'+title("Ficha de personagem","Baseada na ficha de três páginas do Livro do Jogador 5e")+
+identity+'<div class="three"><div class="stack"><div class="panel"><h2>Atributos</h2>'+score+'<div class="divided no-print"><div class="grow"><button data-action="roll6">🎲 Rolar 6× 4d6</button><button data-action="standard">Matriz padrão</button><button data-action="distribute" class="primary">Distribuir</button></div><div id="roll-six" class="dice-result">'+esc(feedback||"Escolha sua classe e role os atributos.")+'</div></div><h3>Modificadores</h3><div id="mods" class="message"></div></div><div class="panel"><h2>Testes de resistência</h2>'+saves+'</div><div class="panel"><h2>Perícias</h2>'+skills+'<div class="divided no-print"><button class="primary" data-action="auto-skills">⚙ Distribuir pela classe</button><p class="muted">Considera as opções de classe e antecedentes 2014. Pode editar manualmente.</p></div></div></div>'+
+'<div class="stack"><div class="panel"><h2>Defesa &amp; vitalidade</h2><div class="metrics"><div class="metric"><b id="ca">—</b><small>Armadura (CA)</small></div><div class="metric"><b id="init">—</b><small>Iniciativa</small></div><div class="metric"><b id="speed">—</b><small>Desloc. (m)</small></div><div class="metric"><b id="hpmax">—</b><small>PV máximos</small></div><div class="metric"><b id="hpcurrent">—</b><small>PV atuais</small></div><div class="metric"><b id="hptemp">—</b><small>PV temporários</small></div></div><div class="divided"><div class="fieldrow"><label>Armadura '+choice("armor","",["none","leather","studded","hide","chainshirt","scale","breastplate","halfplate","ring","chain","splint","plate"])+'</label><label>Escudo <input type="checkbox" data-field="shield" '+(state.shield?"checked":"")+'></label></div><div class="fieldrow">'+field("acMisc","Bônus adicionais na CA","number")+'<label>Modo CA '+choice("acMode","",["auto","manual"])+'</label></div>'+field("acManual","CA especial (manual)","number")+'</div><div class="divided"><label>Ganho de PV '+choice("hpMode","",["average","roll","manual"])+'</label><div class="fieldrow">'+field("hpBonusLevel","PV extra por nível","number")+field("hpExtra","PV extra total","number")+field("hpManual","PV máximo manual","number")+field("hpCur","PV atual","number")+'</div><div class="grow no-print"><button data-action="reroll-hp">🎲 Rerrolar Dados de Vida</button><button data-action="full-heal">♥ Vida completa</button></div><p id="hpformula" class="muted"></p><div class="fieldrow">'+field("hpTemp","PV temporários","number")+field("hitSpent","Dados de Vida gastos","number")+'</div><div class="grow no-print"><input id="hpamount" type="number" min="1" value="5" aria-label="Quantidade de dano ou cura"><button data-action="damage" class="warn">− Dano</button><button data-action="heal">+ Cura</button></div><p id="hitdice" class="muted"></p></div><div class="fieldrow"><label>Sucessos contra a morte<input type="number" min="0" max="3" data-field="deathSuccess" value="'+state.deathSuccess+'"></label><label>Falhas contra a morte<input type="number" min="0" max="3" data-field="deathFail" value="'+state.deathFail+'"></label></div></div>'+
+'<div class="panel"><h2>Ataques &amp; conjuração</h2><table class="table"><thead><tr><th>Arma</th><th>Atrib.</th><th>Prof.</th><th>Dano</th><th>Acerto</th><th></th></tr></thead><tbody>'+attacks+'</tbody></table><div class="grow no-print"><button data-action="add-attack">+ Ataque</button><button data-action="remove-attack">− Último</button></div><div class="divided"><div class="metrics"><div class="metric"><b id="spell-dc">—</b><small>CD de magia</small></div><div class="metric"><b id="spell-atk">—</b><small>Ataque mágico</small></div><div class="metric"><b id="prof">—</b><small>Proficiência</small></div></div><label>Atributo conjurador '+choice("castStat","",["","int","wis","cha"])+'</label></div></div><div class="panel"><h2>Combate e defesa</h2><p class="muted">Na regra oficial, a CA é fixa; role o ataque inimigo contra ela. Defesa ativa é opcional.</p><div class="grow no-print"><input id="enemybonus" type="number" value="0" aria-label="Bônus do inimigo"><button data-action="enemy-attack">🎲 Ataque contra CA</button></div><button data-action="active-defense" class="no-print">🎲 Defesa ativa (regra da casa)</button><p id="defense-result" class="message">Nenhum ataque recebido.</p></div></div>'+
+'<div class="stack">'+persona+'<div class="panel"><h2>Proficiências &amp; idiomas</h2>'+textArea("proficiencies","Armas, armaduras e ferramentas")+textArea("languages","Idiomas")+'<p class="outlabel"><span>Percepção passiva</span><output id="passiveperc">—</output></p><p class="outlabel"><span>Investigação passiva</span><output id="passiveinv">—</output></p><p class="outlabel"><span>Intuição passiva</span><output id="passiveins">—</output></p><p class="outlabel"><span>Carga máxima</span><output id="carry">—</output></p></div><div class="panel"><h2>Equipamentos</h2>'+textArea("inventory","Inventário e moedas")+'</div><div class="panel"><h2>Traços &amp; características</h2>'+textArea("traits","Características de classe e raça")+'</div></div></div></section>';
+var slotBoxes=Array.from({length:9},function(_,i){var avail=slots()[i];return '<div class="slot"><strong>Nível '+(i+1)+' — '+avail+' espaços</strong><input type="number" min="0" max="'+avail+'" data-slot="'+i+'" value="'+(state.slotsUsed[i]||0)+'"><div class="muted">Restam <output id="slot-'+i+'">'+Math.max(0,avail-(state.slotsUsed[i]||0))+'</output></div></div>'}).join("");
+var magic='<section class="page" id="page-magias" hidden>'+title("Ficha de magias","Espaços calculados por classe e nível • controle de gasto")+'<div class="other-grid"><div class="panel"><h2>Conjuração</h2><div class="metrics"><div class="metric"><b id="magic-dc">—</b><small>CD</small></div><div class="metric"><b id="magic-atk">—</b><small>Ataque</small></div><div class="metric"><b id="magic-stat">—</b><small>Atributo</small></div></div><p class="muted" id="magic-note"></p><div class="slot-grid">'+slotBoxes+'</div><div class="grow no-print"><button data-action="slots-reset">Restaurar espaços</button><button data-action="rest-long">Descanso longo</button></div><div class="divided"><h3>Mana opcional (regra da mesa)</h3><div class="fieldrow">'+field("manaMax","Mana máxima","number")+field("manaSpent","Mana gasta","number")+'</div><div class="outlabel">Mana restante <output id="mana-left">—</output></div></div></div><div class="panel"><h2>Magias conhecidas / preparadas</h2>'+state.spells.map(function(v,i){return '<label>Magias de nível '+i+'<textarea class="paper-lines" data-spell="'+i+'">'+esc(v)+'</textarea></label>'}).join("")+'</div></div></section>';
+var bio='<section class="page" id="page-historia" hidden>'+title("História &amp; personalidade","Segunda página da ficha impressa")+'<div class="other-grid"><div class="panel wide"><h2>Descrição física</h2><div class="identity" style="border:0;margin:0">'+["age","height","weight","eyes","skin","hair"].map(function(k){return field(k,{age:"Idade",height:"Altura",weight:"Peso",eyes:"Olhos",skin:"Pele",hair:"Cabelo"}[k])}).join("")+'</div></div><div class="panel">'+textArea("appearance","Aparência do personagem")+textArea("allies","Aliados e organizações")+'</div><div class="panel">'+textArea("backstory","Histórico do personagem")+textArea("treasure","Tesouros")+'</div><div class="panel wide">'+textArea("notes","Anotações adicionais")+'</div></div></section>';
+var conds=CONDITIONS.map(function(c){return '<label><input data-condition="'+esc(c)+'" type="checkbox" '+(state.conditions.includes(c)?"checked":"")+'>'+esc(c)+'</label>'}).join("");
+var pointbuy=A.map(function(a,i){return '<label>'+AN[i]+'<input type="number" min="8" max="15" data-point="'+a+'" value="'+(state.base[a]===null?8:clamp(state.base[a],8,15))+'"></label>'}).join("");
+var tools='<section class="page" id="page-ferramentas" hidden>'+title("Ferramentas de jogo","Utilitários para preparação e combate")+
+'<div class="other-grid"><div class="panel"><h2>1 · Compra de atributos (27 pontos)</h2><p class="muted">Valores de 8 a 15; ajuste antes dos bônus raciais. Tabela padrão de custos do Livro do Jogador.</p><div class="fieldrow threefield">'+pointbuy+'</div><div class="outlabel">Pontos usados <output id="point-used">—</output></div><button data-action="apply-pointbuy" class="primary">Aplicar valores na ficha</button></div>'+
+'<div class="panel"><h2>2 · Descansos e Dados de Vida</h2><p id="rest-summary" class="message">Escolha classe, nível e Constituição.</p><div class="grow"><button data-action="rest-short" class="primary">🎲 Descanso curto (gastar 1 DV)</button><button data-action="rest-long">☀ Descanso longo</button></div><p class="muted">Descanso longo recupera PV, espaços de magia e até metade dos Dados de Vida (mínimo 1). Descanso curto pode gastar um Dado de Vida e restaura espaços do bruxo.</p></div>'+
+'<div class="panel"><h2>3 · Condições &amp; exaustão</h2><div class="condition-list">'+conds+'</div><div class="fieldrow"><label>Exaustão (0 a 6)<input data-field="exhaustion" type="number" min="0" max="6" value="'+state.exhaustion+'"></label><label>Concentração <input type="checkbox" data-field="concentration" '+(state.concentration?"checked":"")+'></label></div></div>'+
+'<div class="panel"><h2>4 · Turnos &amp; iniciativa</h2><div class="metrics"><div class="metric"><b id="round">'+state.round+'</b><small>Rodada</small></div><div class="metric"><b id="initiative-total">—</b><small>Última iniciativa</small></div><div class="metric"><b id="conditions-total">0</b><small>Condições</small></div></div><div class="grow"><button data-action="roll-init">🎲 Iniciativa</button><button data-action="next-round">Próxima rodada</button><button data-action="reset-round">Reiniciar</button></div><h3>Histórico de combate</h3><div class="log" id="combat-log"></div></div>'+
+'<div class="panel"><h2>5 · Biblioteca de personagens</h2><p class="muted">Crie, troque e duplique personagens. O armazenamento é local: exporte JSON para fazer backup ou transferir entre dispositivos.</p><div class="grow"><button data-action="export-json" class="primary">Baixar JSON</button><button data-action="import-json">Importar JSON</button><button data-action="print">Imprimir / salvar PDF</button></div><input type="file" id="file-import" accept=".json,application/json" hidden><p id="save-note" class="muted">Salvamento automático ligado.</p></div>'+
+'<div class="panel"><h2>Dados e testes</h2><div class="grow"><input id="dice-expression" placeholder="Ex.: 2d8+3, 4d6kh3, 1d20-1" aria-label="Expressão de dados"><button data-action="roll-dice" class="primary">🎲 Rolar</button></div><div class="dice-result" id="dice-output">'+esc(lastRoll||"Aguardando rolagem.")+'</div><p class="muted">Testes de perícia, atributo e resistência também podem ser rolados diretamente na ficha. Escolha o modo abaixo.</p><label>Modo d20 <select id="dice-mode"><option value="normal">Normal</option><option value="advantage">Vantagem</option><option value="disadvantage">Desvantagem</option></select></label></div></div></section>';
+$("root").innerHTML=main+magic+bio+tools;
+$("root").querySelectorAll(".page").forEach(function(p){p.hidden=p.id!=="page-"+activeTab});
+document.querySelectorAll("[data-tab]").forEach(function(b){b.classList.toggle("active",b.dataset.tab===activeTab)});
+renderDerived();
+}
+function renderDerived(){
+hpSync();
+var lvl=clamp(n(state.level,1),1,20),cl=CL[state.classe],max=hpMax(),con=smod("con");
+function set(id,v){var e=$(id);if(e)e.textContent=v}
+A.forEach(function(a){set("ab-"+a,ability(a)===null?"—":ability(a));set("sv-"+a,signed(saveBonus(a)))});
+SK.forEach(function(_,i){set("sk-"+i,signed(skillBonus(i)))});
+set("mods",A.map(function(a,i){return AN[i]+": "+signed(smod(a))}).join(" • "));
+set("prof",signed(prof()));set("ca",ac());set("init",signed(smod("dex")===null?null:smod("dex")+n(state.initMisc,0)));set("speed",n(state.speed,9));
+set("hpmax",max===null?"—":max);set("hpcurrent",state.hpCur===null?"—":state.hpCur);set("hptemp",state.hpTemp);set("hitdice",cl?("Dados de Vida: "+(lvl-n(state.hitSpent,0))+" / "+lvl+" d"+cl.hd):"Selecione a classe para determinar o Dado de Vida.");
+set("hpformula",max===null?"Preencha classe, nível e Constituição.":(state.hpMode==="manual"?"PV máximo manual: "+max:("Nível 1: "+cl.hd+" + CON ("+con+"). Níveis seguintes: "+(state.hpMode==="average"?"média fixa":"dados rolados")+" + CON. PV máximo: "+max)));
+var cast=state.castStat||cl&&cl.cast||"",cm=cast?smod(cast):null,dc=cm===null?null:8+prof()+cm,atk=cm===null?null:prof()+cm;
+set("spell-dc",dc===null?"—":dc);set("spell-atk",signed(atk));set("magic-dc",dc===null?"—":dc);set("magic-atk",signed(atk));set("magic-stat",cast?cast.toUpperCase():"—");
+set("passiveperc",skillBonus(13)===null?"—":10+skillBonus(13));set("passiveinv",skillBonus(10)===null?"—":10+skillBonus(10));set("passiveins",skillBonus(9)===null?"—":10+skillBonus(9));set("carry",ability("str")===null?"—":(ability("str")*7.5)+" kg");
+state.attacks.forEach(function(t,i){var m=smod(t.stat);set("atk-"+i,signed(m===null?null:m+(t.prof?prof():0)))});
+var sl=slots();sl.forEach(function(value,i){set("slot-"+i,Math.max(0,value-(state.slotsUsed[i]||0)))});
+set("magic-note",!cl||!cl.magic?"Sem espaços de magia por classe no nível informado.":(cl.magic==="pact"?"Bruxo: espaços de pacto, recuperáveis em descanso curto. Arcanos Místicos são separados.":"Espaços automáticos pela progressão da classe (5e/2014, sem multiclasse)."));
+set("mana-left",state.manaMax===""?"Desligada (regras padrão)":Math.max(0,n(state.manaMax,0)-n(state.manaSpent,0)));
+set("rest-summary",cl?("PV: "+(state.hpCur===null?"—":state.hpCur)+"/"+max+" | DV disponíveis: "+(lvl-state.hitSpent)+"/"+lvl+" | Espaços gastos: "+state.slotsUsed.reduce(function(a,b){return a+n(b,0)},0)):"Selecione uma classe.");
+set("round",state.round);set("initiative-total",state.initiativeRoll===null?"—":state.initiativeRoll);set("conditions-total",state.conditions.length+(state.exhaustion>0?1:0));
+set("combat-log",state.combatLog.join("\n")||"Nenhum evento registrado.");
+var cost=[0,1,2,3,4,5,7,9],used=0,valid=true;A.forEach(function(a){var inp=document.querySelector("[data-point='"+a+"']");if(!inp)return;var v=n(inp.value,NaN);if(!Number.isInteger(v)||v<8||v>15)valid=false;else used+=cost[v-8]});set("point-used",valid?used+" / 27"+(used>27?" • excedido":""):"Valores permitidos: 8 a 15");
+}
+function refreshProfiles(){var sel=$("profiles");if(!sel)return;sel.innerHTML=Object.keys(book).map(function(id){return '<option value="'+esc(id)+'"'+(id===current?" selected":"")+'>'+esc(book[id].name||"Personagem sem nome")+' · '+esc(book[id].classe||"Sem classe")+'</option>'}).join("")}
+function getMode(){return $("dice-mode")?$("dice-mode").value:"normal"}
+function d20(bonus){var one=rand(20),two=getMode()==="normal"?null:rand(20),taken=two===null?one:getMode()==="advantage"?Math.max(one,two):Math.min(one,two);return {raw:two===null?[one]:[one,two],die:taken,total:taken+bonus,crit:taken===20,fail:taken===1}}
+function rollExpr(expr){var m=String(expr||"").replace(/\s+/g,"").match(/^(\d{0,2})d(4|6|8|10|12|20|100)(?:kh(\d{1,2}))?([+-]\d{1,3})?$/i);if(!m)return "Expressão inválida. Use 1d20+3 ou 4d6kh3.";var count=Number(m[1]||1),faces=Number(m[2]),keep=m[3]?Number(m[3]):count,delta=Number(m[4]||0);if(count<1||count>30||keep<1||keep>count)return "Limite: 1–30 dados, mantendo de 1 ao total.";var rolls=Array.from({length:count},function(){return rand(faces)}),used=rolls.slice().sort(function(a,b){return b-a}).slice(0,keep),total=used.reduce(function(a,b){return a+b},0)+delta;return expr+" → ["+rolls.join(", ")+"] → usados ["+used.join(", ")+"] "+signed(delta)+" = "+total}
+function setRace(v){state.race=v;state.racial={str:0,dex:0,con:0,int:0,wis:0,cha:0};var fixed={"Anão":{con:2},"Elfo":{dex:2},"Halfling":{dex:2},"Humano":{str:1,dex:1,con:1,int:1,wis:1,cha:1},"Draconato":{str:2,cha:1},"Gnomo":{int:2},"Meio-Elfo":{cha:2},"Meio-Orc":{str:2,con:1},"Tiefling":{int:1,cha:2}};Object.assign(state.racial,fixed[v]||{});if(v==="Anão"||v==="Halfling"||v==="Gnomo")state.speed=7.5;else state.speed=9}
+function autoSkills(){var cl=CL[state.classe];if(!cl){alertUser("Selecione uma classe primeiro.");return}var skills={};(BG[state.background]||[]).forEach(function(i){skills[i]=true});if(state.race==="Elfo")skills[13]=true;if(state.race==="Meio-Orc")skills[8]=true;var count=cl.n;var choices=cl.skills.filter(function(i){return !skills[i]}).sort(function(a,b){return n(skillBonus(b),0)-n(skillBonus(a),0)});choices.slice(0,count).forEach(function(i){skills[i]=true});if(state.race==="Meio-Elfo"){SK.map(function(_,i){return i}).filter(function(i){return !skills[i]}).sort(function(a,b){return n(skillBonus(b),0)-n(skillBonus(a),0)}).slice(0,2).forEach(function(i){skills[i]=true})}state.skills=skills;render();save();alertUser("Perícias distribuídas. Você pode modificar as escolhas manualmente.")}
+function roll6(){abilityRolls=Array.from({length:6},function(){var dice=Array.from({length:4},function(){return rand(6)}),sum=dice.reduce(function(a,b){return a+b},0)-Math.min.apply(null,dice);return {dice:dice,sum:sum}});feedback=abilityRolls.map(function(r,i){return (i+1)+": ["+r.dice.join(",")+"] → "+r.sum}).join(" | ");render()}
+function distribute(){var cl=CL[state.classe];if(!cl){alertUser("Selecione uma classe para distribuir.");return}if(abilityRolls.length!==6){alertUser("Role os 6 atributos ou escolha a matriz padrão.");return}var sorted=abilityRolls.map(function(r){return r.sum}).sort(function(a,b){return b-a});cl.best.forEach(function(a,i){state.base[a]=sorted[i]});feedback="Distribuído para "+state.classe+": "+cl.best.map(function(a,i){return a.toUpperCase()+" "+sorted[i]}).join(" • ");render();save()}
+function action(name,id){
+var max=hpMax(),lvl=clamp(n(state.level,1),1,20),cl=CL[state.classe];
+switch(name){
+case "new":state=blank();current=state.id;book[current]=state;feedback="";save();render();return;
+case "copy":var old=state;state=JSON.parse(JSON.stringify(old));state.id="ch-"+Date.now()+"-"+rand(99999);state.name=(old.name||"Personagem")+" (cópia)";current=state.id;save();render();return;
+case "delete":if(Object.keys(book).length===1){alertUser("Mantenha pelo menos uma ficha. Use Novo para começar outra.");return}if(!window.confirm("Excluir a ficha deste personagem?"))return;delete book[current];current=Object.keys(book)[0];state=JSON.parse(JSON.stringify(book[current]));save();render();return;
+case "roll6":roll6();return;
+case "standard":abilityRolls=[15,14,13,12,10,8].map(function(sum){return {sum:sum,dice:[]}});feedback="Matriz padrão: 15, 14, 13, 12, 10, 8. Clique em Distribuir.";render();return;
+case "distribute":distribute();return;
+case "auto-skills":autoSkills();return;
+case "ability-d20":case "save-d20":case "skill-d20":var bonus=name==="ability-d20"?smod(id):name==="save-d20"?saveBonus(id):skillBonus(Number(id));if(bonus===null){alertUser("Preencha o atributo para rolar.");return}var roll=d20(bonus);log((name==="skill-d20"?SK[Number(id)][0]:AN[A.indexOf(id)])+" · d20 ["+roll.raw.join(", ")+"] "+signed(bonus)+" = "+roll.total);return;
+case "reroll-hp":if(state.hpMode!=="roll"){alertUser("Selecione o ganho de PV por rolagem.");return}state.hpRolls=[];state.hpMaxLast=null;state.hpCur=null;hpSync();render();save();return;
+case "full-heal":if(max===null){alertUser("Configure a classe e Constituição primeiro.");return}state.hpCur=max;log("Vida restaurada: "+max+"/"+max+" PV");return;
+case "damage":case "heal":var amt=n($("hpamount")&&$("hpamount").value,NaN);if(!Number.isInteger(amt)||amt<1){alertUser("Informe a quantidade inteira positiva.");return}if(max===null){alertUser("Preencha classe e Constituição primeiro.");return}if(name==="damage"){var absorbed=Math.min(n(state.hpTemp,0),amt);state.hpTemp-=absorbed;state.hpCur=Math.max(0,state.hpCur-(amt-absorbed));log("Dano "+amt+": "+absorbed+" absorvido(s) pelos PV temporários. Restam "+state.hpCur+" PV.")}else{state.hpCur=Math.min(max,state.hpCur+amt);log("Cura "+amt+": "+state.hpCur+"/"+max+" PV.")}render();save();return;
+case "add-attack":state.attacks.push({name:"",stat:"str",prof:true,dice:"1d8",type:""});render();save();return;
+case "remove-attack":if(state.attacks.length>1)state.attacks.pop();render();save();return;
+case "attack":var t=state.attacks[Number(id)],m=smod(t.stat);if(m===null){alertUser("Preencha o atributo do ataque.");return}var a=d20(m+(t.prof?prof():0));var dmg=rollExpr(t.dice+(m>=0?"+":"")+m);log((t.name||"Ataque")+" · d20 ["+a.raw.join(", ")+"] = "+a.total+(a.crit?" CRÍTICO":"")+" | Dano: "+dmg);return;
+case "enemy-attack":var b=n($("enemybonus")&&$("enemybonus").value,0),hit=d20(b),success=hit.crit||!hit.fail&&hit.total>=ac();$("defense-result").textContent="Ataque inimigo: d20 ["+hit.raw.join(", ")+"] + "+b+" = "+hit.total+" contra CA "+ac()+": "+(success?(hit.crit?"ACERTO CRÍTICO":"ACERTOU"):"ERROU");return;
+case "active-defense":var de=smod("dex");if(de===null){alertUser("Preencha a Destreza.");return}var r=d20(de);$("defense-result").textContent="Defesa ativa OPCIONAL: d20 ["+r.raw.join(", ")+"] "+signed(de)+" = "+r.total+". O Mestre determina o resultado.";return;
+case "slots-reset":state.slotsUsed=Array(9).fill(0);log("Espaços de magia restaurados.");render();return;
+case "rest-short":if(!cl||max===null){alertUser("Preencha classe e Constituição.");return}if(state.hitSpent>=lvl){alertUser("Sem Dados de Vida disponíveis.");return}var r=rand(cl.hd),gain=Math.max(0,r+(smod("con")||0));state.hitSpent++;state.hpCur=Math.min(max,state.hpCur+gain);if(cl.magic==="pact")state.slotsUsed=Array(9).fill(0);log("Descanso curto: d"+cl.hd+" "+r+" + CON = "+gain+" PV. Agora "+state.hpCur+"/"+max+" PV.");render();return;
+case "rest-long":if(max!==null)state.hpCur=max;state.hitSpent=Math.max(0,state.hitSpent-Math.max(1,Math.floor(lvl/2)));state.slotsUsed=Array(9).fill(0);state.deathFail=0;state.deathSuccess=0;log("Descanso longo: PV restaurados, espaços de magia recuperados e parte dos DV restaurada.");render();return;
+case "roll-init":var ini=smod("dex");if(ini===null){alertUser("Preencha Destreza.");return}var result=d20(ini+n(state.initMisc,0));state.initiativeRoll=result.total;log("Iniciativa: d20 ["+result.raw.join(",")+"] = "+result.total);render();return;
+case "next-round":state.round++;log("Início da rodada "+state.round);render();return;
+case "reset-round":state.round=1;state.initiativeRoll=null;log("Encontro reiniciado.");render();return;
+case "apply-pointbuy":var cost=[0,1,2,3,4,5,7,9],vals={},spent=0,valid=true;A.forEach(function(a){var el=document.querySelector("[data-point='"+a+"']"),v=n(el&&el.value,NaN);if(!Number.isInteger(v)||v<8||v>15)valid=false;else{spent+=cost[v-8];vals[a]=v}});if(!valid||spent>27){alertUser("Compra inválida: cada atributo deve ficar entre 8 e 15 e o custo total não pode passar de 27.");return}A.forEach(function(a){state.base[a]=vals[a]});render();save();alertUser("Atributos aplicados. Pontos usados: "+spent+"/27.");return;
+case "export-json":var blob=new Blob([JSON.stringify({version:3,character:state},null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=(state.name||"personagem").replace(/[^a-z0-9_-]/gi,"_")+"-ficha5e.json";a.click();setTimeout(function(){URL.revokeObjectURL(url)},500);return;
+case "import-json":$("file-import").click();return;
+case "print":window.print();return;
+case "roll-dice":var out=rollExpr($("dice-expression").value);$("dice-output").textContent=out;lastRoll=out;return;
+}}
+function importData(payload){
+var data=payload&&payload.character?payload.character:payload,created=blank();
+if(payload&&payload.form){var f=payload.form;data={name:f.charName,player:f.playerName,race:f.race,classe:f.classe,level:f.level,xp:f.xp,background:f.background,alignment:f.alignment,inventory:f.inventory,traits:f.traits,base:{},skills:{},expertise:{},saves:{}};A.forEach(function(a){data.base[a]=n(f[a],null);data.saves[a]=!!f["profSave-"+a]});var old=["acrobatics","animal","arcana","athletics","performance","deception","stealth","history","intimidation","insight","investigation","medicine","nature","perception","persuasion","sleight","religion","survival"];old.forEach(function(key,i){data.skills[i]=!!f["prof-"+key];data.expertise[i]=!!f["exp-"+key]});if(Array.isArray(payload.attacks))data.attacks=payload.attacks.map(function(t){return {name:t.name,stat:t.stat,prof:t.prof,dice:t.damage||"1d8",type:""}})}
+if(!data||typeof data!=="object"||Array.isArray(data))throw Error("Formato não reconhecido");
+Object.keys(created).forEach(function(k){if(data[k]!==undefined&&data[k]!==null&&typeof data[k]===typeof created[k])created[k]=data[k]});
+if(data.base&&typeof data.base==="object")A.forEach(function(a){created.base[a]=n(data.base[a],null)});
+created.level=clamp(Math.trunc(n(created.level,1)),1,20);
+if(!CL[created.classe])created.classe="";
+created.attacks=Array.isArray(data.attacks)&&data.attacks.length?data.attacks.slice(0,30).map(function(t){return {name:String(t.name||""),stat:A.includes(t.stat)?t.stat:"str",prof:!!t.prof,dice:String(t.dice||"1d8").slice(0,40),type:String(t.type||"")}}):created.attacks;
+created.slotsUsed=Array.isArray(data.slotsUsed)?Array.from({length:9},function(_,i){return Math.max(0,n(data.slotsUsed[i],0))}):created.slotsUsed;
+created.spells=Array.isArray(data.spells)?Array.from({length:10},function(_,i){return String(data.spells[i]||"")}):created.spells;
+created.hpRolls=Array.isArray(data.hpRolls)?data.hpRolls.slice(0,19):[];
+created.conditions=Array.isArray(data.conditions)?data.conditions.filter(function(x){return CONDITIONS.includes(x)}):[];
+created.combatLog=Array.isArray(data.combatLog)?data.combatLog.slice(0,60).map(String):[];
+created.hpMaxLast=null;created.id="ch-"+Date.now()+"-"+rand(99999);
+state=created;current=state.id;book[current]=state;hpSync();render();save();alertUser("Ficha importada com sucesso.");
+}
+$("root").addEventListener("input",function(ev){
+var t=ev.target;if(t.dataset.ability){state.base[t.dataset.ability]=t.value===""?null:n(t.value,null)}
+else if(t.dataset.save){state.saves[t.dataset.save]=t.checked}
+else if(t.dataset.skill!==undefined){state.skills[t.dataset.skill]=t.checked}
+else if(t.dataset.expert!==undefined){state.expertise[t.dataset.expert]=t.checked;if(t.checked)state.skills[t.dataset.expert]=true}
+else if(t.dataset.slot!==undefined){var idx=Number(t.dataset.slot);state.slotsUsed[idx]=clamp(n(t.value,0),0,slots()[idx]);}
+else if(t.dataset.spell!==undefined){state.spells[Number(t.dataset.spell)]=t.value}
+else if(t.dataset.condition){state.conditions=t.checked?Array.from(new Set(state.conditions.concat(t.dataset.condition))):state.conditions.filter(function(x){return x!==t.dataset.condition})}
+else if(t.dataset.attack!==undefined){var entry=state.attacks[Number(t.dataset.attack)];if(entry)entry[t.dataset.prop]=t.type==="checkbox"?t.checked:t.value}
+else if(t.dataset.field){var key=t.dataset.field;state[key]=t.type==="checkbox"?t.checked:t.type==="number"?(t.value===""?"":n(t.value,0)):t.value; if(key==="race")setRace(t.value);if(key==="classe"){var cl=CL[t.value];if(cl){state.saves={};cl.saves.forEach(function(a){state.saves[a]=true});state.castStat=cl.cast||""}state.hpRolls=[]}if(key==="hpMode"&&t.value==="roll")state.hpRolls=[]}
+else return;
+hpSync();renderDerived();save();
+});
+$("root").addEventListener("change",function(e){var t=e.target;if(t.dataset.field&&["classe","race","armor","hpMode","background","acMode"].includes(t.dataset.field)){render();save()}else if(t.dataset.expert!==undefined){render();save()}});
+document.body.addEventListener("click",function(e){var btn=e.target.closest("button");if(!btn)return;var tab=btn.dataset.tab;if(tab){activeTab=tab;render();window.scrollTo(0,0);return}if(btn.dataset.action){e.preventDefault();action(btn.dataset.action,btn.dataset.id)}});
+$("profiles").addEventListener("change",function(){var id=this.value;if(!book[id])return;current=id;state=JSON.parse(JSON.stringify(book[id]));render();save()});
+$("root").addEventListener("change",function(e){if(e.target.id!=="file-import")return;var file=e.target.files&&e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){try{importData(JSON.parse(reader.result))}catch(err){alertUser("Não foi possível importar: "+err.message)}};reader.readAsText(file)});
+try{var stored=JSON.parse(localStorage.getItem(KEY)||"null");if(stored&&stored.book&&typeof stored.book==="object"){book=stored.book;current=stored.current;if(book[current])state=JSON.parse(JSON.stringify(book[current]))}}catch(e){}
+if(!state){state=blank();current=state.id;book[current]=state}
+render();save();
+window.ficha5eTest={mod:mod,slots:slots,hpMax:hpMax,ac:ac,prof:prof,rollExpr:rollExpr,getState:function(){return JSON.parse(JSON.stringify(state))}};
 })();
-
 </script>
-</body>
-</html>
+</body></html>
