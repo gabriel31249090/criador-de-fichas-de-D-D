@@ -1,8 +1,9 @@
-# Histórico — V5
+# Histórico da V6
 
-- Mantida a V4 e adicionada aba independente, com dados V5 preservados no mesmo JSON.
-- Criador guiado em seis etapas, progressão, subclasses, grimório pesquisável, validador, equipamentos, talentos, multiclasse, recursos e PDF A4.
-- Ajustes em CA/iniciativa por talentos, atributos com melhorias de talentos, Dados de Vida de classes diferentes e espaços combinados de multiclasse.
-- Subclasses Cavaleiro Arcano e Trapaceiro Arcano conectadas à progressão de 1/3 conjurador.
-- Grimório com resumos originais em vez de copiar descrições integrais do Livro do Jogador.
-- Testes de integração Playwright + impressão A4 de três páginas.
+- Preservadas páginas e salvamento da V5.
+- Oito telas de mesa com interface responsiva, cores e impressão A4.
+- Combate, spells, companheiros, encantamentos, comércio, encontros, regras e explicações de cálculos.
+- Arquivo SQL de sala online com RLS, autenticação obrigatória, mestre/jogador e convite UUID.
+- PWA com cache restrito aos assets locais.
+- Corrigidos bônus mágicos de CA e ataque na ficha original.
+- Higgsfield: aguardando conexão da conta; visual próprio integrado sem assets externos.
