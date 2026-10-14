@@ -31,7 +31,7 @@ const SLOT_FULL=[
 ];
 const XP=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
 const COST={8:0,9:1,10:2,11:3,12:4,13:5,14:7,15:9};
-const FIELDS={name:'',className:'',level:'',race:'',subrace:'',raceAuto:true,raceExtra1:'dex',raceExtra2:'con',featTough:false,draconicSoul:false,background:'',player:'',alignment:'',xp:'',speed:'',inspiration:false,armor:'Sem armadura',acExtra:'',shield:false,acOverride:'',hpCurrent:'',hpTemp:'',hpMethod:'average',hpPerLevel:'',hpExtra:'',hitDiceSpent:'',personality:'',ideals:'',bonds:'',flaws:'',traits:'',otherProfs:'',age:'',height:'',weight:'',eyes:'',skin:'',hair:'',appearance:'',allies:'',history:'',features:'',treasure:'',castClass:'',castAbility:'',spellProgression:'auto',manaMax:'',manaUsed:'',exhaustion:'',resourceName:'',resourceMax:'',resourceUsed:''};
+const FIELDS={name:'',className:'',level:'',race:'',subrace:'',raceAuto:true,raceExtra1:'dex',raceExtra2:'con',featTough:false,draconicSoul:false,background:'',player:'',alignment:'',xp:'',speed:'',inspiration:false,initiativeExtra:'',mageArmor:false,armor:'Sem armadura',acExtra:'',shield:false,acOverride:'',hpCurrent:'',hpTemp:'',hpMethod:'average',hpPerLevel:'',hpExtra:'',hitDiceSpent:'',personality:'',ideals:'',bonds:'',flaws:'',traits:'',otherProfs:'',age:'',height:'',weight:'',eyes:'',skin:'',hair:'',appearance:'',allies:'',history:'',features:'',treasure:'',castClass:'',castAbility:'',spellProgression:'auto',manaMax:'',manaUsed:'',exhaustion:'',resourceName:'',resourceMax:'',resourceUsed:''};
 const uid=()=>{try{return crypto.randomUUID()}catch(e){return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9)}};
 const fresh=()=>({version:3,id:uid(),fields:{...FIELDS},abilities:Object.fromEntries(A.map(x=>[x[0],''])),saves:[],skillProfs:[],expertise:[],autoSkills:[],hpRolls:[],hpRollDie:null,hpLastMax:null,attacks:[{id:uid(),name:'',type:'str',damage:'1d8',prof:true}],items:[],currency:{pc:0,pp:0,pe:0,po:0,pl:0},conditions:[],deathSuccess:0,deathFailure:0,spells:Object.fromEntries(Array.from({length:10},(_,i)=>[i,''])),slotsUsed:Array(9).fill(0),pointBuy:Object.fromEntries(A.map(x=>[x[0],8])),rollLog:[]});
 let library={},active='',state,saveTimer,rolls=[],restoring=false;
@@ -50,7 +50,7 @@ function opt(select,values,empty='Selecione...'){select.innerHTML='<option value
 function makeUI(){
  opt($('className'),Object.keys(CLASSES));opt($('race'),Object.keys(RACES));opt($('background'),Object.keys(BACKGROUNDS));opt($('castClass'),Object.keys(CLASSES),'Classe principal');
  $('armor').innerHTML=Object.keys(ARMOR).map(a=>`<option>${escaped(a)}</option>`).join('');
- $('abilityList').innerHTML=A.map(([k,title])=>`<div class="ability-row"><label for="attr-${k}">${title}</label><input id="attr-${k}" type="number" min="1" max="30" data-ability="${k}" aria-label="Valor de ${title}"><output class="ability-mod" id="mod-${k}">—</output><button class="tiny" data-action="test-ability" data-key="${k}" title="Rolar d20 com o modificador">d20</button></div>`).join('');
+ $('abilityList').innerHTML=A.map(([k,title])=>`<div class="ability-row"><label for="attr-${k}">${title}</label><input id="attr-${k}" type="number" min="1" max="30" data-ability="${k}" aria-label="Valor de ${title}"><output class="ability-score" id="final-${k}" title="Valor final com bônus de raça">—</output><output class="ability-mod" id="mod-${k}">—</output><button class="tiny" data-action="test-ability" data-key="${k}" title="Rolar d20 com o modificador">d20</button></div>`).join('');
  $('saves').innerHTML=A.map(([k,title])=>`<div class="list-row"><input type="checkbox" data-save="${k}" aria-label="Proficiência em salvaguarda de ${title}"><span>${title}</span><output id="save-${k}">—</output><button class="tiny" data-action="test-save" data-key="${k}">d20</button></div>`).join('');
  $('skills').innerHTML=SK.map(([key,title,a])=>`<div class="list-row skill-row"><input type="checkbox" data-skill="${key}" aria-label="Proficiência em ${title}"><input type="checkbox" data-expert="${key}" aria-label="Especialização em ${title}" title="Especialização (dobrar proficiência)"><span>${title} <small>(${a.toUpperCase()})</small></span><output id="skill-${key}">—</output><button class="tiny" data-action="test-skill" data-key="${key}">d20</button></div>`).join('');
  $('currencyFields').innerHTML=[['pc','PC'],['pp','PP'],['pe','PE'],['po','PO'],['pl','PL']].map(([k,name])=>`<label>${name}<input data-currency="${k}" type="number" min="0" step="1"></label>`).join('');
@@ -115,17 +115,21 @@ function derivedSkill(id){const sk=SK.find(x=>x[0]===id),m=sk?mod(sk[2]):null,p=
 function derivedAC(){const override=state.fields.acOverride;if(!blank(override)&&Number.isFinite(Number(override)))return n(override);
  const dex=mod('dex');if(dex===null)return null;
  const armor=state.fields.armor,base=ARMOR[armor]||ARMOR['Sem armadura'];let val=base[0]+Math.min(dex,base[1]);
- if(armor==='Sem armadura'&&state.fields.className==='Bárbaro'&&mod('con')!==null)val=10+dex+mod('con');
- if(armor==='Sem armadura'&&state.fields.className==='Monge'&&!state.fields.shield&&mod('wis')!==null)val=10+dex+mod('wis');
+ if(armor==='Sem armadura'){
+  if(state.fields.mageArmor)val=Math.max(val,13+dex);
+  if(state.fields.draconicSoul&&state.fields.className==='Feiticeiro')val=Math.max(val,13+dex);
+  if(state.fields.className==='Bárbaro'&&mod('con')!==null)val=Math.max(val,10+dex+mod('con'));
+  if(state.fields.className==='Monge'&&!state.fields.shield&&mod('wis')!==null)val=Math.max(val,10+dex+mod('wis'));
+ }
  return val+(state.fields.shield?2:0)+n(state.fields.acExtra);
 }
 function deriveAttack(row){const p=pb(),a=row.type==='spell'?(state.fields.castAbility||CLASSES[state.fields.className]?.cast):row.type;const bonus=a?mod(a):null;return bonus===null?null:bonus+(row.prof?(p??0):0)}
 function renderDerived(){const l=level(),p=pb(),cl=CLASSES[state.fields.className];$('profBonus').textContent=signed(p);
- for(const [key] of A){$('mod-'+key).textContent=signed(mod(key));const save=mod(key);$('save-'+key).textContent=signed(save===null?null:save+(state.saves.includes(key)?p||0:0))}
+ for(const [key] of A){$('final-'+key).textContent=score(key)===null?'—':score(key);$('mod-'+key).textContent=signed(mod(key));const save=mod(key);$('save-'+key).textContent=signed(save===null?null:save+(state.saves.includes(key)?p||0:0))}
  for(const [key] of SK)$('skill-'+key).textContent=signed(derivedSkill(key));
  const passive=id=>{const b=derivedSkill(id);return b===null?'—':10+b};$('passPerception').textContent=passive('perception');$('passInvestigation').textContent=passive('investigation');$('passInsight').textContent=passive('insight');
  const xp=n(state.fields.xp,NaN);$('xpNext').textContent=l===null?'Preencha o nível':l===20?'Nível máximo':Number.isFinite(xp)?`${Math.max(0,XP[l]-xp).toLocaleString('pt-BR')} XP até nível ${l+1}`:`Próximo nível: ${XP[l].toLocaleString('pt-BR')} XP`;
- $('initiative').textContent=signed(mod('dex'));$('acValue').textContent=derivedAC()??'—';
+ $('initiative').textContent=signed(mod('dex')===null?null:mod('dex')+n(state.fields.initiativeExtra));$('acValue').textContent=derivedAC()??'—';
  const hp=calcHP();if(hp){const old=state.hpLastMax;const newMax=hp.total;const oldCur=state.fields.hpCurrent;
  if(blank(oldCur))state.fields.hpCurrent=newMax;
  else if(old!==null&&old!==newMax){const prev=n(oldCur);state.fields.hpCurrent=prev<=0?0:Math.min(newMax,Math.max(0,prev+newMax-old))}
@@ -209,7 +213,7 @@ function bindEvents(){
  $('standardArray').onclick=()=>{rolls=[15,14,13,12,10,8].map(v=>({total:v,dice:[]}));$('rolledResults').textContent='Valores padrão: 15, 14, 13, 12, 10, 8. Clique em distribuir.'};
  $('assignRolled').onclick=()=>{const cl=CLASSES[state.fields.className];if(!cl){msg('Selecione a classe antes de distribuir atributos.');return}if(rolls.length!==6){msg('Role 4d6 ou selecione os valores padrão primeiro.');return}const values=rolls.map(x=>x.total).sort((a,b)=>b-a);cl.priority.forEach((key,i)=>{state.abilities[key]=values[i]});renderFields();queueSave();$('rolledResults').textContent=`Atributos distribuídos para ${state.fields.className}. Ajustes raciais precisam ser aplicados separadamente.`};
  $('autoSkills').onclick=assignSkills;$('clearAutoSkills').onclick=()=>{state.skillProfs=state.skillProfs.filter(k=>!state.autoSkills.includes(k));state.autoSkills=[];document.querySelectorAll('[data-skill]').forEach(el=>el.checked=state.skillProfs.includes(el.dataset.skill));$('skillFeedback').textContent='Escolhas automáticas removidas; as manuais foram preservadas.';renderDerived();queueSave()};
- $('rollInitiative').onclick=()=>rollTest('Iniciativa',mod('dex'));
+ $('rollInitiative').onclick=()=>rollTest('Iniciativa',mod('dex')===null?null:mod('dex')+n(state.fields.initiativeExtra));
  $('rollEnemyAttack').onclick=()=>{const ac=derivedAC();if(ac===null){msg('Informe Destreza ou a CA personalizada.');return}const b=n($('enemyBonus').value),d=rand(20),total=d+b,hit=d===20||(d!==1&&total>=ac);$('acResult').textContent=`Ataque recebido: d20 [${d}] ${signed(b)} = ${total} contra CA ${ac}: ${d===20?'ACERTO CRÍTICO':hit?'ACERTOU':'ERROU'}${d===1?' (1 natural)':''}.`;appendLog('Contra CA',$('acResult').textContent)};
  $('rollDefense').onclick=()=>{const dex=mod('dex');if(dex===null){msg('Informe Destreza para testar a defesa opcional.');return}const roll=rand(20),bonus=n($('defenseExtra').value),total=roll+dex+bonus;$('acResult').textContent=`DEFESA ATIVA (regra da casa): d20 [${roll}] + DES ${signed(dex)} + extra ${signed(bonus)} = ${total}. O Mestre determina o resultado.`;appendLog('Defesa opcional',$('acResult').textContent)};
  $('rollHp').onclick=()=>{if(state.fields.hpMethod!=='rolled'){msg('Escolha rolagens por nível para esta função.');return}state.hpRolls=[];state.hpLastMax=state.hpLastMax??null;renderDerived();queueSave();msg('PV por nível rolados novamente.')};
