@@ -109,7 +109,7 @@ function spellSlots(){const l=level(),cl=state.fields.castClass||state.fields.cl
  let mode=state.fields.spellProgression;if(mode==='auto')mode=['Bardo','Clérigo','Druida','Feiticeiro','Mago'].includes(cl)?'full':cl==='Bruxo'?'pact':['Paladino','Patrulheiro'].includes(cl)?'half':'none';
  let slots=Array(9).fill(0);
  if(mode==='pact'){const tier=l<3?1:l<5?2:l<7?3:l<9?4:5;slots[tier-1]=l===1?1:l<11?2:l<17?3:4}
- else{const idx=mode==='full'?l:mode==='half'?Math.floor(l/2):mode==='third'?Math.floor(l/3):0;if(idx>0)slots=SLOT_FULL[Math.min(20,idx)].slice()}
+ else{const idx=mode==='full'?l:mode==='half'?(l<2?0:Math.ceil(l/2)):mode==='third'?(l<3?0:Math.ceil(l/3)):0;if(idx>0)slots=SLOT_FULL[Math.min(20,idx)].slice()}
  return {totals:slots,mode};}
 function derivedSkill(id){const sk=SK.find(x=>x[0]===id),m=sk?mod(sk[2]):null,p=pb();if(m===null)return null;return m+(p??0)*(state.expertise.includes(id)?2:state.skillProfs.includes(id)?1:0)}
 function derivedAC(){const override=state.fields.acOverride;if(!blank(override)&&Number.isFinite(Number(override)))return n(override);
