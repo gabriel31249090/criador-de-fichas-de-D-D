@@ -38,7 +38,7 @@ let library={},active='',state,saveTimer,rolls=[],restoring=false;
 const blank=v=>v===''||v===null||v===undefined;
 const n=(v,def=0)=>blank(v)||!Number.isFinite(Number(v))?def:Number(v);
 const safeInt=(v,def=0)=>Math.trunc(n(v,def));
-const score=a=>blank(state.abilities[a])?null:n(state.abilities[a])+(window.DND2014?.raceBonus?.(state.fields,a)||0);
+const score=a=>blank(state.abilities[a])?null:n(state.abilities[a])+(window.DND2014?.raceBonus?.(state.fields,a)||0)+(window.DNDV5?.abilityBonus?.(state,a)||0);
 const mod=a=>score(a)===null?null:Math.floor((score(a)-10)/2);
 const signed=x=>x===null?'—':(x>=0?'+':'')+x;
 const level=()=>{let l=n(state.fields.level,NaN);return Number.isInteger(l)&&l>=1&&l<=20?l:null};
@@ -97,7 +97,7 @@ function setField(key,val){state.fields[key]=val;
  if(key==='castClass'){state.fields.castAbility=CLASSES[val]?.cast||'';$('castAbility').value=state.fields.castAbility}
  if(key==='hpMethod'&&val==='rolled'){state.hpRolls=[]}
 }
-function calcHP(){const l=level(),cl=CLASSES[state.fields.className],con=mod('con');if(!l||!cl||con===null)return null;
+function calcHP(){const multi=window.DNDV5?.hpForMulti?.(state);if(multi)return multi;const l=level(),cl=CLASSES[state.fields.className],con=mod('con');if(!l||!cl||con===null)return null;
  if(state.hpRollDie!==cl.die){state.hpRollDie=cl.die;state.hpRolls=[]}
  const per=n(state.fields.hpPerLevel),extra=n(state.fields.hpExtra),values=[];
  let first=Math.max(1,cl.die+con+per);let total=first;
@@ -105,8 +105,8 @@ function calcHP(){const l=level(),cl=CLASSES[state.fields.className],con=mod('co
  if(state.fields.hpMethod==='rolled'&&(!Number.isInteger(d)||d<1||d>cl.die)){d=rand(cl.die);state.hpRolls[i-2]=d}
  let gain=Math.max(1,d+con+per);total+=gain;values.push(gain)}
  return {total:Math.max(1,total+extra+(window.DND2014?.healthExtra?.(state.fields,l,state.fields.className)||0)),first,values,die:cl.die,per,extra};}
-function spellSlots(){const l=level(),cl=state.fields.castClass||state.fields.className;if(!l)return {totals:Array(9).fill(0),mode:'none'};
- let mode=state.fields.spellProgression;if(mode==='auto')mode=['Bardo','Clérigo','Druida','Feiticeiro','Mago'].includes(cl)?'full':cl==='Bruxo'?'pact':['Paladino','Patrulheiro'].includes(cl)?'half':'none';
+function spellSlots(){const shared=window.DNDV5?.slotsForMulti?.(state);if(shared)return shared;const l=level(),cl=state.fields.castClass||state.fields.className;if(!l)return {totals:Array(9).fill(0),mode:'none'};
+ let mode=state.fields.spellProgression;if(mode==='auto'&&window.DNDV5?.thirdCaster?.(state,cl))mode='third';if(mode==='auto')mode=['Bardo','Clérigo','Druida','Feiticeiro','Mago'].includes(cl)?'full':cl==='Bruxo'?'pact':['Paladino','Patrulheiro'].includes(cl)?'half':'none';
  let slots=Array(9).fill(0);
  if(mode==='pact'){const tier=l<3?1:l<5?2:l<7?3:l<9?4:5;slots[tier-1]=l===1?1:l<11?2:l<17?3:4}
  else{const idx=mode==='full'?l:mode==='half'?(l<2?0:Math.ceil(l/2)):mode==='third'?(l<3?0:Math.ceil(l/3)):0;if(idx>0)slots=SLOT_FULL[Math.min(20,idx)].slice()}
@@ -127,9 +127,9 @@ function deriveAttack(row){const p=pb(),a=row.type==='spell'?(state.fields.castA
 function renderDerived(){const l=level(),p=pb(),cl=CLASSES[state.fields.className];$('profBonus').textContent=signed(p);
  for(const [key] of A){$('final-'+key).textContent=score(key)===null?'—':score(key);$('mod-'+key).textContent=signed(mod(key));const save=mod(key);$('save-'+key).textContent=signed(save===null?null:save+(state.saves.includes(key)?p||0:0))}
  for(const [key] of SK)$('skill-'+key).textContent=signed(derivedSkill(key));
- const passive=id=>{const b=derivedSkill(id);return b===null?'—':10+b};$('passPerception').textContent=passive('perception');$('passInvestigation').textContent=passive('investigation');$('passInsight').textContent=passive('insight');
+ const passive=id=>{const b=derivedSkill(id);return b===null?'—':10+b+(window.DNDV5?.passiveBonus?.(state,id)||0)};$('passPerception').textContent=passive('perception');$('passInvestigation').textContent=passive('investigation');$('passInsight').textContent=passive('insight');
  const xp=n(state.fields.xp,NaN);$('xpNext').textContent=l===null?'Preencha o nível':l===20?'Nível máximo':Number.isFinite(xp)?`${Math.max(0,XP[l]-xp).toLocaleString('pt-BR')} XP até nível ${l+1}`:`Próximo nível: ${XP[l].toLocaleString('pt-BR')} XP`;
- $('initiative').textContent=signed(mod('dex')===null?null:mod('dex')+n(state.fields.initiativeExtra));$('acValue').textContent=derivedAC()??'—';
+ $('initiative').textContent=signed(mod('dex')===null?null:mod('dex')+n(state.fields.initiativeExtra)+(window.DNDV5?.initBonus?.(state)||0));$('acValue').textContent=derivedAC()??'—';
  const hp=calcHP();if(hp){const old=state.hpLastMax;const newMax=hp.total;const oldCur=state.fields.hpCurrent;
  if(blank(oldCur))state.fields.hpCurrent=newMax;
  else if(old!==null&&old!==newMax){const prev=n(oldCur);state.fields.hpCurrent=prev<=0?0:Math.min(newMax,Math.max(0,prev+newMax-old))}
@@ -137,7 +137,7 @@ function renderDerived(){const l=level(),p=pb(),cl=CLASSES[state.fields.classNam
  state.hpLastMax=newMax;
  $('hpMax').textContent=newMax;$('hpCurrent').value=state.fields.hpCurrent;$('hpBar').style.width=Math.max(0,Math.min(100,100*n(state.fields.hpCurrent)/newMax))+'%';
  $('hpFormula').textContent=`1º nível: ${hp.first} PV · demais: ${state.fields.hpMethod==='average'?'média fixa':'dados rolados'} · Mod. CON: ${signed(mod('con'))} · Total: ${newMax} PV`;
- $('hitDice').textContent=`${Math.max(0,l-n(state.fields.hitDiceSpent))} de ${l}d${hp.die} restantes`;
+ $('hitDice').textContent=hp.multiDice?Object.entries(hp.multiDice).map(([cls,count])=>count+'d'+CLASSES[cls].die+' ('+cls+')').join(' + ')+' · '+Math.max(0,l-n(state.fields.hitDiceSpent))+' DV disponíveis':`${Math.max(0,l-n(state.fields.hitDiceSpent))} de ${l}d${hp.die} restantes`;
  }else{$('hpMax').textContent='—';$('hpBar').style.width='0';$('hitDice').textContent='—';$('hpFormula').textContent='Selecione classe, nível (1–20) e Constituição.'}
  $('rollHp').disabled=!hp||state.fields.hpMethod!=='rolled';
  for(const tr of $('attacksBody').children){const a=state.attacks.find(x=>x.id===tr.dataset.id);if(a){tr.querySelector('output').textContent=signed(deriveAttack(a))}}
@@ -146,7 +146,7 @@ function renderDerived(){const l=level(),p=pb(),cl=CLASSES[state.fields.classNam
  $('spellNote').textContent=slots.mode==='pact'?'Bruxo: espaços de pacto voltam após descanso curto. Arcanos Místicos são separados.':'Espaços calculados conforme a classe ou progressão selecionada. Multiclasse exige cálculo próprio.';
  $('manaLeft').textContent=blank(state.fields.manaMax)?'—':Math.max(0,n(state.fields.manaMax)-n(state.fields.manaUsed));$('resourceRemaining').textContent=blank(state.fields.resourceMax)?'—':Math.max(0,n(state.fields.resourceMax)-n(state.fields.resourceUsed));
  const totalWeight=state.items.reduce((s,x)=>s+Math.max(0,n(x.qty))*Math.max(0,n(x.weight)),0);const carry=score('str');$('weightSummary').textContent=totalWeight.toLocaleString('pt-BR',{maximumFractionDigits:2})+' kg';$('carrySummary').textContent=carry===null?'—':(carry*7.5).toLocaleString('pt-BR')+' kg';$('coinSummary').textContent=(n(state.currency.pc)*.01+n(state.currency.pp)*.1+n(state.currency.pe)*.5+n(state.currency.po)+n(state.currency.pl)*10).toLocaleString('pt-BR',{maximumFractionDigits:2})+' PO';
- renderPointSummary();window.DND2014?.refresh?.();
+ renderPointSummary();window.DND2014?.refresh?.();window.DNDV5?.refresh?.();
 }
 function renderAttacks(){$('attacksBody').innerHTML=state.attacks.map(a=>`<tr data-id="${escaped(a.id)}"><td><input data-attack="name" value="${escaped(a.name)}" aria-label="Nome do ataque"></td><td><select data-attack="type"><option value="str" ${a.type==='str'?'selected':''}>FOR</option><option value="dex" ${a.type==='dex'?'selected':''}>DES</option><option value="spell" ${a.type==='spell'?'selected':''}>MAG</option></select></td><td><output>—</output><label title="Proficiente" class="checkbox-label"><input data-attack="prof" type="checkbox" ${a.prof?'checked':''}>Prof.</label></td><td><input data-attack="damage" value="${escaped(a.damage)}" aria-label="Expressão do dano"></td><td><button data-remove-attack="${escaped(a.id)}" title="Remover ataque">×</button></td></tr>`).join('')}
 function renderItems(){$('itemsBody').innerHTML=state.items.map(a=>`<tr data-id="${escaped(a.id)}"><td><input data-item="name" value="${escaped(a.name)}" aria-label="Nome do item"></td><td><input data-item="qty" type="number" min="0" value="${escaped(a.qty)}" aria-label="Quantidade"></td><td><input data-item="weight" type="number" step="0.01" min="0" value="${escaped(a.weight)}" aria-label="Peso em quilogramas"></td><td><button data-remove-item="${escaped(a.id)}" title="Remover item">×</button></td></tr>`).join('')}
@@ -172,11 +172,11 @@ function updateActive(){library[active]=state;renderSelect();queueSave()}
 function newCharacter(duplicate=false){const next=duplicate?normalize(JSON.parse(JSON.stringify(state))):fresh();next.id=uid();if(duplicate)next.fields.name=(next.fields.name||'Personagem')+' (cópia)';active=next.id;state=next;library[active]=state;renderFields();save();msg(duplicate?'Ficha duplicada.':'Nova ficha criada.')}
 function levelUpRecover(){renderDerived();queueSave()}
 function shortRest(){const hp=calcHP();if(!hp){$('restResult').textContent='Preencha classe, nível e Constituição para descansar.';return}const count=safeInt($('restDiceCount').value),lv=level(),spent=Math.max(0,safeInt(state.fields.hitDiceSpent)),left=lv-spent;if(count<1||count>left){$('restResult').textContent=`Você tem ${left} Dado(s) de Vida disponível(is).`;return}
- const rolls=[];let heal=0;for(let i=0;i<count;i++){let d=rand(hp.die);rolls.push(d);heal+=Math.max(0,d+(mod('con')||0))}
+ const rolls=[];let heal=0;const multi=window.DNDV5?.levels?.(state),selectedDie=multi?.second?CLASSES[$('v5HitDieClass')?.value||state.fields.className]?.die||hp.die:hp.die;for(let i=0;i<count;i++){let d=rand(selectedDie);rolls.push(d);heal+=Math.max(0,d+(mod('con')||0))}
  const prev=n(state.fields.hpCurrent);state.fields.hpCurrent=Math.min(hp.total,prev+heal);state.fields.hitDiceSpent=spent+count;
- if(spellSlots().mode==='pact')state.slotsUsed.fill(0);
+ if(spellSlots().mode==='pact')state.slotsUsed.fill(0);window.DNDV5?.bonusApplyAfterRest?.(state,'short');
  $('restResult').textContent=`Descanso curto: dados [${rolls.join(', ')}] + CON por dado; recuperados até ${heal} PV. Agora ${state.fields.hpCurrent}/${hp.total} PV.`;renderFields();queueSave()}
-function longRest(){const hp=calcHP();if(!hp){$('restResult').textContent='Preencha classe, nível e Constituição para descansar.';return}const l=level(),spent=Math.max(0,safeInt(state.fields.hitDiceSpent)),recover=Math.max(1,Math.floor(l/2));state.fields.hitDiceSpent=Math.max(0,spent-recover);state.fields.hpCurrent=hp.total;state.fields.hpTemp=0;state.deathSuccess=0;state.deathFailure=0;state.slotsUsed=Array(9).fill(0);
+function longRest(){const hp=calcHP();if(!hp){$('restResult').textContent='Preencha classe, nível e Constituição para descansar.';return}const l=level(),spent=Math.max(0,safeInt(state.fields.hitDiceSpent)),recover=Math.max(1,Math.floor(l/2));state.fields.hitDiceSpent=Math.max(0,spent-recover);state.fields.hpCurrent=hp.total;state.fields.hpTemp=0;state.deathSuccess=0;state.deathFailure=0;state.slotsUsed=Array(9).fill(0);window.DNDV5?.bonusApplyAfterRest?.(state,'long');
  $('restResult').textContent=`Descanso longo: PV restaurados para ${hp.total}; ${Math.min(spent,recover)} Dado(s) de Vida recuperado(s); espaços de magia restaurados.`;renderFields();queueSave()}
 function currencyAdjust(){renderDerived();queueSave()}
 function bindEvents(){
@@ -213,7 +213,7 @@ function bindEvents(){
  $('standardArray').onclick=()=>{rolls=[15,14,13,12,10,8].map(v=>({total:v,dice:[]}));$('rolledResults').textContent='Valores padrão: 15, 14, 13, 12, 10, 8. Clique em distribuir.'};
  $('assignRolled').onclick=()=>{const cl=CLASSES[state.fields.className];if(!cl){msg('Selecione a classe antes de distribuir atributos.');return}if(rolls.length!==6){msg('Role 4d6 ou selecione os valores padrão primeiro.');return}const values=rolls.map(x=>x.total).sort((a,b)=>b-a);cl.priority.forEach((key,i)=>{state.abilities[key]=values[i]});renderFields();queueSave();$('rolledResults').textContent=`Atributos distribuídos para ${state.fields.className}. Ajustes raciais precisam ser aplicados separadamente.`};
  $('autoSkills').onclick=assignSkills;$('clearAutoSkills').onclick=()=>{state.skillProfs=state.skillProfs.filter(k=>!state.autoSkills.includes(k));state.autoSkills=[];document.querySelectorAll('[data-skill]').forEach(el=>el.checked=state.skillProfs.includes(el.dataset.skill));$('skillFeedback').textContent='Escolhas automáticas removidas; as manuais foram preservadas.';renderDerived();queueSave()};
- $('rollInitiative').onclick=()=>rollTest('Iniciativa',mod('dex')===null?null:mod('dex')+n(state.fields.initiativeExtra));
+ $('rollInitiative').onclick=()=>rollTest('Iniciativa',mod('dex')===null?null:mod('dex')+n(state.fields.initiativeExtra)+(window.DNDV5?.initBonus?.(state)||0));
  $('rollEnemyAttack').onclick=()=>{const ac=derivedAC();if(ac===null){msg('Informe Destreza ou a CA personalizada.');return}const b=n($('enemyBonus').value),d=rand(20),total=d+b,hit=d===20||(d!==1&&total>=ac);$('acResult').textContent=`Ataque recebido: d20 [${d}] ${signed(b)} = ${total} contra CA ${ac}: ${d===20?'ACERTO CRÍTICO':hit?'ACERTOU':'ERROU'}${d===1?' (1 natural)':''}.`;appendLog('Contra CA',$('acResult').textContent)};
  $('rollDefense').onclick=()=>{const dex=mod('dex');if(dex===null){msg('Informe Destreza para testar a defesa opcional.');return}const roll=rand(20),bonus=n($('defenseExtra').value),total=roll+dex+bonus;$('acResult').textContent=`DEFESA ATIVA (regra da casa): d20 [${roll}] + DES ${signed(dex)} + extra ${signed(bonus)} = ${total}. O Mestre determina o resultado.`;appendLog('Defesa opcional',$('acResult').textContent)};
  $('rollHp').onclick=()=>{if(state.fields.hpMethod!=='rolled'){msg('Escolha rolagens por nível para esta função.');return}state.hpRolls=[];state.hpLastMax=state.hpLastMax??null;renderDerived();queueSave();msg('PV por nível rolados novamente.')};
@@ -231,5 +231,5 @@ function bindEvents(){
  $('resetCurrent').onclick=()=>{if(!confirm('Limpar campos da ficha ativa? Essa ação não pode ser desfeita sem backup.'))return;const id=active;state=fresh();state.id=id;library[id]=state;renderFields();save();msg('Ficha limpa.')};
 }
 makeUI();firstLoad();bindEvents();renderFields();
-window.DNDDebug={getState:()=>structuredClone(state),getMutableState:()=>state,recalc:()=>{renderFields();queueSave()},getHP:calcHP,getAC:derivedAC,getSlots:spellSlots,rollExpression};window.DND2014?.mount?.();
+window.DNDDebug={getState:()=>structuredClone(state),getMutableState:()=>state,recalc:()=>{renderFields();queueSave()},getHP:calcHP,getAC:derivedAC,getSlots:spellSlots,rollExpression,setField:setField,getClass:className=>CLASSES[className],getLevel:level};window.DND2014?.mount?.();
 })();
