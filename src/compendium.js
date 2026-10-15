@@ -90,30 +90,38 @@
     return '<div class="cx-layout"><div class="cx-box"><h2>Origens e espécies</h2><p>'+esc(ancestryNote)+'</p><label>Modo de origem<select id="cxEdition">'+selectOptions([['2024','Espécies 2024 (5.5)'],['2014','Raças 2014']],f.rulesEdition||'2014')+'</select></label><label>Pesquisar espécie<input id="cxSearch" placeholder="Aasimar, orc, elfo..." value="'+esc(query)+'"></label><div class="cx-options">'+species.filter(x=>clean(x.name+' '+x.summary).includes(clean(query))).map(x=>'<button class="cx-species'+(chosen===x.name&&is24?' selected':'')+'" type="button" data-cx-species="'+esc(x.name)+'"><b>'+esc(x.name)+'</b><small>'+esc(x.summary)+'</small></button>').join('')+'</div><p class="cx-muted">2014 mantém as opções do seletor original da ficha. Ao retornar à edição 2014, escolha novamente sua raça na ficha se necessário.</p></div><div class="cx-box"><h2>'+(active&&is24?esc(active.name)+' • 2024':'Características da origem')+'</h2>'+(active&&is24?'<p>'+esc(active.summary)+'</p><ul>'+active.traits.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'+text('Deslocamento',active.speed+' m')+(active.name==='Aasimar'?'<div class="cx-highlight"><h3>Recursos do Aasimar</h3>'+text('Mãos Curativas',Math.max(2,2+Math.floor((Math.max(1,Number(f.level)||1)-1)/4))+'d4 de cura')+'<button data-cx-action="heal" '+(c.aasimarHealingUsed?'disabled':'')+'>'+(c.aasimarHealingUsed?'Mãos Curativas usadas':'Rolar Mãos Curativas (em mim)')+'</button><p class="cx-muted">Consome 1 uso por descanso longo. O truque Luz é registrado na ficha.</p><label>Revelação Celestial (nível 3)<select id="cxRevelation">'+selectOptions([['','Escolha ao ativar'],['Asas Celestiais','Asas Celestiais'],['Radiância Interior','Radiância Interior'],['Manto Necrótico','Manto Necrótico']],c.revelation||'')+'</select></label><button data-cx-action="revelation" '+((Number(f.level)||0)<3||c.revelationUsed?'disabled':'')+'>'+(c.revelationUsed?'Revelação usada':'Ativar revelação')+'</button></div>':''):'<p>Selecione uma espécie 2024 para consultar e aplicar os traços. Os benefícios de linhagem específicos que ainda dependem de escolhas aparecem como orientação ao jogador.</p>')+'</div></div><div class="cx-box"><h2>Aumentos de atributos pelo antecedente (2024)</h2><p>Escolha +2 em um atributo e +1 em outro, ou +1 em três atributos distintos. Confira os três atributos permitidos pelo antecedente escolhido no Livro do Jogador 2024; esta interface não valida essas restrições.</p><div class="cx-grid"><label>Distribuição<select id="cxBgMode">'+selectOptions([['2+1','+2 / +1'],['1+1+1','+1 / +1 / +1']],f.bg2024Mode||'2+1')+'</select></label><label>1º atributo<select id="cxBgA">'+opt(f.bg2024A)+'</select></label><label>2º atributo<select id="cxBgB">'+opt(f.bg2024B)+'</select></label>'+(f.bg2024Mode==='1+1+1'?'<label>3º atributo<select id="cxBgC">'+opt(f.bg2024C)+'</select></label>':'')+'</div><p class="cx-muted">Somente ativo no modo 2024. O PV e as demais estatísticas se recalculam após a escolha de Constituição.</p></div>';
   }
   function spellPanel(){
-    const s=cur(),selected=v5.addState(s).selectedSpells,spells=v5.SPELLS,meta=window.DNDSpellDetails;
-    const level=Math.max(1,Math.min(20,Number(s.fields.level)||1));
+    const s=cur(),v=v5.addState(s),selected=v.selectedSpells,spells=v5.SPELLS,meta=window.DNDSpellDetails,phb=window.DNDPHB2014;
+    const level=Math.max(1,Math.min(20,Number(s.fields.level)||1)),patron=v.subclasses.Bruxo||'';
     const matches=spells.filter(sp=>{
       const info=meta?.get(sp[0]);
+      const classAllowed=spellClass==='all'||sp[3].split(',').includes(spellClass)||
+        (spellClass==='Bruxo'&&phb?.forPatron(sp[0],patron));
       return (spellLevel==='all'||String(sp[1])===spellLevel)
-        &&(spellClass==='all'||sp[3].split(',').includes(spellClass))
+        &&classAllowed
         &&clean([sp[0],sp[2],info?.effect||'',info?.damage||''].join(' ')).includes(clean(query));
     });
     const entries=matches.slice(0,showAll?matches.length:60).map(sp=>{
       const item=meta?.get(sp[0])||{effect:sp[7],damage:'Não informado',range:'Não informado',save:'—',scaling:'',time:'Consulte o livro',duration:'Consulte o livro'};
+      const expanded=!!(spellClass==='Bruxo'&&phb?.isExpanded(sp[0],patron));
+      const arcanum=spellClass==='Bruxo'&&sp[1]>=6&&phb?.forPatron(sp[0],patron);
+      const arcanumLvl=arcanum?phb.requiredWarlockLevel(sp[1]):null;
       const calc=meta?.formulaFor(sp[0],level,sp[1]);
       const canRoll=!!calc;
-      const slotHtml=sp[1]>0?'<label>Espaço para prévia<select data-cx-slot="'+esc(sp[0])+'">'+
+      const slotHtml=sp[1]>0&&!arcanum?'<label>Espaço para prévia<select data-cx-slot="'+esc(sp[0])+'">'+
        Array.from({length:10-sp[1]},(_,i)=>'<option value="'+(sp[1]+i)+'">'+(sp[1]+i)+'º nível</option>').join('')+'</select></label>':'';
-      return '<article class="cx-entry cx-detailed-entry" data-cx-spell-card="'+esc(sp[0])+'"><div class="cx-entry-main"><div class="cx-entry-head"><b>'+esc(sp[0])+'</b><span class="cx-chip">'+(sp[1]===0?'Truque':'Nível '+sp[1])+' · 2014</span></div><small>'+esc(sp[2])+' · '+esc(sp[3])+(sp[4]?' · Concentração':'')+(sp[5]?' · Ritual':'')+'</small>'+
+      return '<article class="cx-entry cx-detailed-entry" data-cx-spell-card="'+esc(sp[0])+'"><div class="cx-entry-main"><div class="cx-entry-head"><b>'+esc(sp[0])+'</b><span class="cx-chip">'+(sp[1]===0?'Truque':'Nível '+sp[1])+' · 2014</span>'+(expanded?'<span class="cx-chip">Patrono: '+esc(patron)+'</span>':'')+(arcanum?'<span class="cx-chip">Arcano Místico · Bruxo '+arcanumLvl+'+</span>':'')+'</div><small>'+esc(sp[2])+' · '+esc(sp[3])+(sp[4]?' · Concentração':'')+(sp[5]?' · Ritual':'')+'</small>'+
        '<div class="cx-statpair"><strong>⚔ '+esc(item.damage)+'</strong><span>'+esc(item.save==='—'?'Sem ataque ou resistência':item.save)+'</span></div>'+
        '<p class="cx-effect">'+esc(item.effect)+'</p>'+
+       (arcanum?'<p class="cx-muted">Esta magia é um Arcano Místico. Não utiliza espaços normais de Magia de Pacto; normalmente possui um uso por descanso longo.</p>':'')+
        '<details class="cx-details"><summary>Alcance, duração, escalonamento e dados</summary><div class="cx-detail-grid"><div><small>Alcance</small><b>'+esc(item.range)+'</b></div><div><small>Conjuração</small><b>'+esc(item.time)+'</b></div><div><small>Duração</small><b>'+esc(item.duration)+'</b></div><div><small>Componentes</small><b>'+esc(sp[6])+'</b></div></div>'+
        '<p><b>Evolução:</b> '+esc(item.scaling||'Sem aumento de dano por nível.')+'</p>'+
        (canRoll?'<div class="cx-rollbar">'+slotHtml+'<button type="button" data-cx-roll-spell="'+esc(sp[0])+'">🎲 Rolar '+(calc.kind==='cura'?'cura':calc.kind==='pool'?'efeito':'dano')+'</button></div><small>Fórmula de prévia: '+esc(calc.label)+'. Não consome espaços de magia nem aplica dano automaticamente.</small><output class="cx-roll-output" aria-live="polite" data-cx-result-spell="'+esc(sp[0])+'"></output>':'<p class="cx-muted">Esta magia não tem rolagem direta de dano ou cura no catálogo. O Mestre resolve os efeitos especiais.</p>')+
-       '</details></div><button type="button" data-cx-spell="'+esc(sp[0])+'" '+(selected.includes(sp[0])?'disabled':'')+'>'+(selected.includes(sp[0])?'Adicionada ✓':'+ Selecionar')+'</button></article>';
+       '</details></div><button type="button" data-cx-spell="'+esc(sp[0])+'" '+(selected.includes(sp[0])||(arcanum&&level<arcanumLvl)?'disabled':'')+'>'+(selected.includes(sp[0])?'Adicionada ✓':arcanum&&level<arcanumLvl?'Requer Bruxo '+arcanumLvl:'+ Selecionar')+'</button></article>';
     }).join('');
     return '<div class="cx-box"><h2>Truques e magias • efeitos completos</h2><p>Resumo mecânico original das magias disponíveis neste catálogo. Dados e testes seguem 5e 2014 (SRD 5.1); escolha 2024 requer conferir alterações do Livro do Jogador 2024.</p>'+
-      '<div class="cx-grid"><label>Pesquisar pelo nome ou efeito<input id="cxSearch" value="'+esc(query)+'" placeholder="Raio, fogo, cura, invisibilidade..."></label><label>Nível<select id="cxSpellLevel">'+selectOptions([['all','Todos'],['0','Truques'],...Array.from({length:9},(_,i)=>[String(i+1),'Nível '+(i+1)])],spellLevel)+'</select></label><label>Classe<select id="cxSpellClass">'+selectOptions([['all','Todas as classes'],...['Bardo','Bruxo','Clérigo','Druida','Feiticeiro','Mago','Paladino','Patrulheiro'].map(x=>[x,x])],spellClass)+'</select></label></div>'+
+      '<div class="cx-grid"><label>Pesquisar pelo nome ou efeito<input id="cxSearch" value="'+esc(query)+'" placeholder="Raio, fogo, cura, invisibilidade..."></label><label>Nível<select id="cxSpellLevel">'+selectOptions([['all','Todos'],['0','Truques'],...Array.from({length:9},(_,i)=>[String(i+1),'Nível '+(i+1)])],spellLevel)+'</select></label><label>Classe<select id="cxSpellClass">'+selectOptions([['all','Todas as classes'],...['Bardo','Bruxo','Clérigo','Druida','Feiticeiro','Mago','Paladino','Patrulheiro'].map(x=>[x,x])],spellClass)+'</select></label>'+
+      (spellClass==='Bruxo'?'<label>Patrono do Bruxo (2014)<select id="cxPatron">'+selectOptions([['','Apenas lista básica'],...phb.patrons().map(x=>[x,x])],patron)+'</select></label>':'')+'</div>'+
+      (spellClass==='Bruxo'?'<p class="cx-muted">Magias do patrono são opções adicionais para aprender, não magias concedidas automaticamente. Escolha sua subclasse para ver o catálogo expandido. Arcanos Místicos (6º–9º) não usam espaços de Magia de Pacto.</p>':'')+
       '<p class="cx-muted">'+matches.length+' magias encontradas · '+selected.length+' selecionadas · Nível do personagem: '+level+'</p>'+
       '<div class="cx-results">'+(entries||'<p>Nenhuma magia encontrada. Tente outro filtro.</p>')+'</div>'+(matches.length>60&&!showAll?'<button type="button" data-cx-action="all">Mostrar todas</button>':'')+
       '</div><div class="cx-box"><h2>Magias da ficha</h2><div class="cx-chips">'+(selected.length?selected.map(x=>'<span>'+esc(x)+' <button type="button" data-cx-remove-spell="'+esc(x)+'" aria-label="Remover '+esc(x)+'">×</button></span>').join(''):'Nenhuma magia selecionada.')+'</div></div>';
@@ -193,7 +201,10 @@
   }
   function pickSpell(name){
     const s=cur(),sp=v5.SPELLS.find(x=>x[0]===name);if(!sp)return;
-    const v=v5.addState(s);if(v.selectedSpells.includes(name))return;
+    const v=v5.addState(s),patron=v.subclasses.Bruxo||'',phb=window.DNDPHB2014;
+    if(spellClass==='Bruxo'&&phb&&!phb.forPatron(name,patron)){status('Esta magia não está na lista básica do Bruxo nem no patrono selecionado.');return;}
+    if(spellClass==='Bruxo'&&phb&&sp[1]>=6&&Number(s.fields.level)<phb.requiredWarlockLevel(sp[1])){status('Arcano Místico requer Bruxo de nível '+phb.requiredWarlockLevel(sp[1])+'.');return;}
+    if(v.selectedSpells.includes(name))return;
     v.selectedSpells.push(name);
     const old=String(s.spells[sp[1]]||'');
     if(!old.split(/\r?\n/).map(x=>x.trim()).includes(name))s.spells[sp[1]]=(old?old.trimEnd()+'\n':'')+name;
@@ -294,6 +305,7 @@
     }
     if(t.id==='cxSpellLevel'){spellLevel=t.value;render();return;}
     if(t.id==='cxSpellClass'){spellClass=t.value;render();return;}
+    if(t.id==='cxPatron'){v5.addState(s).subclasses.Bruxo=t.value;persist();return;}
     if(t.id==='cxGearType'){gearType=t.value;render();return;}
     if(t.id==='cxCR'){c.cr=t.value;persist();return;}
     if(t.id==='cxTrapTier'){c.trapTier=t.value;persist();return;}
