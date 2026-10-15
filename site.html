@@ -27,6 +27,97 @@ body{background:radial-gradient(circle at 88% -10%,#d4e9e9 0,transparent 40%),ra
 @media print{#v6,#v6.sheet-page,#v6.sheet-page.active,.v6-toast{display:none!important}body{background:white!important}.topbar,.workspace{display:none!important}.sheet-page:not(#v6){border-radius:0;box-shadow:none}}
 
 </style>
+<style id="classStudioStyles">
+
+/* CLASS STUDIO — camada isolada. A ficha impressa conserva seu layout. */
+#class-studio{--cs-gold:#d9b977;--cs-gold2:#f3da9d;--cs-ink:#eae8e2;--cs-sub:#aab6b5;display:none!important;max-width:none;min-height:calc(100vh - 90px);margin:0;padding:0;border:0;box-shadow:none;background:#070e13;color:var(--cs-ink);overflow:hidden;position:relative}
+#class-studio.active{display:block!important}
+#class-studio *{box-sizing:border-box}
+#class-studio .cs-hero{position:relative;isolation:isolate;overflow:hidden;min-height:330px;padding:28px clamp(18px,5vw,70px) 45px;background:radial-gradient(ellipse at 50% 9%,#304551 0%,#17232d 43%,#091118 88%);border-bottom:1px solid #8e7b5580}
+#class-studio .cs-hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#060c12b0,transparent 34%,transparent 66%,#060c12a9),radial-gradient(ellipse at 49% 104%,#66838f55 0%,transparent 48%);pointer-events:none}
+#class-studio .cs-landscape{position:absolute;inset:auto 0 0;width:100%;height:270px;z-index:-1;opacity:.65;filter:drop-shadow(0 4px 15px #050d15)}
+#class-studio .cs-hero:after{content:"";position:absolute;bottom:-120px;left:14%;width:72%;height:180px;background:#b6b5a649;filter:blur(80px);pointer-events:none}
+#class-studio .cs-topline{display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative;z-index:2}
+#class-studio .cs-back{display:inline-flex;align-items:center;gap:10px;border:1px solid #a7a29255;background:#151e26ba;border-radius:5px;color:#e6e2d4;padding:10px 15px;font:700 12px system-ui;letter-spacing:.02em}
+#class-studio .cs-back:hover,#class-studio .cs-back:focus-visible{border-color:var(--cs-gold);background:#273541}
+#class-studio .cs-progress{display:flex;align-items:center;gap:0;justify-content:center}
+#class-studio .cs-step{position:relative;display:flex;align-items:center;gap:9px;padding:0 13px;color:#8e9a9f;font:700 10px system-ui;letter-spacing:.10em;text-transform:uppercase}
+#class-studio .cs-step:not(:last-child):after{content:"";height:1px;width:25px;background:#737e7b88;margin-left:11px}
+#class-studio .cs-step em{font-style:normal;font:700 12px Georgia,serif;display:grid;place-items:center;border:1px solid #707c78;border-radius:100%;height:29px;width:29px}
+#class-studio .cs-step.cs-active{color:var(--cs-gold2)}
+#class-studio .cs-step.cs-active em{border:1px solid var(--cs-gold);background:linear-gradient(135deg,#a38247,#483b24);color:#ffedb9;box-shadow:0 0 0 3px #c4aa6433}
+#class-studio .cs-version{font:700 10px system-ui;color:#d2c69c;border:1px solid #d9b97755;background:#101b22ac;padding:9px 12px;border-radius:4px;letter-spacing:.1em}
+#class-studio .cs-hero-inner{position:relative;z-index:1;margin:47px auto 0;max-width:840px;text-align:center}
+#class-studio .cs-kicker{display:flex;align-items:center;justify-content:center;gap:11px;color:var(--cs-gold);text-transform:uppercase;font:700 10px system-ui;letter-spacing:.4em}
+#class-studio .cs-kicker:before,#class-studio .cs-kicker:after{content:"";height:1px;width:38px;background:linear-gradient(90deg,transparent,var(--cs-gold))}
+#class-studio .cs-kicker:after{transform:rotate(180deg)}
+#class-studio h1{font:600 clamp(39px,6vw,72px)/1.1 Georgia,"Times New Roman",serif;text-transform:uppercase;letter-spacing:.06em;color:#f9e8c8;text-shadow:0 3px 18px #000c;margin:15px 0 10px}
+#class-studio .cs-subtitle{margin:auto;max-width:630px;color:#cbd3d2;font:400 14px/1.8 system-ui;text-shadow:0 2px 6px #000}
+#class-studio .cs-divider{width:195px;height:17px;margin:19px auto 0;position:relative;border-top:1px solid #ae9058}
+#class-studio .cs-divider:before{content:"✦";position:absolute;top:-11px;left:calc(50% - 10px);font-size:17px;width:20px;background:#16212a;color:#cfab6c}
+#class-studio .cs-main{max-width:1510px;padding:25px clamp(14px,4vw,65px) 55px;margin:auto;position:relative}
+#class-studio .cs-filterbar{display:grid;grid-template-columns:190px 185px 185px minmax(200px,1fr);gap:14px;align-items:end;padding:17px;background:linear-gradient(145deg,#19252c,#111a21);border:1px solid #95774771;border-radius:9px;box-shadow:0 12px 30px #0006}
+#class-studio .cs-field{display:flex;flex-direction:column;gap:8px;min-width:0}
+#class-studio .cs-field span{font:700 10px system-ui;text-transform:uppercase;letter-spacing:.14em;color:#aeafac}
+#class-studio .cs-field select,#class-studio .cs-field input{height:43px;width:100%;font:500 12px system-ui;border:1px solid #47535c;color:#f0eadd;background:#0c151d;border-radius:5px;padding:0 12px;outline:none}
+#class-studio .cs-field select:focus-visible,#class-studio .cs-field input:focus-visible{border-color:#c6a06a;box-shadow:0 0 0 2px #c6a06a44}
+#class-studio .cs-search{position:relative}
+#class-studio .cs-search input{padding-left:36px}
+#class-studio .cs-search>svg{position:absolute;left:12px;top:13px;width:16px;height:16px;color:#8d9b9b;pointer-events:none}
+#class-studio .cs-caption{margin:15px 2px 18px;color:#a8b3b0;font:12px/1.65 system-ui;display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:9px}
+#class-studio .cs-caption strong{color:#e0c18a;font-weight:800}
+#class-studio .cs-edition-hint{border-left:3px solid #b99a62;background:#b6995216;padding:9px 12px;color:#e4cda6;font:12px/1.55 system-ui;margin:0 2px 17px}
+#class-studio .cs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+#class-studio .cs-card{position:relative;background:#142029;border:1px solid #806b4875;border-radius:8px;overflow:hidden;box-shadow:0 9px 24px #0007, inset 0 0 0 1px #fff1;transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;min-width:0}
+#class-studio .cs-card:hover{transform:translateY(-5px);border-color:#e7c48e;box-shadow:0 21px 33px #0009,0 0 0 1px #a58d5e88}
+#class-studio .cs-card.cs-selected{border-color:#f6dc94;box-shadow:0 0 0 2px #d5b27488,0 16px 36px #000c}
+#class-studio .cs-card:before{content:"";z-index:3;position:absolute;inset:7px;pointer-events:none;border:1px solid #cdb37e45;border-radius:4px}
+#class-studio .cs-art{height:218px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 25%,var(--cs-mid),var(--cs-dark) 68%,#0d1822 100%)}
+#class-studio .cs-art:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,#152029 100%);pointer-events:none}
+#class-studio .cs-art svg{width:100%;height:100%;display:block;transition:transform .35s ease}
+#class-studio .cs-card:hover .cs-art svg{transform:scale(1.035)}
+#class-studio .cs-art-label{position:absolute;top:17px;right:17px;z-index:2;font:800 9px system-ui;letter-spacing:.15em;color:#ffefd1;border:1px solid #e7c48e80;border-radius:3px;padding:6px 8px;background:#0c1623ac}
+#class-studio .cs-body{padding:0 20px 19px;position:relative}
+#class-studio .cs-medallion{display:grid;place-items:center;position:absolute;top:-27px;left:20px;height:51px;width:51px;background:linear-gradient(145deg,#343d3b,#121c24);border:2px solid #bd9d60;box-shadow:0 3px 10px #000b;border-radius:50%;color:#dfbd85;z-index:4;font-size:24px}
+#class-studio .cs-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:30px}
+#class-studio .cs-heading h2{font:700 25px Georgia,serif!important;color:#f1e7d0!important;text-shadow:none!important;border:0!important;margin:0}
+#class-studio .cs-die{font:600 11px system-ui;color:#d7b67e;white-space:nowrap}
+#class-studio .cs-english{color:#7d9aa0;text-transform:uppercase;font:700 10px system-ui;letter-spacing:.12em;margin:5px 0 12px}
+#class-studio .cs-tags{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+#class-studio .cs-tags span{color:#e0cdad;border:1px solid #745f4480;background:#2b2f2d;font:700 9px system-ui;letter-spacing:.065em;text-transform:uppercase;padding:5px 7px;border-radius:3px}
+#class-studio .cs-description{color:#c2c9c8;font:12px/1.7 system-ui;min-height:41px;margin:0 0 19px}
+#class-studio .cs-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#class-studio .cs-actions button{font:800 11px system-ui;letter-spacing:.04em;border-radius:4px;padding:11px 6px;margin:0}
+#class-studio .cs-learn{background:transparent;color:#e9dabe;border:1px solid #917b53}
+#class-studio .cs-learn:hover{background:#a98c5933;border-color:#e1bc7f}
+#class-studio .cs-pick{background:linear-gradient(135deg,#d6b67d,#af8747);border:1px solid #c19b5c;color:#182027}
+#class-studio .cs-pick:hover{background:linear-gradient(135deg,#f1dba3,#bc9250)}
+#class-studio .cs-empty{grid-column:1/-1;padding:55px 24px;text-align:center;border:1px dashed #896d4f;color:#d6cbba;font:14px/1.8 system-ui}
+#class-studio .cs-selected-strap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin:26px 0 0;padding:14px 20px;background:#131e24;border:1px solid #927b54;border-radius:7px}
+#class-studio .cs-selected-strap p{margin:0;font:12px/1.6 system-ui;color:#e5e2d7}
+#class-studio .cs-selected-strap strong{color:#f3dba7}
+#class-studio .cs-selected-strap button{font:800 12px system-ui;background:#b39159;border-color:#d7b47b;color:#171b21}
+#class-studio .cs-selected-strap button:hover{background:#dbc08a}
+#class-studio .cs-disclaimer{color:#758a8d;margin:20px 2px 0;font:11px/1.7 system-ui}
+#class-studio .cs-dialog{max-width:min(560px,calc(100vw - 22px));width:100%;max-height:85vh;overflow-y:auto;padding:25px;background:linear-gradient(125deg,#1b2932,#101b23);border:1px solid #c3a477;border-radius:9px;box-shadow:0 25px 70px #000d;color:#eee3d0}
+#class-studio .cs-dialog::backdrop{background:#01050ac2;backdrop-filter:blur(5px)}
+#class-studio .cs-dialog-head{display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid #967c5277;padding-bottom:15px}
+#class-studio .cs-dialog h2{color:#f3d89e!important;border:0!important;font:700 32px Georgia,serif!important;margin:0}
+#class-studio .cs-dialog p{font:13px/1.8 system-ui;color:#c7d1cb}
+#class-studio .cs-dialog .cs-close{background:none;border:1px solid #9b8059;color:#e9d7b2;padding:5px 12px}
+#class-studio .cs-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0}
+#class-studio .cs-detail-grid>div{border:1px solid #7d725f88;background:#101d27;padding:12px;border-radius:5px}
+#class-studio .cs-detail-grid small{display:block;color:#aab9b9;font:700 10px system-ui;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+#class-studio .cs-detail-grid b{font:700 15px Georgia,serif;color:#f2dbb3}
+#class-studio .cs-dialog .cs-modal-pick{width:100%;font:800 13px system-ui;background:#d5b47d;border:1px solid #f3da9d;color:#101b23;padding:12px}
+@media(min-width:1800px){#class-studio .cs-main{max-width:1630px}#class-studio .cs-art{height:250px}}
+@media(max-width:1190px){#class-studio .cs-step{padding:0 4px}#class-studio .cs-step:not(:last-child):after{width:10px;margin-left:3px}#class-studio .cs-grid{gap:13px}#class-studio .cs-body{padding:0 13px 16px}#class-studio .cs-medallion{left:14px}#class-studio .cs-description{min-height:60px}}
+@media(max-width:920px){#class-studio .cs-progress{display:none}#class-studio .cs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#class-studio .cs-filterbar{grid-template-columns:repeat(2,minmax(0,1fr))}#class-studio .cs-description{min-height:40px}}
+@media(max-width:560px){#class-studio .cs-hero{min-height:305px;padding:17px 16px 40px}#class-studio .cs-hero-inner{margin-top:60px}#class-studio .cs-topline{gap:6px}#class-studio .cs-version{font-size:8px;padding:8px 6px}#class-studio .cs-hero h1{font-size:clamp(35px,9vw,48px)}#class-studio .cs-subtitle{font-size:12px}#class-studio .cs-main{padding:16px 11px 35px}#class-studio .cs-filterbar{grid-template-columns:1fr 1fr;padding:11px;gap:9px}#class-studio .cs-field:last-child{grid-column:1/-1}#class-studio .cs-grid{grid-template-columns:1fr;gap:14px}#class-studio .cs-art{height:248px}#class-studio .cs-description{min-height:0}#class-studio .cs-card:before{inset:6px}#class-studio .cs-caption{font-size:11px}#class-studio .cs-selected-strap{padding:13px}#class-studio .cs-selected-strap button{width:100%}#class-studio .cs-detail-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#class-studio .cs-card,#class-studio .cs-art svg{transition:none!important}#class-studio .cs-card:hover{transform:none!important}}
+@media print{#class-studio,#class-studio.active,.topnav [data-tab="class-studio"]{display:none!important}}
+
+</style>
 </head>
 <body>
 <header class="topbar no-print">
@@ -911,6 +1002,117 @@ function mount(){if(mounted||!D()||!document.querySelector('.topnav'))return;mou
 }
 window.DNDV6={applyDamage,encounter,spellRoll,armorBonus,attackBonus,abilityScore,modifier,selftest,data,mount,render,save,CONDITIONS,SPELLS};
 mount();
+})();
+
+</script>
+<script id="classStudioCode">
+
+(function(){
+'use strict';
+if(document.getElementById('class-studio'))return;
+var api=window.DNDDebug;
+if(!api||typeof api.getState!=='function'||typeof api.setField!=='function'||typeof api.recalc!=='function'){console.warn('Class Studio: integração de ficha indisponível.');return;}
+var cards=[
+ {name:'Bárbaro',en:'Barbarian',slug:'barbarian',symbol:'⚒',difficulty:'Baixa',role:'Ofensiva · Resistência',hit:'d12',stats:'Força e Constituição',save:'Força, Constituição',caster:'Não conjura',desc:'Guerreiro indomável que transforma fúria e resistência em força no campo de batalha.',tags:['Corpo a corpo','Fúria'],a:'#e9a261',mid:'#754937',dark:'#172633'},
+ {name:'Bardo',en:'Bard',slug:'bard',symbol:'♫',difficulty:'Alta',role:'Suporte · Versatilidade',hit:'d8',stats:'Carisma e Destreza',save:'Destreza, Carisma',caster:'Carisma',desc:'Artista e contador de histórias que inspira aliados e molda a realidade com magia.',tags:['Conjuração','Suporte'],a:'#c9a5fa',mid:'#60486e',dark:'#1b2437'},
+ {name:'Clérigo',en:'Cleric',slug:'cleric',symbol:'✟',difficulty:'Média',role:'Suporte · Proteção',hit:'d8',stats:'Sabedoria e Constituição',save:'Sabedoria, Carisma',caster:'Sabedoria',desc:'Canaliza o poder divino para proteger, curar e enfrentar as ameaças do mundo.',tags:['Magia divina','Proteção'],a:'#f2d49a',mid:'#5c6774',dark:'#172632'},
+ {name:'Druida',en:'Druid',slug:'druid',symbol:'❦',difficulty:'Alta',role:'Controle · Transformação',hit:'d8',stats:'Sabedoria e Constituição',save:'Inteligência, Sabedoria',caster:'Sabedoria',desc:'Guardião da natureza que comanda forças primordiais e assume formas selvagens.',tags:['Natureza','Conjuração'],a:'#a2d0a5',mid:'#3c675b',dark:'#172b31'},
+ {name:'Guerreiro',en:'Fighter',slug:'fighter',symbol:'⚔',difficulty:'Baixa',role:'Combate · Especialização',hit:'d10',stats:'Força ou Destreza',save:'Força, Constituição',caster:'Não por padrão',desc:'Mestre das armas e táticas, adaptável a quase qualquer estilo de combate.',tags:['Marcial','Versátil'],a:'#a8c9e6',mid:'#465a75',dark:'#162334'},
+ {name:'Monge',en:'Monk',slug:'monk',symbol:'☯',difficulty:'Média',role:'Mobilidade · Precisão',hit:'d8',stats:'Destreza e Sabedoria',save:'Força, Destreza',caster:'Não conjura',desc:'Disciplina corpo e espírito para superar adversários com velocidade e técnica.',tags:['Artes marciais','Mobilidade'],a:'#f4c189',mid:'#75614a',dark:'#242332'}
+];
+var main=document.querySelector('main'),sheet=document.getElementById('sheet'),topnav=document.querySelector('.topnav');if(!main||!sheet||!topnav)return;
+var tab=document.createElement('button');tab.type='button';tab.className='tab';tab.dataset.tab='class-studio';tab.textContent='✦ Escolher Classe';
+topnav.insertBefore(tab,topnav.firstChild);
+var section=document.createElement('section');section.id='class-studio';section.className='sheet-page studio-page';section.setAttribute('aria-label','Seleção visual de classes');
+sheet.parentNode.insertBefore(section,sheet);
+function skyline(){return '<svg class="cs-landscape" viewBox="0 0 1500 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="cs-mist" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8ba8ac" stop-opacity=".08"/><stop offset="1" stop-color="#bac3bb" stop-opacity=".35"/></linearGradient></defs><path fill="#172a32" d="M0 165L70 131 115 144 180 95 280 162 367 101 461 148 557 110 649 156 748 90 805 145 899 111 1009 165 1102 92 1214 136 1351 94 1500 172V260H0Z"/><path fill="#0b1a23" d="M0 205L93 163 199 214 290 150 370 175 460 133 558 196 680 155 790 183 930 132 1030 192 1150 142 1245 192 1400 143 1500 201V260H0Z"/><g fill="#081620"><path d="M615 155V103h26V75h12v28h27v52h11V90h18V55h12v35h18v65h13V72h16v-32h13v32h16v83h30V260H580V155Z"/><path d="M626 102l27-33 27 33M691 90l24-37 24 37M752 72l26-39 26 39" stroke="#081620" stroke-width="8" fill="none"/><path d="M575 185h268v75H575Z"/></g><path fill="url(#cs-mist)" d="M0 192Q250 157 500 196T1000 185T1500 187V260H0Z"/></svg>'}
+section.innerHTML='<div class="cs-hero">'+skyline()+
+ '<div class="cs-topline"><button type="button" class="cs-back" id="csBack" aria-label="Voltar para a ficha">← Voltar à ficha</button><div class="cs-progress" aria-label="Etapa atual: classe"><span class="cs-step"><em>01</em> Origem</span><span class="cs-step cs-active"><em>02</em> Classe</span><span class="cs-step"><em>03</em> Antecedente</span><span class="cs-step"><em>04</em> Atributos</span><span class="cs-step"><em>05</em> Revisão</span></div><span class="cs-version">D&D · CRIADOR</span></div>'+
+ '<div class="cs-hero-inner"><div class="cs-kicker">Forje sua lenda</div><h1>Escolha sua classe</h1><p class="cs-subtitle">Toda aventura começa com uma decisão. Descubra sua vocação e construa o herói que você quer interpretar.</p><div class="cs-divider"></div></div></div>'+
+ '<div class="cs-main"><div class="cs-filterbar" role="search" aria-label="Filtros de classe">'+
+ '<label class="cs-field"><span>Edição</span><select id="csEdition"><option value="2014">5e · Regras 2014</option><option value="2024">5.5e · Prévia visual</option></select></label>'+
+ '<label class="cs-field"><span>Conteúdo</span><select id="csContent"><option value="all">Todas as fontes</option><option value="official">Oficiais do livro</option><option value="partner">Parceiros</option></select></label>'+
+ '<label class="cs-field"><span>Dificuldade</span><select id="csDifficulty"><option value="all">Qualquer</option><option value="Baixa">Baixa</option><option value="Média">Média</option><option value="Alta">Alta</option></select></label>'+
+ '<label class="cs-field"><span>Buscar uma classe</span><span class="cs-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="6"></circle><path d="m15 15 6 6"></path></svg><input id="csSearch" type="search" placeholder="Nome, estilo, habilidade..." autocomplete="off"></span></label></div>'+
+ '<div class="cs-caption"><span>CLASSES DISPONÍVEIS <strong id="csCount">6</strong></span><span>Escolha uma classe para aplicar seus benefícios à ficha atual.</span></div>'+
+ '<p id="csEditionHint" class="cs-edition-hint" hidden>Prévia visual da edição 5.5 (2024). O motor de cálculo deste site segue o D&D 5e de 2014; selecionar uma classe aqui <strong>não aplica automaticamente regras de 2024</strong>.</p>'+
+ '<div class="cs-grid" id="csCards"></div><div class="cs-selected-strap"><p id="csCurrent">Classe atual: <strong>nenhuma selecionada</strong></p><button type="button" id="csGoSheet">Continuar para a ficha →</button></div><p class="cs-disclaimer">As seis opções desta etapa usam os nomes e as proficiências disponíveis no criador 5e (2014). Outras classes continuam acessíveis diretamente no campo Classe da ficha. Ilustrações vetoriais originais integradas ao site; não dependem de serviços externos.</p></div>'+
+ '<dialog id="csDialog" class="cs-dialog" aria-labelledby="csDialogTitle"><div class="cs-dialog-head"><h2 id="csDialogTitle">Classe</h2><button type="button" class="cs-close" id="csCloseDialog" aria-label="Fechar detalhes">✕</button></div><p id="csDialogDesc"></p><div id="csDialogStats" class="cs-detail-grid"></div><p id="csDialogNote"></p><button type="button" id="csDialogSelect" class="cs-modal-pick">Selecionar esta classe</button></dialog>';
+var $=function(id){return document.getElementById(id)};
+var decor={
+barbarian:'<g transform="translate(285 50) rotate(19)" stroke="#deccad" stroke-width="6" stroke-linecap="round"><path d="M8 18v177"/><path d="M9 18Q-74 0-62 89Q-15 82 9 56Q31 85 63 89Q76 1 9 18Z" fill="#b9b1a0" stroke-width="3"/></g>',
+bard:'<g transform="translate(291 119) rotate(-20)" stroke="#f4d09d" stroke-width="4" fill="none"><ellipse cx="0" cy="37" rx="37" ry="51" fill="#805636"/><ellipse cx="0" cy="32" rx="16" ry="20" fill="#261b28"/><path d="M-8-85L-5-10M7-85L8-10M-10-85h22M-10-88v-9M5-88v-9"/><path d="M-16 9v53M-7 9v53M2 9v53M11 9v53"/></g>',
+cleric:'<g transform="translate(286 50)" stroke="#f1d9a0" stroke-width="5" fill="none"><path d="M7 14v181"/><circle cx="7" cy="14" r="33" stroke-width="3"/><path d="M7-7v42M-14 14h42"/><path d="M7-28v-15M7 56v15M-35 14h-15M48 14h15"/></g>',
+druid:'<g transform="translate(200 62)" stroke="#bae5b3" stroke-width="5" fill="none"><path d="M-23 3Q-69-20-64-65M-22 2Q-22-29-35-75M23 3Q70-18 65-65M23 2Q23-32 39-75"/><path d="M-51-34l-25-9M50-34l25-9"/></g><g transform="translate(310 30)" stroke="#ba9d68" stroke-width="6"><path d="M0 20l-27 210"/><path d="M0 20Q-46-27-63 12Q-28 48 0 20Z" fill="#80ac90" stroke-width="3"/></g>',
+fighter:'<g transform="translate(291 39) rotate(8)" stroke="#cbd7e0" stroke-width="4" fill="#829aaa"><path d="M4 4L-10 66 5 92 20 66 4 4Z"/><path d="M5 91v144"/><path d="M-43 102h96M-11 233h35" stroke-width="10" stroke-linecap="round"/></g><path d="M62 155Q93 130 116 156L112 237Q85 265 63 235Z" fill="#4b5662" stroke="#d0b47e" stroke-width="6"/><path d="M88 169v58M73 200h30" stroke="#d0b47e" stroke-width="5"/>',
+monk:'<g transform="translate(310 38) rotate(-27)" stroke="#ead0a3" stroke-width="8" stroke-linecap="round"><path d="M0-17v260"/></g><path d="M127 196Q75 175 55 207T34 265" stroke="#e2b57b" stroke-width="6" fill="none"/>'
+};
+function picture(c){
+ var slug=c.slug,sky='cs-sky-'+slug,glow='cs-glow-'+slug,cloak='cs-cloak-'+slug;
+ return '<svg viewBox="0 0 420 280" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>'+
+ '<linearGradient id="'+sky+'" x1="0" y1="0" x2="0" y2="1"><stop stop-color="'+c.mid+'"/><stop offset="1" stop-color="'+c.dark+'"/></linearGradient>'+
+ '<radialGradient id="'+glow+'"><stop stop-color="'+c.a+'" stop-opacity=".63"/><stop offset=".58" stop-color="'+c.a+'" stop-opacity=".18"/><stop offset="1" stop-color="'+c.a+'" stop-opacity="0"/></radialGradient>'+
+ '<linearGradient id="'+cloak+'" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#697276"/><stop offset=".4" stop-color="#303d4b"/><stop offset="1" stop-color="#091823"/></linearGradient></defs>'+
+ '<path fill="url(#'+sky+')" d="M0 0H420V280H0Z"/><circle cx="210" cy="114" r="178" fill="url(#'+glow+')"/>'+
+ '<path fill="#0b1520" opacity=".45" d="M0 162l51-44 49 35 72-72 49 71 67-38 65 56 67-40v150H0Z"/>'+
+ '<g opacity=".48" fill="#111d25"><path d="M22 170V72h13V49h10v23h14v98h13V97h12V64h10v33h12v73H22Z"/><path d="M328 185V91h11V67h11v24h14v94h13V115h10V83h9v32h12v70Z"/></g>'+
+ '<g fill="'+c.a+'" opacity=".35"><circle cx="51" cy="37" r="2.5"/><circle cx="356" cy="46" r="2.1"/><circle cx="331" cy="132" r="1.9"/><circle cx="92" cy="117" r="1.8"/><circle cx="170" cy="31" r="2.4"/></g>'+
+ '<path fill="url(#'+cloak+')" stroke="#c0afa14d" stroke-width="3" d="M144 125Q166 98 189 91Q212 95 231 91Q254 99 277 125L321 280H100Z"/>'+
+ '<path fill="#16202a" stroke="'+c.a+'" stroke-opacity=".36" stroke-width="3" d="M178 84Q158 55 175 31Q188 12 210 15Q233 13 249 37Q262 61 243 86L242 119 178 119Z"/>'+
+ '<path fill="#28313c" d="M180 86Q208 110 243 85L234 118Q210 141 189 119Z"/>'+
+ '<path fill="#ceb2a0" d="M187 65Q191 47 211 47Q233 46 235 66L233 92Q208 112 190 92Z"/>'+
+ '<path fill="#161f28" d="M174 57Q170 19 204 23Q242 16 246 59Q228 49 218 40Q196 63 174 57Z"/>'+
+ '<path fill="#151e29" d="M174 59Q177 46 186 36Q194 58 221 63L239 59 247 39 256 90 241 107 238 74Q213 79 188 71L183 113 166 98Z"/>'+
+ '<path d="M173 138Q204 163 238 139L274 280H142Z" fill="#273641"/>'+
+ '<path d="M178 133Q204 166 243 133" fill="none" stroke="'+c.a+'" stroke-width="3" opacity=".65"/>'+
+ '<path d="M153 157Q110 173 98 216L86 280H150L177 172ZM262 155Q304 170 322 219L338 280H267L240 169Z" fill="#1a2935" stroke="#c0ae9255" stroke-width="4"/>'+
+ (decor[slug]||'')+'<path fill="#0c1720" opacity=".6" d="M0 268Q110 235 215 267T420 257V280H0Z"/></svg>';
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,function(x){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]})}
+function current(){return api.getState().fields.className||''}
+function showPage(id){document.querySelectorAll('.sheet-page').forEach(function(p){p.classList.toggle('active',p.id===id)});document.querySelectorAll('.topnav .tab').forEach(function(b){var a=b.dataset.tab===id;b.classList.toggle('active',a);b.setAttribute('aria-current',a?'page':'false')});if(id==='class-studio')render();window.scrollTo({top:0,behavior:'instant'})}
+tab.addEventListener('click',function(){showPage('class-studio')});
+$('csBack').addEventListener('click',function(){showPage('sheet')});
+$('csGoSheet').addEventListener('click',function(){showPage('sheet')});
+function apply(c){try{api.setField('className',c.name);api.recalc();render();if($('csDialog').open)$('csDialog').close();showPage('sheet');var t=document.getElementById('toast');if(t){t.textContent='Classe '+c.name+' aplicada à ficha. Os cálculos foram atualizados.';t.classList.add('show');setTimeout(function(){t.classList.remove('show')},3400)}}catch(e){alert('Não foi possível selecionar a classe: '+e.message)}}
+function selectedName(){return cards.find(function(c){return c.name===current()})}
+function render(){
+ var search=$('csSearch').value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+ var difficulty=$('csDifficulty').value,content=$('csContent').value,edition=$('csEdition').value;
+ $('csEditionHint').hidden=edition!=='2024';
+ var visible=cards.filter(function(c){
+  if(content==='partner')return false;
+  if(difficulty!=='all'&&c.difficulty!==difficulty)return false;
+  return !search||(c.name+' '+c.en+' '+c.desc+' '+c.role+' '+c.tags.join(' ')+' '+c.stats).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(search);
+ });
+ $('csCount').textContent=visible.length+' / '+cards.length;
+ $('csCards').innerHTML=visible.length?visible.map(function(c){
+  var selected=current()===c.name;
+  return '<article class="cs-card'+(selected?' cs-selected':'')+'" style="--cs-mid:'+c.mid+';--cs-dark:'+c.dark+';--cs-accent:'+c.a+'">'+
+  '<div class="cs-art">'+picture(c)+'<span class="cs-art-label">'+(selected?'SELECIONADA':'OFICIAL · 5E')+'</span></div>'+
+  '<div class="cs-body"><div class="cs-medallion" aria-hidden="true">'+c.symbol+'</div><div class="cs-heading"><h2>'+c.name+'</h2><span class="cs-die">'+c.hit+' PV</span></div>'+
+  '<div class="cs-english">'+c.en+'</div><div class="cs-tags">'+c.tags.map(function(t){return '<span>'+t+'</span>'}).join('')+'</div>'+
+  '<p class="cs-description">'+c.desc+'</p><div class="cs-actions"><button type="button" class="cs-learn" data-info="'+c.slug+'" aria-label="Saiba mais sobre '+c.name+'">Saiba mais</button>'+
+  '<button type="button" class="cs-pick" data-select="'+c.slug+'">'+(selected?'Selecionada ✓':'Selecionar')+'</button></div></div></article>'
+ }).join(''):'<div class="cs-empty"><strong>Nenhuma classe encontrada.</strong><br>Experimente outra busca ou altere os filtros.'+(content==='partner'?'<br>As classes parceiras não estão incluídas nesta versão.':'')+'</div>';
+ var sel=selectedName();
+ $('csCurrent').innerHTML=sel?'Classe atual: <strong>'+escapeHTML(sel.name)+'</strong> · '+escapeHTML(sel.role):current()?'Classe atual: <strong>'+escapeHTML(current())+'</strong> (na ficha, fora deste catálogo)':'Classe atual: <strong>nenhuma selecionada</strong>';
+}
+function more(c){$('csDialogTitle').textContent=c.name+' · '+c.en;$('csDialogDesc').textContent=c.desc;
+ var info=[['Dado de vida',c.hit],['Dificuldade',c.difficulty],['Atributos-chave',c.stats],['Resistências',c.save],['Conjuração',c.caster],['Papel',c.role]];
+ $('csDialogStats').innerHTML=info.map(function(p){return '<div><small>'+p[0]+'</small><b>'+escapeHTML(p[1])+'</b></div>'}).join('');
+ $('csDialogNote').textContent='Ao selecionar, o site atualiza a classe na ficha ativa e aplica suas proficiências em testes de resistência e o atributo de conjuração, quando houver. Perícias e demais escolhas específicas ficam sob seu controle.';
+ $('csDialogSelect').onclick=function(){apply(c)};
+ if(typeof $('csDialog').showModal==='function')$('csDialog').showModal();else $('csDialog').setAttribute('open','');
+}
+$('csCards').addEventListener('click',function(e){var pick=e.target.closest('[data-select]'),info=e.target.closest('[data-info]');if(!pick&&!info)return;var slug=(pick||info).dataset.select||(pick||info).dataset.info;var c=cards.find(function(x){return x.slug===slug});if(!c)return;if(pick)apply(c);else more(c)});
+$('csCloseDialog').addEventListener('click',function(){$('csDialog').close()});
+$('csDialog').addEventListener('click',function(e){if(e.target===$('csDialog'))$('csDialog').close()});
+['csSearch','csDifficulty','csContent','csEdition'].forEach(function(id){$(id).addEventListener('input',render);$(id).addEventListener('change',render)});
+document.getElementById('characterSelect').addEventListener('change',function(){setTimeout(render,0)});
+document.getElementById('className').addEventListener('change',function(){setTimeout(render,0)});
+render();
+window.DNDClassStudio={open:function(){showPage('class-studio')},refresh:render,select:function(name){var c=cards.find(function(x){return x.name===name});if(c)apply(c)}};
 })();
 
 </script>
