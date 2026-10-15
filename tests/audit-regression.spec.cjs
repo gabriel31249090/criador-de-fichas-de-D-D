@@ -42,14 +42,19 @@ const assert=require('node:assert/strict');
         level,
         beams:trials.every(x=>x.details.length===(level>=17?4:level>=11?3:level>=5?2:1)),
         // Cada ataque acertado por Rajada Mística deve rolar só 1d10.
-        singleDie:each.filter(x=>x.includes('✓')).every(x=>/✓ \d+=\d+$/.test(x))
+        singleDie:each.filter(x=>x.includes('✓')).every(x=>{
+          const diceText=x.split(' ✓ ')[1]?.split('=')[0]||'';
+          const d20=Number(/d20 (\d+)/.exec(x)?.[1]||0);
+          return diceText.split('+').filter(Boolean).length===(d20===20?2:1);
+        })
       });
     }
     s.fields.level='11';
     const ray=mod.spellRoll(ordinary,0,{ac:-50});
     return {results,rayDetails:ray.details};
   });
-  ok(cast.results.every(x=>x.beams&&x.singleDie),'Rajada Mística 1/2/3/4 feixes com um d10 por feixe');
+  console.log('Rajada Mística / críticos:',JSON.stringify(cast.results));
+  ok(cast.results.every(x=>x.beams&&x.singleDie),'Rajada Mística 1/2/3/4 feixes com um d10 por feixe (críticos dobram dados)');
   ok(cast.rayDetails.length===1,'Raio de Gelo permanece um único ataque');
   const mitigation=await page.evaluate(()=>({
     invalid:window.DNDV6.applyDamage(Infinity,'fogo',[]),
