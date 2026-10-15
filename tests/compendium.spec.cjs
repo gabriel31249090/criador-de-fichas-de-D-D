@@ -1,0 +1,43 @@
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ let tests=0;
+ const check=(cond,message)=>{assert.ok(cond,message);tests++;console.log('PASS',message);};
+ for(const viewport of [{width:1365,height:850},{width:390,height:844}]){
+  const context=await browser.newContext({viewport,acceptDownloads:true});
+  const page=await context.newPage(),errors=[];
+  page.on('pageerror',e=>errors.push(String(e)));
+  await page.goto('http://127.0.0.1:8091/index.html',{waitUntil:'load'});
+  await page.waitForTimeout(900);
+  check(await page.locator('[data-tab="compendium"]').count()===1,'Biblioteca abriu no tamanho '+viewport.width);
+  check(await page.evaluate(()=>window.DNDCompendium.getSpecies().includes('Aasimar')),'Aasimar cadastrado');
+  await page.locator('[data-tab="compendium"]').click();
+  await page.locator('[data-cx-species="Aasimar"]').click();
+  const race=await page.evaluate(()=>({f:window.DNDDebug.getMutableState().fields.race,sel:document.getElementById('race').value,edition:window.DNDDebug.getMutableState().fields.rulesEdition}));
+  check(race.f==='Aasimar'&&race.sel==='Aasimar'&&race.edition==='2024','Aasimar aplicado na ficha original');
+  await page.evaluate(()=>{const a=window.DNDDebug,s=a.getMutableState();a.setField('className','Guerreiro');s.fields.level='5';s.abilities.con='14';a.recalc();});
+  check(await page.locator('#hpMax').innerText()==='44','PV de guerreiro nível 5, Constituição +2');
+  await page.locator('#cxBgA').selectOption('con');await page.locator('#cxBgB').selectOption('str');
+  check(await page.locator('#hpMax').innerText()==='49','2024: antecedentes recalculam PV (+2 CON)');
+  await page.locator('[data-cx-tab="spells"]').click();
+  const cnt=await page.evaluate(()=>window.DNDCompendium.getSpellCount());
+  check(cnt>=20,'Catálogo de truques e magias está disponível');
+  await page.locator('#cxSearch').fill('Mísseis Mágicos');
+  await page.locator('[data-cx-spell="Mísseis Mágicos"]').click();
+  check(await page.evaluate(()=>window.DNDDebug.getMutableState().v5.selectedSpells.includes('Mísseis Mágicos')),'Magia adicionada à ficha');
+  await page.locator('[data-cx-tab="gear"]').click();
+  await page.locator('#cxSearch').fill('Espada longa');
+  await page.locator('[data-cx-gear="Espada longa"]').click();
+  check(await page.evaluate(()=>window.DNDDebug.getMutableState().attacks.some(a=>a.name==='Espada longa')),'Arma entrou automaticamente nos ataques');
+  check(await page.evaluate(()=>window.DNDDebug.getMutableState().items.some(a=>a.name==='Espada longa')),'Arma entrou automaticamente no inventário');
+  await page.locator('[data-cx-tab="dm"]').click();
+  await page.locator('[data-cx-action="encounter"]').click();
+  check((await page.locator('#cxEncounterOut').innerText()).includes('XP ajustado'),'Calculadora do DMG calcula XP ajustado');
+  check(errors.length===0,'Navegação sem exceções JS: '+errors.slice(0,2).join('|'));
+  const tooWide=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+14);
+  check(!tooWide,'Sem overflow horizontal grave em '+viewport.width);
+  await context.close();
+ }
+ await browser.close();console.log('OK - '+tests+' verificações concluídas');
+})().catch(e=>{console.error('FAIL',e.stack||e);process.exit(1)});

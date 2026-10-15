@@ -17,12 +17,22 @@ const RACES={
 const KNOWN={Bardo:[4,5,6,7,8,9,10,11,12,14,15,15,16,18,19,19,20,22,22,22],Bruxo:[2,3,4,5,6,7,8,9,10,10,11,11,12,12,13,13,14,14,15,15],Feiticeiro:[2,3,4,5,6,7,8,9,10,11,12,12,13,13,14,14,15,15,15,15],Patrulheiro:[0,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11]};
 const TRICKS={Bardo:[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],Bruxo:[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],Clérigo:[3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5],Druida:[2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4],Feiticeiro:[4,4,4,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6],Mago:[3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5]};
 const el=id=>document.getElementById(id), sheet=()=>window.DNDDebug?.getMutableState?.();
-function raceBonus(f,a){if(!f||f.raceAuto===false)return 0;const r=RACES[f.race];if(!r)return 0;const sub=f.subrace||Object.keys(r[1])[0];let v=(r[0][a]||0)+(r[1][sub]?.[a]||0);
+function raceBonus(f,a){
+ if(!f)return 0;
+ if(f.rulesEdition==='2024'){
+  const mode=f.bg2024Mode||'2+1';
+  const keys=mode==='1+1+1'?[f.bg2024A,f.bg2024B,f.bg2024C]:[f.bg2024A,f.bg2024B];
+  const usable=keys.filter(Boolean);
+  if(usable.length!==new Set(usable).size)return 0;
+  if(mode==='1+1+1')return usable.includes(a)?1:0;
+  return (f.bg2024A===a?2:0)+(f.bg2024B===a?1:0);
+ }
+ if(f.raceAuto===false)return 0;const r=RACES[f.race];if(!r)return 0;const sub=f.subrace||Object.keys(r[1])[0];let v=(r[0][a]||0)+(r[1][sub]?.[a]||0);
  if(f.race==='Meio-Elfo'&&(a===f.raceExtra1||a===f.raceExtra2))v++;
  if(f.race==='Humano'&&sub==='Variante')v=(a===f.raceExtra1||a===f.raceExtra2)?1:0;
  return v;
 }
-function healthExtra(f,lv,cl,sorcererLevels){return (f.raceAuto!==false&&f.race==='Anão'&&f.subrace==='Colina'?lv:0)+(f.featTough?2*lv:0)+(f.draconicSoul?(Number.isInteger(sorcererLevels)?sorcererLevels:cl==='Feiticeiro'?lv:0):0)}
+function healthExtra(f,lv,cl,sorcererLevels){return ((f.rulesEdition==='2024'?f.race==='Anão':f.raceAuto!==false&&f.race==='Anão'&&f.subrace==='Colina')?lv:0)+(f.featTough?2*lv:0)+(f.draconicSoul?(Number.isInteger(sorcererLevels)?sorcererLevels:cl==='Feiticeiro'?lv:0):0)}
 function magicGuide(cl,lv,castScore){if(!cl||!lv)return 'Selecione classe, nível e atributo de conjuração.';let lines=[];
  if(TRICKS[cl])lines.push('Truques conhecidos: '+TRICKS[cl][lv-1]+'.');
  if(KNOWN[cl])lines.push('Magias conhecidas (pela classe): '+KNOWN[cl][lv-1]+'.');
