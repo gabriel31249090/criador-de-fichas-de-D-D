@@ -1349,6 +1349,20 @@ window.DNDClassStudio={open:function(){showPage('class-studio')},refresh:render,
     const css=document.createElement('style');css.id='compendiumStyles';css.textContent=styles;document.head.appendChild(css);
     const tab=document.createElement('button');tab.type='button';tab.className='tab';tab.dataset.tab='compendium';tab.textContent='✦ Biblioteca & Mestre';tab.setAttribute('aria-label','Abrir biblioteca de D&D e ferramentas do Mestre');
     document.querySelector('.topnav').appendChild(tab);
+    const raceSelect=$('race');
+    if(raceSelect){
+      species.forEach(entry=>{
+        if(![...raceSelect.options].some(option=>option.value===entry.name)){
+          const opt=document.createElement('option');opt.value=entry.name;opt.textContent=entry.name+' (2024)';raceSelect.appendChild(opt);
+        }
+      });
+      raceSelect.addEventListener('change',()=>{
+        const name=raceSelect.value;
+        if(['Aasimar','Golias','Orc'].includes(name)||cur().fields.rulesEdition==='2024'){
+          if(species.some(entry=>entry.name===name))applySpecies(name);
+        }
+      });
+    }
     const page=document.createElement('section');page.id='compendium';page.className='sheet-page cx-page';page.setAttribute('aria-label','Compêndio e ferramentas do mestre');page.innerHTML='<div class="cx-hero"><span class="cx-overline">COMPÊNDIO DE AVENTURAS</span><h1>Biblioteca de personagem e Mestre</h1><p>Escolha origens, truques, magias e equipamento diretamente na ficha. Ferramentas do Guia do Mestre 2014 e espécies 2024 são separadas por edição.</p></div><div class="cx-tabs" role="tablist" aria-label="Seções do compêndio"><button type="button" data-cx-tab="species">✧ Espécies 2024</button><button type="button" data-cx-tab="spells">✦ Truques e magias</button><button type="button" data-cx-tab="gear">⚔ Armas e itens</button><button type="button" data-cx-tab="dm">♜ Guia do Mestre</button></div><div id="cxContent" class="cx-content"></div><div id="cxNotice" class="cx-notice" role="status" aria-live="polite"></div>';
     document.querySelector('main').appendChild(page);
     tab.addEventListener('click',()=>{document.querySelectorAll('.sheet-page').forEach(x=>x.classList.toggle('active',x.id==='compendium'));document.querySelectorAll('.topnav .tab').forEach(x=>x.classList.toggle('active',x===tab));render();window.scrollTo({top:0,behavior:'instant'});});
@@ -1402,13 +1416,18 @@ window.DNDClassStudio={open:function(){showPage('class-studio')},refresh:render,
   function setEdition(value){
     const s=cur(),f=s.fields,c=additional();
     if(value==='2014'){
-      f.rulesEdition='2014';f.raceAuto=true;f.bg2024A='';f.bg2024B='';f.bg2024C='';
+      f.rulesEdition='2014';f.raceAuto=c.previousRaceAuto!==false;
       const race=c.previousLegacyRace||'Humano';api.setField('race',race);c.previousLegacyRace='';
-    }else{
-      if(f.rulesEdition!=='2024')c.previousLegacyRace=f.race||'';
-      f.rulesEdition='2024';f.raceAuto=false;
-      const match=species.find(x=>x.name===f.race);if(!match){api.setField('race','Aasimar');f.speed=9;}else f.speed=match.speed;
+      persist();return;
     }
+    if(f.rulesEdition!=='2024'){
+      c.previousLegacyRace=f.race||'';
+      c.previousRaceAuto=f.raceAuto!==false;
+    }
+    f.rulesEdition='2024';f.raceAuto=false;
+    const match=species.find(x=>x.name===f.race);
+    if(!match){applySpecies('Aasimar');return;}
+    f.speed=match.speed;
     persist();
   }
   function pickSpell(name){
@@ -1450,7 +1469,11 @@ window.DNDClassStudio={open:function(){showPage('class-studio')},refresh:render,
     if(kind==='heal'){
       if(s.fields.race!=='Aasimar'||s.fields.rulesEdition!=='2024'||c.aasimarHealingUsed)return;
       const pb=2+Math.floor((Math.max(1,level)-1)/4);let amount=0;for(let k=0;k<pb;k++)amount+=rollDie(4);
-      const max=api.getHP()?.total;const before=Number(s.fields.hpCurrent);if(Number.isFinite(before)&&Number.isFinite(max))s.fields.hpCurrent=Math.min(max,Math.max(0,before+amount));
+      const max=api.getHP()?.total;const before=Number(s.fields.hpCurrent);
+      if(Number.isFinite(before)&&Number.isFinite(max)){
+        s.fields.hpCurrent=Math.min(max,Math.max(0,before+amount));
+        if(s.fields.hpCurrent>0){s.deathSuccess=0;s.deathFailure=0;}
+      }
       c.aasimarHealingUsed=true;persist();status('Mãos Curativas: '+pb+'d4 recuperou '+amount+' PV. Seu PV atual foi atualizado, quando disponível.');return;
     }
     if(kind==='revelation'){
