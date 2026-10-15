@@ -1,0 +1,58 @@
+/* Arte gerada para o criador de fichas. Mantém a ficha de papel legível e a impressão original. */
+@media screen{
+:root{--ai-ivory:#fffaf1;--ai-ink:#35291f;--ai-gold:#c6a26b}
+body{background:radial-gradient(circle at 50% 0,#fbf4e6,#ebe3d5 53%,#e4dacc 100%)}
+.topbar{background:linear-gradient(120deg,#261e1a,#473128 62%,#281f19);border-bottom:3px double #bba077;box-shadow:0 5px 20px #29190e48}
+.workspace{background:linear-gradient(110deg,#fffefa,#f7efe3);border:2px solid #b19b7b;box-shadow:0 7px 24px #33291b20}
+#sheet,#story,#spells{background-color:#fffdfa;box-shadow:0 20px 58px #38291c2c,0 0 0 6px #f2e8d7}
+#sheet .panel,#story .panel,#spells .panel{border:2px solid #544332;background:linear-gradient(#fffefa,#fffaf3);border-radius:5px 13px 5px 13px;outline:1px solid #c7b396;outline-offset:-5px}
+#sheet .panel>h2,#story .panel>h2,#spells .panel>h2{border-bottom:2px solid #c5ae8d;color:#443022}
+#sheet .ability-row{background:#fffdf7;border-color:#d4c1a6}
+#sheet .ability-row label{display:flex;flex-direction:column;align-items:center;line-height:1.15;font-size:10px}
+#sheet .ability-row label::before{content:"";width:43px;height:43px;background-position:center;background-size:contain;background-repeat:no-repeat;display:block;filter:drop-shadow(0 2px 2px #21160d33)}
+#sheet .ability-mod{background:#eae0d0;color:#352619}
+#sheet .tiny{background:#473428;border-color:#9a7855;color:#fff7e5}
+#sheet .tiny:hover{background:#77563c}
+.toolbar #btnExport,.toolbar #btnImport,.toolbar #btnPrint,#btnNew,#btnDuplicate,#btnDelete{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:37px;background-color:#f4e8d1;background-image:linear-gradient(#fff6e4c0,#fff6e4c0),url('./button-gold.webp');background-size:cover;border:1px solid #846848;border-radius:4px 11px 4px 11px;color:#423020}
+.toolbar #btnPrint{color:#fff3e6;background-image:linear-gradient(#302117a8,#302117a8),url('./button-ink.webp')}
+#btnDelete{color:#fff9f5;background-image:linear-gradient(#8c3227bb,#8c3227bb),url('./button-danger.webp')}
+.toolbar #btnExport::before,.toolbar #btnImport::before,.toolbar #btnPrint::before,#btnNew::before,#btnDuplicate::before,#btnDelete::before{content:"";width:19px;height:20px;flex:0 0 auto;display:inline-block;background-position:center;background-repeat:no-repeat;background-size:contain}
+#class-studio .cs-card{border-color:#bd965f80}
+#class-studio .cs-art{background-color:#202127;isolation:isolate}
+#class-studio .cs-art::before{content:"";position:absolute;inset:0;z-index:1;background-size:100% 100%;background-repeat:no-repeat;background-position:center;pointer-events:none}
+#class-studio .cs-art:after{z-index:2;background:linear-gradient(180deg,transparent 50%,#151921dd)}
+#class-studio .cs-art-label{z-index:4}
+#class-studio .cs-medallion{overflow:hidden}
+#class-studio .cs-medallion:before{content:"";position:absolute;inset:1px;border-radius:50%;background-repeat:no-repeat;background-size:cover;background-position:center;pointer-events:none}
+#class-studio .cs-pick{background-image:linear-gradient(#d9ba7c85,#d9ba7c85),url('./button-gold.webp');background-size:100% 100%}
+#class-studio .cs-learn{background-image:linear-gradient(#22201ec2,#22201ec2),url('./button-ink.webp');background-size:100% 100%}
+#class-studio .cs-card:hover .cs-art:before{filter:saturate(1.13) contrast(1.05)}
+#sheet .mini-tools button{border-color:#b39b73}
+}
+@media screen{#sheet .ability-row:nth-child(1) label:before{background-image:url('./ability-str.webp')}}
+@media screen{#sheet .ability-row:nth-child(2) label:before{background-image:url('./ability-dex.webp')}}
+@media screen{#sheet .ability-row:nth-child(3) label:before{background-image:url('./ability-con.webp')}}
+@media screen{#sheet .ability-row:nth-child(4) label:before{background-image:url('./ability-int.webp')}}
+@media screen{#sheet .ability-row:nth-child(5) label:before{background-image:url('./ability-wis.webp')}}
+@media screen{#sheet .ability-row:nth-child(6) label:before{background-image:url('./ability-cha.webp')}}
+@media screen{#class-studio .cs-card[data-class="barbarian"] .cs-art:before{background-image:url('./banner-barbarian.webp')}#class-studio .cs-card[data-class="barbarian"] .cs-medallion:before{background-image:url('./class-barbarian.webp')}}
+@media screen{#class-studio .cs-card[data-class="bard"] .cs-art:before{background-image:url('./banner-bard.webp')}#class-studio .cs-card[data-class="bard"] .cs-medallion:before{background-image:url('./class-bard.webp')}}
+@media screen{#class-studio .cs-card[data-class="warlock"] .cs-art:before{background-image:url('./banner-warlock.webp')}#class-studio .cs-card[data-class="warlock"] .cs-medallion:before{background-image:url('./class-warlock.webp')}}
+@media screen{#class-studio .cs-card[data-class="cleric"] .cs-art:before{background-image:url('./banner-cleric.webp')}#class-studio .cs-card[data-class="cleric"] .cs-medallion:before{background-image:url('./class-cleric.webp')}}
+@media screen{#class-studio .cs-card[data-class="druid"] .cs-art:before{background-image:url('./banner-druid.webp')}#class-studio .cs-card[data-class="druid"] .cs-medallion:before{background-image:url('./class-druid.webp')}}
+@media screen{#class-studio .cs-card[data-class="sorcerer"] .cs-art:before{background-image:url('./banner-sorcerer.webp')}#class-studio .cs-card[data-class="sorcerer"] .cs-medallion:before{background-image:url('./class-sorcerer.webp')}}
+@media screen{#class-studio .cs-card[data-class="fighter"] .cs-art:before{background-image:url('./banner-fighter.webp')}#class-studio .cs-card[data-class="fighter"] .cs-medallion:before{background-image:url('./class-fighter.webp')}}
+@media screen{#class-studio .cs-card[data-class="rogue"] .cs-art:before{background-image:url('./banner-rogue.webp')}#class-studio .cs-card[data-class="rogue"] .cs-medallion:before{background-image:url('./class-rogue.webp')}}
+@media screen{#class-studio .cs-card[data-class="wizard"] .cs-art:before{background-image:url('./banner-wizard.webp')}#class-studio .cs-card[data-class="wizard"] .cs-medallion:before{background-image:url('./class-wizard.webp')}}
+@media screen{#class-studio .cs-card[data-class="monk"] .cs-art:before{background-image:url('./banner-monk.webp')}#class-studio .cs-card[data-class="monk"] .cs-medallion:before{background-image:url('./class-monk.webp')}}
+@media screen{#class-studio .cs-card[data-class="paladin"] .cs-art:before{background-image:url('./banner-paladin.webp')}#class-studio .cs-card[data-class="paladin"] .cs-medallion:before{background-image:url('./class-paladin.webp')}}
+@media screen{#class-studio .cs-card[data-class="ranger"] .cs-art:before{background-image:url('./banner-ranger.webp')}#class-studio .cs-card[data-class="ranger"] .cs-medallion:before{background-image:url('./class-ranger.webp')}}
+@media screen{.toolbar #btnExport:before{background-image:url('./action-export.webp')}}
+@media screen{.toolbar #btnImport:before{background-image:url('./action-import.webp')}}
+@media screen{.toolbar #btnPrint:before{background-image:url('./action-print.webp')}}
+@media screen{#btnNew:before{background-image:url('./action-new.webp')}}
+@media screen{#btnDuplicate:before{background-image:url('./action-load.webp')}}
+@media screen{#btnDelete:before{background-image:url('./action-settings.webp')}}
+@media screen and (max-width:750px){#sheet .ability-row label:before{width:32px;height:32px}#class-studio .cs-art{height:185px}}@media screen and (max-width:400px){#sheet .ability-row label:before{width:28px;height:28px}#sheet .ability-row{grid-template-columns:minmax(65px,1fr) 39px 29px 42px 35px}}
+@media print{#sheet .ability-row label:before,#class-studio .cs-art:before,#class-studio .cs-medallion:before{content:none!important}.sheet-page,.panel{background-image:none!important;outline:none!important}}
+@media(prefers-reduced-motion:reduce){#class-studio .cs-card:hover{transform:none!important}}
