@@ -184,6 +184,7 @@ body{background:linear-gradient(150deg,#e5e1d9,#f2efea 54%,#e4ddd5)}
 @media print{#story .story-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-areas:"appearance allies portrait" "history features features" "history treasure treasure";gap:4px!important}#story .story-grid textarea{min-height:100px!important;max-height:118px!important}#story .portrait-art{min-height:105px;max-height:135px;aspect-ratio:auto;filter:grayscale(1);print-color-adjust:exact}#story .portrait-note{display:none}#spells .spells-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:repeat(4,minmax(90px,auto))!important;gap:3px!important}#spells .spell-level{min-height:0!important;padding:3px!important;break-inside:avoid}#spells .spell-level textarea{min-height:70px!important;max-height:95px!important;height:auto!important}#spells .spell-level:nth-child(1){grid-column:1;grid-row:1}#spells .spell-level:nth-child(2){grid-column:1;grid-row:2}#spells .spell-level:nth-child(3){grid-column:1;grid-row:3/span 2}#spells .spell-level:nth-child(4){grid-column:2;grid-row:1}#spells .spell-level:nth-child(5){grid-column:2;grid-row:2}#spells .spell-level:nth-child(6){grid-column:2;grid-row:3/span 2}#spells .spell-level:nth-child(7){grid-column:3;grid-row:1}#spells .spell-level:nth-child(8){grid-column:3;grid-row:2}#spells .spell-level:nth-child(9){grid-column:3;grid-row:3}#spells .spell-level:nth-child(10){grid-column:3;grid-row:4}#pactTracker{margin:5px 0!important;padding:4px!important;break-inside:avoid}}
 
 </style>
+<link rel="stylesheet" href="./assets/ui/theme-ai.css" media="screen">
 </head>
 <body>
 <header class="topbar no-print">
@@ -1166,7 +1167,7 @@ function render(){
  $('csCount').textContent=visible.length+' / '+cards.length;
  $('csCards').innerHTML=visible.length?visible.map(function(c){
   var selected=current()===c.name;
-  return '<article class="cs-card'+(selected?' cs-selected':'')+'" style="--cs-mid:'+c.mid+';--cs-dark:'+c.dark+';--cs-accent:'+c.a+'">'+
+  return '<article data-class="'+c.slug+'" class="cs-card'+(selected?' cs-selected':'')+'" style="--cs-mid:'+c.mid+';--cs-dark:'+c.dark+';--cs-accent:'+c.a+'">'+
   '<div class="cs-art">'+picture(c)+'<span class="cs-art-label">'+(selected?'SELECIONADA':'OFICIAL · 5E')+'</span></div>'+
   '<div class="cs-body"><div class="cs-medallion" aria-hidden="true">'+c.symbol+'</div><div class="cs-heading"><h2>'+c.name+'</h2><span class="cs-die">'+c.hit+' PV</span></div>'+
   '<div class="cs-english">'+c.en+'</div><div class="cs-tags">'+c.tags.map(function(t){return '<span>'+t+'</span>'}).join('')+'</div>'+
