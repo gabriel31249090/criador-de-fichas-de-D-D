@@ -1,0 +1,25 @@
+name: Empacotar site D&D
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Montar site estatico
+        run: |
+          mkdir -p dist
+          cp -a site.html index.html src assets dist/
+          cp -a sw.js manifest.webmanifest dist/
+          if [ -d supabase ]; then cp -a supabase dist/; fi
+          (cd dist && zip -qr ../criador-de-fichas-5e.zip .)
+      - name: Disponibilizar ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dnd-5e
+          path: criador-de-fichas-5e.zip
+          retention-days: 7
