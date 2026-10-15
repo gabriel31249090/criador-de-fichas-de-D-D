@@ -19,8 +19,11 @@ jobs:
           npm init -y >/dev/null
           npm install --no-save playwright@1.56.1
           npx playwright install chromium --with-deps
+      - name: Audit module parity, syntax, assets, and PWA cache
+        run: node tests/audit-static.cjs
       - name: Test characters, equipment, spells and Dungeon Master
         run: |
           python -m http.server 8091 --bind 127.0.0.1 >/tmp/dnd-server.log 2>&1 &
           sleep 2
           node tests/compendium.spec.cjs
+          node tests/audit-regression.spec.cjs
