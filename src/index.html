@@ -7,6 +7,85 @@
 <link rel="stylesheet" href="v6.css">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="stylesheet" href="../assets/ui/theme-ai.css" media="screen">
+
+<style id="dnd-professional-ux">
+@media screen {
+ :root {--ux-ink:#29251f;--ux-fog:#766b60;--ux-gold:#aa7745;--ux-line:#dfd2bd;--ux-paper:#fffdf7}
+ html {scroll-padding-top:110px}
+ body {background:radial-gradient(ellipse at 65% 0%,#fff9ed 0%,transparent 62%),#ebe4d8;color:var(--ux-ink)}
+ .topbar {position:sticky;top:0;z-index:90;background:linear-gradient(115deg,#241d1a 0%,#473329 55%,#241f1d 100%);border-bottom:2px solid #b99c70;box-shadow:0 8px 32px #1b120c34;backdrop-filter:blur(18px);row-gap:12px}
+ .brand {min-width:185px}
+ .brand strong{font-size:12px;letter-spacing:.12em}
+ .brand small{color:#e9d5b7}
+ .topnav{display:flex;align-items:center;flex-wrap:nowrap;gap:5px;min-width:0;overflow-x:auto;scrollbar-width:thin}
+ .topnav button{flex-shrink:0;min-height:41px;border-radius:10px;padding:10px 13px;font-size:12px;font-weight:750;white-space:nowrap;transition:transform .15s,background .15s,color .15s}
+ .topnav button:hover{transform:translateY(-1px);background:#ffffff17}
+ .topnav button.active{background:#ebd4ac;color:#362519;border-color:#f6e1b9;box-shadow:inset 0 -2px 0 #b48a50}
+ .toolbar{gap:6px}.toolbar button{min-height:39px;white-space:nowrap}
+ .workspace{max-width:1440px;padding:18px 20px;border:1px solid #c8b59b;border-radius:16px;background:linear-gradient(135deg,#fffefa 20%,#f6ede0);box-shadow:0 12px 35px #54402d12;gap:10px}
+ .workspace select{min-height:42px;background:#fff}
+ .workspace-label b{font-size:12px}.workspace-label span{font-size:11px}
+ .workspace-tip{font-size:11px;line-height:1.45}
+ .sheet-page{max-width:1440px;padding:clamp(16px,2.3vw,30px);background:#fffdf7;border:1px solid #d4c6ae;border-radius:18px;box-shadow:0 22px 70px #47352120}
+ .sheet-heading{border-bottom:2px solid #a88d62;padding-bottom:18px;margin-bottom:22px}
+ .sheet-heading h1{font-size:clamp(24px,2.8vw,36px);letter-spacing:-.018em}
+ .sheet-heading p{font-size:11px;letter-spacing:.08em;line-height:1.5}
+ .panel,.v6-card,.v5-content .panel{border:1px solid #d6c8b1!important;border-radius:14px!important;outline:0!important;background:linear-gradient(150deg,#fffefb,#fdf8ef)!important;box-shadow:0 6px 18px #56412b0e!important;padding:clamp(12px,1.45vw,20px)}
+ .panel>h2{font-size:13px;letter-spacing:.025em;line-height:1.35;color:#483527;border-bottom:1px solid #dbccb6;padding-bottom:12px}
+ .sheet-col{gap:15px}.sheet-grid{gap:15px}.identity{border-radius:13px;border:1px solid #c9b69b;background:#fcf5e9;gap:12px;padding:18px}
+ label{font-size:12px;line-height:1.35;letter-spacing:0}
+ input:not([type=checkbox]),select,textarea{min-height:39px;background:#fffefa;border:1px solid #cbbda9;border-radius:8px;transition:border-color .15s,box-shadow .15s}
+ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid #b68247;outline-offset:2px;box-shadow:0 0 0 4px #b6824722}
+ button{border-radius:9px;min-height:36px}
+ button:active{transform:scale(.97)}
+ .mini-tools{gap:8px}.helper{font-size:12px;line-height:1.6}.hint{font-size:10px;line-height:1.4}
+ .ability-row{min-height:60px;border-color:#dfcfba;border-radius:11px;background:#fffbf4;gap:7px}
+ .hp-panel{border-color:#a78162!important;position:relative;overflow:hidden}
+ .hp-panel>h2{color:#77502e}
+ .hp-panel .hp-grid>div{background:#fff;border-radius:11px;border:1px solid #dfd0ba;min-height:86px}
+ .hp-panel .hp-grid>div:first-child{background:linear-gradient(150deg,#f2e5d0,#fffbf2)}
+ .hp-track{height:13px;background:#e9c7bd;border-radius:999px;box-shadow:inset 0 1px 3px #4c2d1c20}
+ .hp-track>div{border-radius:999px;background:linear-gradient(90deg,#357b66,#72ba8f);transition:width .3s ease}
+ .hp-auto-label{display:flex;align-items:center;gap:7px;margin:0 0 13px;color:#725637;font-weight:720;font-size:12px;line-height:1.55}
+ .hp-auto-label::before{content:'✓';display:grid;place-items:center;background:#e9f5e7;color:#346943;font-size:12px;min-width:22px;height:22px;border-radius:50%}
+ .hp-details{margin-top:10px;border:1px solid #d9c9ae;border-radius:11px;background:#fffaf0;overflow:hidden}
+ .hp-details summary{cursor:pointer;padding:12px 14px;color:#695030;font-weight:750;font-size:12px;list-style-position:inside}
+ .hp-details[open] summary{border-bottom:1px solid #e3d5c1}
+ .hp-breakdown{padding:14px;font-size:12px;line-height:1.7;color:#4c453c;white-space:pre-line;overflow-wrap:anywhere}
+ .v5-nav,.v6-tabs{gap:7px}.v5-navbtn,.v5-step,.v6-tab{border-radius:9px;min-height:42px}
+ .v6-card h2{font-size:20px}.v6-header{border-radius:17px 17px 0 0}
+ .data-table{font-size:12px}.data-table th,.data-table td{padding:8px 5px}
+ .toast,.v6-toast{border-radius:12px;font-size:13px}
+}
+@media screen and (max-width:900px) {
+ .topbar{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:13px}
+ .topnav{width:100%;order:2;padding-bottom:4px}
+ .toolbar{order:3;justify-content:flex-start}
+ .workspace{margin:12px;gap:9px}
+ .sheet-page{margin:0 12px 20px}
+}
+@media screen and (max-width:600px) {
+ .brand{min-width:0}
+ .topnav button{min-height:44px}
+ .toolbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}
+ .toolbar #saveStatus{grid-column:1/-1}
+ .toolbar button{font-size:10px;padding:8px 5px;min-width:0}
+ .workspace{padding:13px}
+ .workspace select{min-width:0;width:100%;flex-basis:100%;max-width:none}
+ .workspace .workspace-tip{width:100%;margin-left:0}
+ .sheet-page{padding:14px;margin:0 8px 16px}
+ .sheet-heading{gap:10px}
+ .sheet-heading h1{font-size:24px}
+ .panel{padding:13px!important}
+ .hp-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .hp-grid .big-input{max-width:100%}
+ .hp-panel .hp-grid>div{padding:8px 3px}
+ .hp-panel .big-num{font-size:23px}
+ .mini-tools button{min-height:42px}
+ .data-table{display:block;overflow-x:auto}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
 </head>
 <body>
 <header class="topbar no-print">
@@ -44,9 +123,9 @@
     <div class="divider"></div><div class="grid-2"><label>Armadura<select data-field="armor" id="armor"></select></label><label>Outros bônus de CA<input data-field="acExtra" id="acExtra" type="number"></label><label class="checkbox-label"><input type="checkbox" data-field="shield" id="shield"> Escudo (+2 CA)</label><label>CA personalizada (opcional)<input type="number" data-field="acOverride" id="acOverride" placeholder="Vazio = automático"></label></div>
     <div class="mini-tools"><button id="rollEnemyAttack">🎲 Ataque contra CA</button><label class="inline-field">Bônus inimigo<input id="enemyBonus" type="number" value="0"></label></div><div class="mini-tools"><button id="rollDefense">🎲 Defesa ativa (regra opcional)</button><label class="inline-field">Bônus extra<input id="defenseExtra" type="number" value="0"></label></div><div id="acResult" class="results">Na regra padrão, a CA é fixa; role o ataque contra ela.</div>
    </article>
-   <article class="panel hp-panel"><h2>Pontos de Vida <span class="hint">Automáticos pela classe e nível</span></h2><div class="hp-grid"><div><small>PV máximo</small><output id="hpMax" class="big-num">—</output></div><div><small>PV atual</small><input data-field="hpCurrent" type="number" id="hpCurrent" min="0" class="big-input"></div><div><small>PV temporário</small><input data-field="hpTemp" type="number" id="hpTemp" min="0" class="big-input"></div></div><div class="hp-track"><div id="hpBar"></div></div>
+   <article class="panel hp-panel"><h2>Pontos de Vida <span class="hint">Cálculo automático • D&D 5e</span></h2><p class="hp-auto-label no-print">PV máximo calculado automaticamente a partir de classe, nível, Constituição e bônus. O PV atual continua editável durante a aventura.</p><div class="hp-grid"><div><small>PV máximo</small><output id="hpMax" class="big-num">—</output></div><div><small>PV atual</small><input data-field="hpCurrent" type="number" id="hpCurrent" min="0" class="big-input"></div><div><small>PV temporário</small><input data-field="hpTemp" type="number" id="hpTemp" min="0" class="big-input"></div></div><div class="hp-track"><div id="hpBar"></div></div>
     <label>Progressão de PV<select data-field="hpMethod" id="hpMethod"><option value="average">Média fixa por nível</option><option value="rolled">Rolagens dos Dados de Vida por nível</option></select></label><div class="grid-2"><label>Extra por nível<input type="number" data-field="hpPerLevel" id="hpPerLevel"></label><label>Extra total<input type="number" data-field="hpExtra" id="hpExtra"></label></div>
-    <div id="hpFormula" class="results">Defina classe, nível e Constituição.</div><div class="mini-tools"><button id="rollHp">🎲 Rolar dados de vida</button><button id="restoreHp">♥ Vida cheia</button></div>
+    <div id="hpFormula" class="results">Defina classe, nível e Constituição.</div><details class="hp-details no-print"><summary>Como o total de PV foi calculado?</summary><div id="hpBreakdown" class="hp-breakdown" aria-live="polite">Selecione classe, nível e Constituição para ver o detalhamento.</div></details><div class="mini-tools"><button id="rollHp">🎲 Rolar dados de vida</button><button id="restoreHp">♥ Vida cheia</button></div>
     <div class="mini-tools"><label class="inline-field">Quantidade<input id="damageAmount" type="number" min="1" value="5"></label><button id="damageBtn">− Dano</button><button id="healBtn">+ Cura</button></div>
     <div class="divider"></div><div class="grid-2"><div><small>Dados de Vida</small><strong id="hitDice">—</strong></div><div><small>Dados gastos</small><input data-field="hitDiceSpent" id="hitDiceSpent" type="number" min="0"></div></div>
     <label class="checkbox-label"><input id="mageArmor" type="checkbox" data-field="mageArmor"> Armadura Arcana ativa (CA base 13 + DES, se sem armadura)</label><h3>Resistências contra a morte</h3><div class="death-wrap"><span>Sucessos</span><div id="deathSuccess"></div><span>Falhas</span><div id="deathFailure"></div></div>
