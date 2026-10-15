@@ -22,7 +22,7 @@ function raceBonus(f,a){if(!f||f.raceAuto===false)return 0;const r=RACES[f.race]
  if(f.race==='Humano'&&sub==='Variante')v=(a===f.raceExtra1||a===f.raceExtra2)?1:0;
  return v;
 }
-function healthExtra(f,lv,cl){return (f.raceAuto!==false&&f.race==='Anão'&&f.subrace==='Colina'?lv:0)+(f.featTough?2*lv:0)+(f.draconicSoul&&cl==='Feiticeiro'?lv:0)}
+function healthExtra(f,lv,cl,sorcererLevels){return (f.raceAuto!==false&&f.race==='Anão'&&f.subrace==='Colina'?lv:0)+(f.featTough?2*lv:0)+(f.draconicSoul?(Number.isInteger(sorcererLevels)?sorcererLevels:cl==='Feiticeiro'?lv:0):0)}
 function magicGuide(cl,lv,castScore){if(!cl||!lv)return 'Selecione classe, nível e atributo de conjuração.';let lines=[];
  if(TRICKS[cl])lines.push('Truques conhecidos: '+TRICKS[cl][lv-1]+'.');
  if(KNOWN[cl])lines.push('Magias conhecidas (pela classe): '+KNOWN[cl][lv-1]+'.');
