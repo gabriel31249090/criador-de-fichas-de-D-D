@@ -571,19 +571,19 @@ function renderDerived(){const l=level(),p=pb(),cl=CLASSES[state.fields.classNam
  $('initiative').textContent=signed(mod('dex')===null?null:mod('dex')+n(state.fields.initiativeExtra)+(window.DNDV5?.initBonus?.(state)||0));$('acValue').textContent=derivedAC()??'—';
  const hp=calcHP();if(hp){const old=state.hpLastMax;const newMax=hp.total;const oldCur=state.fields.hpCurrent;
  if(blank(oldCur))state.fields.hpCurrent=newMax;
- else if(Number.isFinite(Number(old))&&old!==newMax){const prev=n(oldCur);state.fields.hpCurrent=prev<=0?0:Math.min(newMax,Math.max(0,prev+newMax-old))}
+ else if(old!==null&&Number.isFinite(Number(old))&&old!==newMax){const prev=n(oldCur);state.fields.hpCurrent=prev<=0?0:Math.min(newMax,Math.max(0,prev+newMax-old))}
  else if(n(oldCur)>newMax)state.fields.hpCurrent=newMax;
  state.hpLastMax=newMax;
  $('hpMax').textContent=newMax;$('hpCurrent').value=state.fields.hpCurrent;$('hpBar').style.width=Math.max(0,Math.min(100,100*n(state.fields.hpCurrent)/newMax))+'%';
  $('hpFormula').textContent=`1º nível: ${hp.first} PV · demais: ${state.fields.hpMethod==='average'?'média fixa':'dados rolados'} · Mod. CON: ${signed(mod('con'))} · Total: ${newMax} PV`;
  const hpBase=hp.first+hp.values.reduce((sum,gain)=>sum+gain,0);
  const hpAdjustment=newMax-hpBase;
- const hpExtraRows=hp.values.map((gain,index)=>'Nível '+(index+2)+': '+gain+' PV').join('\\n');
+ const hpExtraRows=hp.values.map((gain,index)=>'Nível '+(index+2)+': '+gain+' PV').join('\n');
  const hpMethodText=state.fields.hpMethod==='average'?'Valor fixo do dado de vida por nível':'Resultados dos dados rolados por nível';
- $('hpBreakdown').textContent='Cálculo automático • '+(state.fields.className||'Classe')+' • Nível '+l+'\\n'+
+ $('hpBreakdown').textContent='Cálculo automático • '+(state.fields.className||'Classe')+' • Nível '+l+'\n'+
  'Nível 1: '+hp.first+' PV (dado máximo da classe + Constituição e ajustes).\\n'+
- (hpExtraRows?hpExtraRows+'\\n':'')+
- 'Método: '+hpMethodText+'\\n'+
+ (hpExtraRows?hpExtraRows+'\n':'')+
+ 'Método: '+hpMethodText+'\n'+
  'Modificador de Constituição: '+signed(mod('con'))+' por nível.\\n'+
  'Ajustes extras (raça, talentos e outros): '+signed(hpAdjustment)+' PV.\\n'+
  'Total máximo: '+newMax+' PV. O PV atual só é alterado por dano, cura ou variação no máximo.';
