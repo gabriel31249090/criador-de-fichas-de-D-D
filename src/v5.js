@@ -74,6 +74,8 @@ const GEAR=[
 const SPELLS=[
 ['Luz',0,'Evocação','Clérigo,Mago,Feiticeiro',0,0,'V,M','Ilumina um objeto tocado.'],
 ['Prestidigitação',0,'Transmutação','Bardo,Mago,Bruxo,Feiticeiro',0,0,'V,S','Pequenos efeitos mágicos de utilidade.'],
+['Raio de Fogo',0,'Evocação','Mago,Feiticeiro',0,0,'V,S','Ataque de fogo à distância, capaz de incendiar objetos soltos.'],
+['Toque Chocante',0,'Evocação','Mago,Feiticeiro',0,0,'V,S','Ataque elétrico corpo a corpo que bloqueia reações.'],
 ['Raio de Gelo',0,'Evocação','Mago,Feiticeiro',0,0,'V,S','Dano frio e redução de deslocamento.'],
 ['Rajada Mística',0,'Evocação','Bruxo',0,0,'V,S','Ataque mágico de força a distância.'],
 ['Chama Sagrada',0,'Evocação','Clérigo',0,0,'V,S','Teste de resistência e dano radiante.'],
