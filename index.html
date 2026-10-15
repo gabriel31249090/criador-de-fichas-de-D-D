@@ -1482,9 +1482,11 @@ window.DNDClassStudio={open:function(){showPage('class-studio')},refresh:render,
       c.revelationUsed=true;persist();status(c.revelation+' ativada por 1 minuto; dano extra uma vez por turno igual ao bônus de proficiência.');return;
     }
     if(kind==='encounter'){
-      const levels=String(c.party||'').split(',').map(x=>Number(x.trim())).filter(x=>Number.isInteger(x)&&x>=1&&x<=20);
-      const xp=Math.max(0,Math.floor(Number(c.xp)||0)),count=Math.max(1,Math.floor(Number(c.count)||1));
-      if(!levels.length||levels.length!==String(c.party||'').split(',').length){return status('Informe níveis de personagens de 1 a 20, separados por vírgulas.');}
+      const party=String(c.party??'3,3,3,3');
+      const rawLevels=party.split(',').map(x=>x.trim());
+      const levels=rawLevels.map(x=>Number(x)).filter(x=>Number.isInteger(x)&&x>=1&&x<=20);
+      const xp=Math.max(0,Math.floor(Number(c.xp??200)||0)),count=Math.max(1,Math.floor(Number(c.count??2)||1));
+      if(!levels.length||levels.length!==rawLevels.length){return status('Informe níveis de personagens de 1 a 20, separados por vírgulas.');}
       const result=window.DNDV6?.encounter?.(levels,[{xp,count}]);if(!result){return status('O calculador de encontros ainda não foi carregado.');}
       c.encounterText='XP bruto: '+result.raw+' | XP ajustado: '+result.adjusted+' (×'+result.mult+')\nDificuldade: '+result.rank+'\nLimiares: fácil '+result.thresholds[0]+', médio '+result.thresholds[1]+', difícil '+result.thresholds[2]+', mortal '+result.thresholds[3]+'\nRecompense com XP bruto, não com XP ajustado.';
       persist();return;
