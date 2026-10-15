@@ -107,7 +107,7 @@
       const arcanumLvl=arcanum?phb.requiredWarlockLevel(sp[1]):null;
       const calc=meta?.formulaFor(sp[0],level,sp[1]);
       const canRoll=!!calc;
-      const slotHtml=sp[1]>0?'<label>Espaço para prévia<select data-cx-slot="'+esc(sp[0])+'">'+
+      const slotHtml=sp[1]>0&&!arcanum?'<label>Espaço para prévia<select data-cx-slot="'+esc(sp[0])+'">'+
        Array.from({length:10-sp[1]},(_,i)=>'<option value="'+(sp[1]+i)+'">'+(sp[1]+i)+'º nível</option>').join('')+'</select></label>':'';
       return '<article class="cx-entry cx-detailed-entry" data-cx-spell-card="'+esc(sp[0])+'"><div class="cx-entry-main"><div class="cx-entry-head"><b>'+esc(sp[0])+'</b><span class="cx-chip">'+(sp[1]===0?'Truque':'Nível '+sp[1])+' · 2014</span>'+(expanded?'<span class="cx-chip">Patrono: '+esc(patron)+'</span>':'')+(arcanum?'<span class="cx-chip">Arcano Místico · Bruxo '+arcanumLvl+'+</span>':'')+'</div><small>'+esc(sp[2])+' · '+esc(sp[3])+(sp[4]?' · Concentração':'')+(sp[5]?' · Ritual':'')+'</small>'+
        '<div class="cx-statpair"><strong>⚔ '+esc(item.damage)+'</strong><span>'+esc(item.save==='—'?'Sem ataque ou resistência':item.save)+'</span></div>'+
