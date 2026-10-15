@@ -117,7 +117,7 @@ function derivedAC(){const override=state.fields.acOverride;if(!blank(override)&
  const armor=state.fields.armor,base=ARMOR[armor]||ARMOR['Sem armadura'];let val=base[0]+(base[1]===0?0:Math.min(dex,base[1]));
  if(armor==='Sem armadura'){
  if(state.fields.mageArmor)val=Math.max(val,13+dex);
- if(state.fields.draconicSoul&&state.fields.className==='Feiticeiro')val=Math.max(val,13+dex);
+ if(state.fields.draconicSoul)val=Math.max(val,13+dex);
  if(state.fields.className==='Bárbaro'&&mod('con')!==null)val=Math.max(val,10+dex+mod('con'));
  if(state.fields.className==='Monge'&&!state.fields.shield&&mod('wis')!==null)val=Math.max(val,10+dex+mod('wis'));
  }
