@@ -133,7 +133,7 @@
    if(step&&slot>spellLevel&&spellLevel>0&&step.faces===dice.faces){dice.count+=(slot-spellLevel)*step.count;}
    const multiple=sp.scale==='beams'?factor:Math.max(1,(sp.multi||1)+(slot-spellLevel)*(sp.multiUpcast||0));
    return {count:dice.count,faces:dice.faces,bonus:dice.bonus,multiple,addMod:!!sp.addMod,kind:sp.kind||'dano',
-    label:multiple>1?multiple+' × ('+dice.count+'d'+dice.faces+(dice.bonus>0?'+':'')+(dice.bonus||'')+(sp.addMod?' + mod. conjuração':'')+')':dice.count+'d'+dice.faces+(dice.bonus?String(dice.bonus>=0?'+':'')+dice.bonus:'')+(sp.addMod?' + mod. conjuração':'')};
+    label:multiple>1?multiple+' × ('+dice.count+'d'+dice.faces+(dice.bonus?((dice.bonus>0?'+':'')+dice.bonus):'')+(sp.addMod?' + mod. conjuração':'')+')':dice.count+'d'+dice.faces+(dice.bonus?String(dice.bonus>=0?'+':'')+dice.bonus:'')+(sp.addMod?' + mod. conjuração':'')};
  }
  function roll(expression,modifier=0,critical=false){
   const value=diceSpec(expression);if(!value)return null;
