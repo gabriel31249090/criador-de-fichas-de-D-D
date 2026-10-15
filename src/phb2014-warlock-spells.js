@@ -110,6 +110,53 @@
  A('Clarividência','Invoca sensor remoto de visão ou audição num local escolhido.','Não causa dano','1,5 km','—','','',{time:'10 minutos',duration:'Concentração, até 10 minutos',concentration:true});
  A('Enviar Mensagem','Envia mensagem telepática curta a criatura familiar, com resposta possível.','Não causa dano','Ilimitado, com restrições planares','—');
  A('Tentáculos Negros de Evard','Área de tentáculos cria terreno difícil; criaturas podem ficar impedidas e sofrem dano de concussão.','3d6 concussão por turno afetado','27 m','Resistência DES','3d6','Não escala por nível de espaço',{duration:'Concentração, até 1 minuto',concentration:true});
+
+ // Feitiços ofensivos ausentes também de outras classes, identificados
+ // nas listas de Feiticeiro, Mago, Druida, Clérigo, Bardo e Patrulheiro do mesmo capítulo.
+ A('Espirro Ácido','Projeção de ácido alcança até dois alvos próximos; falha em resistência DES causa dano.','1d6 ácido','18 m','Resistência DES','1d6','2d6/3d6/4d6 nos níveis 5/11/17',{scale:'cantrip'});
+ A('Onda Trovejante','Onda sônica parte de você; resistência CON reduz dano pela metade e pode evitar empurrão.','2d8 trovejante','Pessoal: cubo de 4,5 m','Resistência CON','2d8','+1d8 por nível acima do 1º',{upcast:'1d8'});
+ A('Raio Adoecente','Ataque mágico causa veneno; resistência CON determina se alvo também fica envenenado.','2d8 veneno','18 m','Ataque mágico; resistência CON','2d8','+1d8 por nível acima do 1º',{upcast:'1d8'});
+ A('Infligir Ferimentos','Ataque mágico corpo a corpo injeta energia necrótica no alvo.','3d10 necrótico','Toque','Ataque mágico','3d10','+1d10 por nível acima do 1º',{upcast:'1d10'});
+ A('Marca do Caçador','Marca inimigo e causa dano adicional com cada acerto de arma; rastreamento da criatura fica mais fácil.','+1d6 por acerto de arma','27 m','Sem resistência','1d6','Espaços superiores aumentam duração, não dados',{time:'1 ação bônus',duration:'Concentração, até 1 hora',concentration:true});
+ A('Saraivada de Espinhos','Próximo ataque de arma à distância libera espinhos, causando dano em área se atingir.','1d10 perfurante na área','Pessoal','Resistência DES','1d10','+1d10 por nível de espaço acima do 1º',{time:'1 ação bônus',duration:'Concentração, até 1 minuto',upcast:'1d10',concentration:true});
+ A('Esquentar Metal','Metal carregado esquenta, queimando quem o segura; ação bônus pode repetir o dano ao longo da concentração.','2d8 fogo','18 m','Resistência CON para não soltar item','2d8','+1d8 por nível de espaço acima do 2º',{upcast:'1d8',duration:'Concentração, até 1 minuto',concentration:true});
+ A('Flecha Ácida de Melf','Projétil ácido atinge alvo com ataque mágico e continua corroendo no turno seguinte.','4d4 ácido imediato + 2d4 posterior','27 m','Ataque mágico','4d4','+1d4 por nível acima do 2º a cada porção de dano',{duration:'Instantânea'});
+ A('Esfera Flamejante','Esfera móvel de chamas incendeia criaturas ao aproximar ou quando terminam turnos perto dela.','2d6 fogo por contato/turno','18 m','Resistência DES','2d6','+1d6 por nível de espaço acima do 2º',{upcast:'1d6',duration:'Concentração, até 1 minuto',concentration:true});
+ A('Crescer Espinhos','Terreno de espinhos escondidos fere criaturas a cada trecho percorrido.','2d4 perfurante por 1,5 m de deslocamento','45 m','—','2d4','Acionado pela movimentação, não pelo turno',{duration:'Concentração, até 10 minutos',concentration:true});
+ A('Raio Lunar','Feixe de luz radiante pode mover-se; dano no início de turno ou ao entrar na área.','2d10 radiante','36 m','Resistência CON','2d10','+1d10 por nível acima do 2º',{upcast:'1d10',duration:'Concentração, até 1 minuto',concentration:true});
+ A('Lâmina Flamejante','Conjura espada de fogo que permite ataques mágicos corpo a corpo.','3d6 fogo','Pessoal','Ataque mágico','3d6','+1d6 para cada dois níveis acima do 2º',{duration:'Concentração, até 10 minutos',concentration:true});
+ A('Tempestade de Gelo','Granizo em grande cilindro causa concussão e frio; terreno difícil até o próximo turno.','2d8 concussão + 4d6 frio','90 m','Resistência DES','2d8','+1d8 concussão por nível acima do 4º',{upcast:'1d8'});
+ A('Praga de Insetos','Nuvem de insetos fere criaturas ao entrar ou iniciar o turno em sua área.','4d10 perfurante','90 m','Resistência CON','4d10','+1d10 por nível acima do 5º',{upcast:'1d10',duration:'Concentração, até 10 minutos',concentration:true});
+ A('Névoa Mortal','Nuvem venenosa em movimento causa dano a criaturas dentro dela.','5d8 veneno','36 m','Resistência CON','5d8','+1d8 por nível acima do 5º',{upcast:'1d8',duration:'Concentração, até 10 minutos',concentration:true});
+ A('Corrente de Relâmpagos','Descarga passa do primeiro alvo a alvos secundários; resistência DES reduz dano à metade.','10d8 elétrico por alvo','45 m','Resistência DES','10d8','Um alvo adicional por nível de espaço acima do 6º');
+ A('Raio Solar','Feixe de energia radiante causa dano e pode cegar criaturas; pode ser repetido durante a concentração.','6d8 radiante','Pessoal: linha de 18 m','Resistência CON','6d8','Pode repetir em turnos posteriores',{duration:'Concentração, até 1 minuto',concentration:true});
+ A('Tempestade de Fogo','Cria colunas de chamas em áreas à sua escolha; resistência DES reduz dano pela metade.','7d10 fogo','45 m','Resistência DES','7d10','Não escala por espaço superior');
+ A('Bola de Fogo Controlável','Concentra esfera ígnea antes de detonar, aumentando dano conforme aguarda.','12d6 fogo inicialmente','45 m','Resistência DES','12d6','+1d6 por rodada de atraso e por espaço acima do 7º',{duration:'Concentração, até 1 minuto',concentration:true});
+ A('Nuvem Incendiária','Nuvem de fumaça incandescente causa dano aos alvos dentro dela e se desloca a cada turno.','10d8 fogo','45 m','Resistência DES','10d8','Dano por turno quando exposto',{duration:'Concentração, até 1 minuto',concentration:true});
+ A('Chuva de Meteoros','Meteoros atingem quatro grandes áreas e causam enormes explosões; resistência DES reduz dano à metade.','20d6 fogo + 20d6 concussão','1,5 km','Resistência DES','20d6','Dois tipos de dano; 20d6 para cada um');
+ const general2014=[
+  ['Espirro Ácido',0,'Mago,Feiticeiro'],
+  ['Onda Trovejante',1,'Bardo,Druida,Mago,Feiticeiro'],
+  ['Raio Adoecente',1,'Mago,Feiticeiro'],
+  ['Infligir Ferimentos',1,'Clérigo'],
+  ['Marca do Caçador',1,'Patrulheiro'],
+  ['Saraivada de Espinhos',1,'Patrulheiro'],
+  ['Esquentar Metal',2,'Bardo,Druida'],
+  ['Flecha Ácida de Melf',2,'Mago'],
+  ['Esfera Flamejante',2,'Druida,Mago'],
+  ['Crescer Espinhos',2,'Druida,Patrulheiro'],
+  ['Raio Lunar',2,'Druida'],
+  ['Lâmina Flamejante',2,'Druida'],
+  ['Tempestade de Gelo',4,'Druida,Mago,Feiticeiro'],
+  ['Praga de Insetos',5,'Clérigo,Druida'],
+  ['Névoa Mortal',5,'Mago,Feiticeiro'],
+  ['Corrente de Relâmpagos',6,'Mago,Feiticeiro'],
+  ['Raio Solar',6,'Mago,Feiticeiro'],
+  ['Tempestade de Fogo',7,'Clérigo,Druida,Feiticeiro'],
+  ['Bola de Fogo Controlável',7,'Mago,Feiticeiro'],
+  ['Nuvem Incendiária',8,'Mago,Feiticeiro'],
+  ['Chuva de Meteoros',9,'Mago,Feiticeiro']
+ ];
  const aliases={
   'Proteção contra o Bem e Mal':'Proteção Contra o Bem e o Mal',
   'Enfraquecer o Intelecto':'Enfraquecer Intelecto',
@@ -145,6 +192,17 @@
  const info=new Map();
  Object.entries(base).forEach(([lvl,names])=>expand(names).forEach(name=>ensure(name,lvl,'')));
  Object.entries(patrons).forEach(([patron,groups])=>Object.entries(groups).forEach(([lvl,names])=>expand(names).forEach(name=>ensure(name,lvl,patron))));
+ // Complementos de outras listas oficiais da mesma edição, sem atribuir essas magias ao Bruxo.
+ general2014.forEach(([name,lv,classes])=>{
+  const existing=known.get(normalize(name));
+  const md=spec[name];
+  if(existing){
+   existing[3]=[...new Set([...existing[3].split(',').filter(Boolean),...classes.split(',')])].join(',');
+   return;
+  }
+  const row=[name,lv,md.school,classes,md.concentration?1:0,md.ritual?1:0,'V,S',md.effect];
+  v5.SPELLS.push(row);known.set(normalize(name),row);info.set(name,{...md,source:'Livro do Jogador 2014'});
+ });
  const prevGet=details.get.bind(details),prevFormula=details.formulaFor.bind(details),prevRoll=details.rollSpell.bind(details);
  details.get=name=>info.get(name)||prevGet(name);
  const levelFactor=l=>l>=17?4:l>=11?3:l>=5?2:1;
