@@ -1652,13 +1652,13 @@ window.DNDClassStudio={open:function(){showPage('class-studio')},refresh:render,
  ];
  const spellSchools={
   'Abjuração':'Proteção contra Lâminas|Armadura de Agathys|Proteção contra o Bem e Mal|Círculo Mágico|Contramágica|Dissipar Magia|Remover Maldição|Banimento|Aprisionamento',
-  'Adivinhação':'Ataque Certeiro|Compreender Idiomas|Idiomas|Contato Extraplanar|Vidência|Visão da Verdade|Sexto Sentido|Detectar Pensamentos|Clarividência',
-  'Conjuração':'Mãos Mágicas|Rajada de Veneno|Braços de Hadar|Servo Invisível|Nuvem de Adagas|Passo Nebuloso|Fome de Hadar|Porta Dimensional|Conjurar Fada|Portal Arcano|Viagem Planar|Semiplano|Névoa Fétida|Tentáculos Negros de Evard|Esfera Flamejante|Saraivada de Espinhos|Nuvem Mortal',
+  'Adivinhação':'Ataque Certeiro|Compreender Idiomas|Idiomas|Contato Extraplanar|Vidência|Visão da Verdade|Sexto Sentido|Detectar Pensamentos|Clarividência|Marca do Caçador',
+  'Conjuração':'Mãos Mágicas|Rajada de Veneno|Braços de Hadar|Servo Invisível|Nuvem de Adagas|Passo Nebuloso|Fome de Hadar|Porta Dimensional|Conjurar Fada|Portal Arcano|Viagem Planar|Semiplano|Névoa Fétida|Tentáculos Negros de Evard|Esfera Flamejante|Saraivada de Espinhos|Nuvem Mortal|Espirro Ácido|Praga de Insetos',
   'Encantamento':'Amizade|Bruxaria|Enfeitiçar Pessoa|Cativar|Coroa da Loucura|Imobilizar Pessoa|Sugestão|Imobilizar Monstro|Sugestão em Massa|Dominar Monstro|Enfraquecer o Intelecto|Palavra de Poder Atordoar|Palavra de Poder Matar|Acalmar Emoções|Dominar Besta|Dominar Pessoa|Comando|Sussurros Dissonantes|Riso Histérico de Tasha|Sono',
   'Evocação':'Rajada Mística|Raio de Bruxa|Repreensão Infernal|Despedaçar|Escuridão|Prisão de Energia|Fogo das Fadas|Mãos Flamejantes|Raio Ardente|Bola de Fogo|Escudo de Fogo|Muralha de Fogo|Coluna de Chamas|Consagrar|Enviar Mensagem|Onda Trovejante|Flecha Ácida de Melf|Lâmina Flamejante|Tempestade de Gelo|Raio Lunar|Corrente de Relâmpagos|Raio Solar|Tempestade de Fogo|Bola de Fogo Controlável|Chuva de Meteoros',
   'Ilusão':'Ilusão Menor|Escrita Ilusória|Invisibilidade|Reflexos|Medo|Imagem Maior|Padrão Hipnótico|Terreno Alucinógeno|Sonho|Força Fantasmagórica|Similaridade|Invisibilidade Maior',
   'Necromancia':'Toque Arrepiante|Raio do Enfraquecimento|Toque Vampírico|Malogro|Ataque Visual|Círculo da Morte|Criar Mortos-Vivos|Dedo da Morte|Projeção Astral|Cegueira/Surdez|Raio Adoecente|Infligir Ferimentos',
-  'Transmutação':'Prestidigitação|Recuo Acelerado|Patas de Aranha|Forma Gasosa|Voo|Carne para Pedra|Forma Etérea|Loquacidade|Metamorfose Verdadeira|Piscar|Ampliar Plantas|Telecinese|Marca do Caçador|Esquentar Metal|Crescer Espinhos'
+  'Transmutação':'Prestidigitação|Recuo Acelerado|Patas de Aranha|Forma Gasosa|Voo|Carne para Pedra|Forma Etérea|Loquacidade|Metamorfose Verdadeira|Piscar|Ampliar Plantas|Telecinese|Esquentar Metal|Crescer Espinhos'
  };
  for(const [school,items] of Object.entries(spellSchools)){
   items.split('|').forEach(name=>{if(spec[name])spec[name].school=school;});
