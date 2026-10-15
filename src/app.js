@@ -132,13 +132,25 @@ function renderDerived(){const l=level(),p=pb(),cl=CLASSES[state.fields.classNam
  $('initiative').textContent=signed(mod('dex')===null?null:mod('dex')+n(state.fields.initiativeExtra)+(window.DNDV5?.initBonus?.(state)||0));$('acValue').textContent=derivedAC()??'—';
  const hp=calcHP();if(hp){const old=state.hpLastMax;const newMax=hp.total;const oldCur=state.fields.hpCurrent;
  if(blank(oldCur))state.fields.hpCurrent=newMax;
- else if(old!==null&&old!==newMax){const prev=n(oldCur);state.fields.hpCurrent=prev<=0?0:Math.min(newMax,Math.max(0,prev+newMax-old))}
+ else if(Number.isFinite(Number(old))&&old!==newMax){const prev=n(oldCur);state.fields.hpCurrent=prev<=0?0:Math.min(newMax,Math.max(0,prev+newMax-old))}
  else if(n(oldCur)>newMax)state.fields.hpCurrent=newMax;
  state.hpLastMax=newMax;
  $('hpMax').textContent=newMax;$('hpCurrent').value=state.fields.hpCurrent;$('hpBar').style.width=Math.max(0,Math.min(100,100*n(state.fields.hpCurrent)/newMax))+'%';
  $('hpFormula').textContent=`1º nível: ${hp.first} PV · demais: ${state.fields.hpMethod==='average'?'média fixa':'dados rolados'} · Mod. CON: ${signed(mod('con'))} · Total: ${newMax} PV`;
+ const hpBase=hp.first+hp.values.reduce((sum,gain)=>sum+gain,0);
+ const hpAdjustment=newMax-hpBase;
+ const hpExtraRows=hp.values.map((gain,index)=>'Nível '+(index+2)+': '+gain+' PV').join('\\n');
+ const hpMethodText=state.fields.hpMethod==='average'?'Valor fixo do dado de vida por nível':'Resultados dos dados rolados por nível';
+ $('hpBreakdown').textContent='Cálculo automático • '+(state.fields.className||'Classe')+' • Nível '+l+'\\n'+
+ 'Nível 1: '+hp.first+' PV (dado máximo da classe + Constituição e ajustes).\\n'+
+ (hpExtraRows?hpExtraRows+'\\n':'')+
+ 'Método: '+hpMethodText+'\\n'+
+ 'Modificador de Constituição: '+signed(mod('con'))+' por nível.\\n'+
+ 'Ajustes extras (raça, talentos e outros): '+signed(hpAdjustment)+' PV.\\n'+
+ 'Total máximo: '+newMax+' PV. O PV atual só é alterado por dano, cura ou variação no máximo.';
+ 
  $('hitDice').textContent=hp.multiDice?Object.entries(hp.multiDice).map(([cls,count])=>count+'d'+CLASSES[cls].die+' ('+cls+')').join(' + ')+' · '+Math.max(0,l-n(state.fields.hitDiceSpent))+' DV disponíveis':`${Math.max(0,l-n(state.fields.hitDiceSpent))} de ${l}d${hp.die} restantes`;
- }else{$('hpMax').textContent='—';$('hpBar').style.width='0';$('hitDice').textContent='—';$('hpFormula').textContent='Selecione classe, nível (1–20) e Constituição.'}
+ }else{$('hpMax').textContent='—';$('hpBar').style.width='0';$('hitDice').textContent='—';$('hpFormula').textContent='Selecione classe, nível (1–20) e Constituição.';$('hpBreakdown').textContent='Selecione classe, nível e Constituição para ver o detalhamento.'}
  $('rollHp').disabled=!hp||state.fields.hpMethod!=='rolled';
  for(const tr of $('attacksBody').children){const a=state.attacks.find(x=>x.id===tr.dataset.id);if(a){tr.querySelector('output').textContent=signed(deriveAttack(a));const d=tr.querySelector('.damage-auto');if(d){const dice=String(a.damage||'').trim(),ability=a.type==='spell'?0:mod(a.type),magic=a.type==='spell'?0:(window.DNDV6?.attackBonus?.(a)||0),sum=(ability||0)+magic+n(a.damageExtra);d.textContent=/^\d+d\d+$/i.test(dice)?dice+(sum>=0?'+':'')+sum:(dice||'—')}}}
  const caster=state.fields.castAbility;const castMod=caster?mod(caster):null;$('spellDC').textContent=castMod===null||p===null?'—':8+p+castMod;$('spellAttack').textContent=castMod===null||p===null?'—':signed(p+castMod);
