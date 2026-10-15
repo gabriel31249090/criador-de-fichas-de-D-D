@@ -50,6 +50,37 @@ const assert=require('node:assert/strict');
   await page.locator('[data-cx-gear-card="Poção de cura"] summary').click();
   await page.locator('[data-cx-roll-gear="Poção de cura"]').click();
   check((await page.locator('[data-cx-result-gear="Poção de cura"]').innerText()).includes('PV recuperáveis'),'Rolagem de poção exibe dados de cura');
+  await page.locator('[data-cx-tab="spells"]').click();
+  const catalog=await page.evaluate(()=>{
+    const p=window.DNDPHB2014;
+    return {all:window.DNDV5.SPELLS.length,baseline:p.baseNames().length,fiend:p.expandedNames('Corruptor').length,
+      archfey:p.expandedNames('Arquifada').length,oldOne:p.expandedNames('Grande Antigo').length,
+      hasSpell:!!window.DNDSpellDetails.get('Fome de Hadar')};
+  });
+  check(catalog.baseline===74&&catalog.fiend===10&&catalog.archfey===10&&catalog.oldOne===10,'Lista completa: 74 magias básicas + 3 patronos de 10');
+  check(catalog.all>=140,'Catálogo ampliado: pelo menos 140 magias 2014');
+  check(catalog.hasSpell,'Fome de Hadar tem efeito e dados detalhados');
+  await page.locator('#cxSpellClass').selectOption('Bruxo');
+  check(await page.locator('#cxPatron').count()===1,'Filtro de patrono aparece para o Bruxo');
+  await page.locator('#cxSearch').fill('Braços de Hadar');
+  check(await page.locator('[data-cx-spell-card="Braços de Hadar"]').count()===1,'Braços de Hadar é opção básica do Bruxo');
+  check((await page.locator('[data-cx-spell-card="Braços de Hadar"]').innerText()).includes('2d6 necrótico'),'Braços de Hadar exibe dano e explicação');
+  await page.locator('[data-cx-spell="Braços de Hadar"]').click();
+  check(await page.evaluate(()=>window.DNDDebug.getMutableState().v5.selectedSpells.includes('Braços de Hadar')),'Magia do Bruxo registrada na ficha');
+  await page.locator('#cxSearch').fill('Bola de Fogo');
+  check(await page.locator('[data-cx-spell-card="Bola de Fogo"]').count()===0,'Bruxo sem patrono não vê Bola de Fogo');
+  await page.locator('#cxPatron').selectOption('Corruptor');
+  check(await page.evaluate(()=>window.DNDDebug.getMutableState().v5.subclasses.Bruxo==='Corruptor'),'Patrono Corruptor persistido');
+  check(await page.locator('[data-cx-spell-card="Bola de Fogo"]').count()===1,'Corruptor libera Bola de Fogo');
+  check((await page.locator('[data-cx-spell-card="Bola de Fogo"]').innerText()).includes('Patrono: Corruptor'),'Magia expandida rotulada por patrono');
+  await page.locator('#cxPatron').selectOption('Arquifada');
+  check(await page.locator('[data-cx-spell-card="Bola de Fogo"]').count()===0,'Arquifada não recebe Bola de Fogo');
+  await page.locator('#cxSearch').fill('Dedo da Morte');
+  check(await page.locator('[data-cx-spell-card="Dedo da Morte"]').count()===1,'Arcanos Místicos aparecem separados');
+  check((await page.locator('[data-cx-spell-card="Dedo da Morte"]').innerText()).includes('Arcano Místico'),'Arcano Místico identificado');
+  await page.locator('#cxSpellClass').selectOption('Mago');
+  await page.locator('#cxSearch').fill('Chuva de Meteoros');
+  check(await page.locator('[data-cx-spell-card="Chuva de Meteoros"]').count()===1,'Lista de dano de Mago ampliada pelo livro');
   await page.locator('[data-cx-tab="dm"]').click();
   await page.locator('[data-cx-action="encounter"]').click();
   check((await page.locator('#cxEncounterOut').innerText()).includes('XP ajustado'),'Calculadora do DMG calcula XP ajustado');
