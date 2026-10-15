@@ -13,9 +13,9 @@ body{background:radial-gradient(circle at 50% 0,#fbf4e6,#ebe3d5 53%,#e4dacc 100%
 #sheet .ability-mod{background:#eae0d0;color:#352619}
 #sheet .tiny{background:#473428;border-color:#9a7855;color:#fff7e5}
 #sheet .tiny:hover{background:#77563c}
-.toolbar #btnExport,.toolbar #btnImport,.toolbar #btnPrint,#btnNew,#btnDuplicate,#btnDelete{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:37px;background-color:#f4e8d1;background-image:linear-gradient(#fff6e4c0,#fff6e4c0),url('./button-gold.webp');background-size:cover;border:1px solid #846848;border-radius:4px 11px 4px 11px;color:#423020}
-.toolbar #btnPrint{color:#fff3e6;background-image:linear-gradient(#302117a8,#302117a8),url('./button-ink.webp')}
-#btnDelete{color:#fff9f5;background-image:linear-gradient(#8c3227bb,#8c3227bb),url('./button-danger.webp')}
+.toolbar #btnExport,.toolbar #btnImport,.toolbar #btnPrint,#btnNew,#btnDuplicate,#btnDelete{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:37px;background-color:#f4e8d1;background-image:linear-gradient(#fff6e4c0,#fff6e4c0),url('./button-gold.svg');background-size:cover;border:1px solid #846848;border-radius:4px 11px 4px 11px;color:#423020}
+.toolbar #btnPrint{color:#fff3e6;background-image:linear-gradient(#302117a8,#302117a8),url('./button-ink.svg')}
+#btnDelete{color:#fff9f5;background-image:linear-gradient(#8c3227bb,#8c3227bb),url('./button-danger.svg')}
 .toolbar #btnExport::before,.toolbar #btnImport::before,.toolbar #btnPrint::before,#btnNew::before,#btnDuplicate::before,#btnDelete::before{content:"";width:19px;height:20px;flex:0 0 auto;display:inline-block;background-position:center;background-repeat:no-repeat;background-size:contain}
 #class-studio .cs-card{border-color:#bd965f80}
 #class-studio .cs-art{background-color:#202127;isolation:isolate}
@@ -24,35 +24,50 @@ body{background:radial-gradient(circle at 50% 0,#fbf4e6,#ebe3d5 53%,#e4dacc 100%
 #class-studio .cs-art-label{z-index:4}
 #class-studio .cs-medallion{overflow:hidden}
 #class-studio .cs-medallion:before{content:"";position:absolute;inset:1px;border-radius:50%;background-repeat:no-repeat;background-size:cover;background-position:center;pointer-events:none}
-#class-studio .cs-pick{background-image:linear-gradient(#d9ba7c85,#d9ba7c85),url('./button-gold.webp');background-size:100% 100%}
-#class-studio .cs-learn{background-image:linear-gradient(#22201ec2,#22201ec2),url('./button-ink.webp');background-size:100% 100%}
+#class-studio .cs-pick{background-image:linear-gradient(#d9ba7c85,#d9ba7c85),url('./button-gold.svg');background-size:100% 100%}
+#class-studio .cs-learn{background-image:linear-gradient(#22201ec2,#22201ec2),url('./button-ink.svg');background-size:100% 100%}
 #class-studio .cs-card:hover .cs-art:before{filter:saturate(1.13) contrast(1.05)}
 #sheet .mini-tools button{border-color:#b39b73}
 }
-@media screen{#sheet .ability-row:nth-child(1) label:before{background-image:url('./ability-str.webp'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,0% center}}
-@media screen{#sheet .ability-row:nth-child(2) label:before{background-image:url('./ability-dex.webp'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,20% center}}
-@media screen{#sheet .ability-row:nth-child(3) label:before{background-image:url('./ability-con.webp'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,40% center}}
-@media screen{#sheet .ability-row:nth-child(4) label:before{background-image:url('./ability-int.webp'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,60% center}}
-@media screen{#sheet .ability-row:nth-child(5) label:before{background-image:url('./ability-wis.webp'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,80% center}}
-@media screen{#sheet .ability-row:nth-child(6) label:before{background-image:url('./ability-cha.webp'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,100% center}}
-@media screen{#class-studio .cs-card[data-class="barbarian"] .cs-art:before{background-image:url('./banner-barbarian.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,0% 0%}#class-studio .cs-card[data-class="barbarian"] .cs-medallion:before{background-image:url('./class-barbarian.webp')}}
-@media screen{#class-studio .cs-card[data-class="bard"] .cs-art:before{background-image:url('./banner-bard.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,50% 0%}#class-studio .cs-card[data-class="bard"] .cs-medallion:before{background-image:url('./class-bard.webp')}}
-@media screen{#class-studio .cs-card[data-class="warlock"] .cs-art:before{background-image:url('./banner-warlock.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,100% 0%}#class-studio .cs-card[data-class="warlock"] .cs-medallion:before{background-image:url('./class-warlock.webp')}}
-@media screen{#class-studio .cs-card[data-class="cleric"] .cs-art:before{background-image:url('./banner-cleric.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,0% 33.333333333333336%}#class-studio .cs-card[data-class="cleric"] .cs-medallion:before{background-image:url('./class-cleric.webp')}}
-@media screen{#class-studio .cs-card[data-class="druid"] .cs-art:before{background-image:url('./banner-druid.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,50% 33.333333333333336%}#class-studio .cs-card[data-class="druid"] .cs-medallion:before{background-image:url('./class-druid.webp')}}
-@media screen{#class-studio .cs-card[data-class="sorcerer"] .cs-art:before{background-image:url('./banner-sorcerer.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,100% 33.333333333333336%}#class-studio .cs-card[data-class="sorcerer"] .cs-medallion:before{background-image:url('./class-sorcerer.webp')}}
-@media screen{#class-studio .cs-card[data-class="fighter"] .cs-art:before{background-image:url('./banner-fighter.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,0% 66.66666666666667%}#class-studio .cs-card[data-class="fighter"] .cs-medallion:before{background-image:url('./class-fighter.webp')}}
-@media screen{#class-studio .cs-card[data-class="rogue"] .cs-art:before{background-image:url('./banner-rogue.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,50% 66.66666666666667%}#class-studio .cs-card[data-class="rogue"] .cs-medallion:before{background-image:url('./class-rogue.webp')}}
-@media screen{#class-studio .cs-card[data-class="wizard"] .cs-art:before{background-image:url('./banner-wizard.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,100% 66.66666666666667%}#class-studio .cs-card[data-class="wizard"] .cs-medallion:before{background-image:url('./class-wizard.webp')}}
-@media screen{#class-studio .cs-card[data-class="monk"] .cs-art:before{background-image:url('./banner-monk.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,0% 100%}#class-studio .cs-card[data-class="monk"] .cs-medallion:before{background-image:url('./class-monk.webp')}}
-@media screen{#class-studio .cs-card[data-class="paladin"] .cs-art:before{background-image:url('./banner-paladin.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,50% 100%}#class-studio .cs-card[data-class="paladin"] .cs-medallion:before{background-image:url('./class-paladin.webp')}}
-@media screen{#class-studio .cs-card[data-class="ranger"] .cs-art:before{background-image:url('./banner-ranger.webp'),url('./class-banners.svg');background-size:100% 100%,300% 400%;background-position:center,100% 100%}#class-studio .cs-card[data-class="ranger"] .cs-medallion:before{background-image:url('./class-ranger.webp')}}
-@media screen{.toolbar #btnExport:before{background-image:url('./action-export.webp')}}
-@media screen{.toolbar #btnImport:before{background-image:url('./action-import.webp')}}
-@media screen{.toolbar #btnPrint:before{background-image:url('./action-print.webp')}}
-@media screen{#btnNew:before{background-image:url('./action-new.webp')}}
-@media screen{#btnDuplicate:before{background-image:url('./action-load.webp')}}
-@media screen{#btnDelete:before{background-image:url('./action-settings.webp')}}
+@media screen{#sheet .ability-row:nth-child(1) label:before{background-image:url('./ability-str.svg'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,0% center}}
+@media screen{#sheet .ability-row:nth-child(2) label:before{background-image:url('./ability-dex.svg'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,20% center}}
+@media screen{#sheet .ability-row:nth-child(3) label:before{background-image:url('./ability-con.svg'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,40% center}}
+@media screen{#sheet .ability-row:nth-child(4) label:before{background-image:url('./ability-int.svg'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,60% center}}
+@media screen{#sheet .ability-row:nth-child(5) label:before{background-image:url('./ability-wis.svg'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,80% center}}
+@media screen{#sheet .ability-row:nth-child(6) label:before{background-image:url('./ability-cha.svg'),url('./ability-icons.svg');background-size:contain,600% 100%;background-position:center,100% center}}
+@media screen{#class-studio .cs-card[data-class="barbarian"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:0% 0%}#class-studio .cs-card[data-class="barbarian"] .cs-medallion:before{background-image:url('./class-barbarian.svg')}}
+@media screen{#class-studio .cs-card[data-class="bard"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:50% 0%}#class-studio .cs-card[data-class="bard"] .cs-medallion:before{background-image:url('./class-bard.svg')}}
+@media screen{#class-studio .cs-card[data-class="warlock"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:100% 0%}#class-studio .cs-card[data-class="warlock"] .cs-medallion:before{background-image:url('./class-warlock.svg')}}
+@media screen{#class-studio .cs-card[data-class="cleric"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:0% 33.333333333333336%}#class-studio .cs-card[data-class="cleric"] .cs-medallion:before{background-image:url('./class-cleric.svg')}}
+@media screen{#class-studio .cs-card[data-class="druid"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:50% 33.333333333333336%}#class-studio .cs-card[data-class="druid"] .cs-medallion:before{background-image:url('./class-druid.svg')}}
+@media screen{#class-studio .cs-card[data-class="sorcerer"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:100% 33.333333333333336%}#class-studio .cs-card[data-class="sorcerer"] .cs-medallion:before{background-image:url('./class-sorcerer.svg')}}
+@media screen{#class-studio .cs-card[data-class="fighter"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:0% 66.66666666666667%}#class-studio .cs-card[data-class="fighter"] .cs-medallion:before{background-image:url('./class-fighter.svg')}}
+@media screen{#class-studio .cs-card[data-class="rogue"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:50% 66.66666666666667%}#class-studio .cs-card[data-class="rogue"] .cs-medallion:before{background-image:url('./class-rogue.svg')}}
+@media screen{#class-studio .cs-card[data-class="wizard"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:100% 66.66666666666667%}#class-studio .cs-card[data-class="wizard"] .cs-medallion:before{background-image:url('./class-wizard.svg')}}
+@media screen{#class-studio .cs-card[data-class="monk"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:0% 100%}#class-studio .cs-card[data-class="monk"] .cs-medallion:before{background-image:url('./class-monk.svg')}}
+@media screen{#class-studio .cs-card[data-class="paladin"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:50% 100%}#class-studio .cs-card[data-class="paladin"] .cs-medallion:before{background-image:url('./class-paladin.svg')}}
+@media screen{#class-studio .cs-card[data-class="ranger"] .cs-art:before{background-image:url('./class-banners.svg');background-size:300% 400%;background-position:100% 100%}#class-studio .cs-card[data-class="ranger"] .cs-medallion:before{background-image:url('./class-ranger.svg')}}
+@media screen{.toolbar #btnExport:before{background-image:url('./action-export.svg')}}
+@media screen{.toolbar #btnImport:before{background-image:url('./action-import.svg')}}
+@media screen{.toolbar #btnPrint:before{background-image:url('./action-print.svg')}}
+@media screen{#btnNew:before{background-image:url('./action-new.svg')}}
+@media screen{#btnDuplicate:before{background-image:url('./action-load.svg')}}
+@media screen{#btnDelete:before{background-image:url('./action-settings.svg')}}
 @media screen and (max-width:750px){.topbar{display:grid!important;grid-template-columns:minmax(0,1fr);row-gap:8px;padding:11px 12px}.topbar .brand{min-width:0!important}.topbar .topnav{display:flex!important;flex:0 0 auto!important;flex-wrap:nowrap!important;width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch;padding-bottom:5px}.topbar .topnav .tab{flex:0 0 auto!important;white-space:nowrap;padding:8px 11px}.topbar .toolbar{width:100%;gap:6px}#sheet .ability-row label:before{width:32px;height:32px}#class-studio .cs-art{height:185px}}@media screen and (max-width:400px){#sheet .ability-row label:before{width:28px;height:28px}#sheet .ability-row{grid-template-columns:minmax(65px,1fr) 39px 29px 42px 35px}}
 @media print{#sheet .ability-row label:before,#class-studio .cs-art:before,#class-studio .cs-medallion:before{content:none!important}.sheet-page,.panel{background-image:none!important;outline:none!important}}
 @media(prefers-reduced-motion:reduce){#class-studio .cs-card:hover{transform:none!important}}
+
+/* Vetores reais para painéis, ícones e botões; impressão mantém folha branca. */
+@media screen{
+#sheet .panel,#story .panel,#spells .panel{
+ background-color:#fffaf0;background-image:url('./panel-frame.svg');background-size:100% 100%;background-repeat:no-repeat;
+}
+#sheet input,#sheet select,#sheet textarea,#story input,#story select,#story textarea,#spells input,#spells select,#spells textarea{
+ background-color:#fffdf8;border:1px solid #967b5c;box-shadow:inset 0 0 0 1px #ede0c9;
+}
+#story .portrait-art{position:relative}
+#story .portrait-art::after{content:"";position:absolute;inset:0;pointer-events:none;border:8px solid #af8b57;border-radius:8px;box-shadow:inset 0 0 0 3px #f5e8cf,inset 0 0 0 5px #4e3b2a}
+#class-studio .cs-art svg{opacity:.10}
+#sheet .mini-tools button,#story .mini-tools button,#spells .mini-tools button{background-image:url('./button-paper.svg');background-size:100% 100%}
+}
+@media print{#sheet .panel,#story .panel,#spells .panel{background-image:none!important}#story .portrait-art::after{display:none!important}}
